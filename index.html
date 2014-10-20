@@ -9,7 +9,12 @@ layout: default
 <h3>Work with us:</h3>
 <a href="http://www.lunados.com"><img alt="Lunados" src="http://www.lunados.com/assets/logo.png" width="300px"></a>
 
-
+<h1>Blog Posts</h1>
+<ul class="posts">
+  {% for post in site.posts %}
+    <li><span>{{ post.date | date_to_string }}</span>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+  {% endfor %}
+</ul>
 
 <h4>Elsewhere:</h4>
 <a href="https://github.com/tp" rel="me">@tp on GitHub</a><br>
