@@ -5,6 +5,7 @@
   <title>{% if page.title %}{{ page.title }} | {% endif %}timm.io</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/> 
+  <link rel="stylesheet" type="text/css" href="/assets/code.css"/> 
   <script type="text/javascript">
     var _gaq = _gaq || [];
     _gaq.push(['_setAccount', 'UA-33068051-1']);
@@ -20,12 +21,18 @@
   body {
     font-family: "Avenir Next", "Helvetica Neue", sans-serif;
     font-weight: 400; /* TODO: use 200 for Helvetica Neue */
+    font-size: 18px;
+
+    background-color: #FDFDFD;
   }
   </style>
 </head>
 <body>
 <a href="https://github.com/tp"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+
+<div style="max-width: 900px; margin: auto;">
   {{ content }}
+</div>
 </body>
 </html>
 
