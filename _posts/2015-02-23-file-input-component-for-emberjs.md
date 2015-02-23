@@ -1,5 +1,5 @@
 ---
-title: File / Image Input Component for Ember.js
+title: Image (File) Input Component for Ember.js
 layout: default
 ---
 
