@@ -25,4 +25,136 @@ And because writes to a single entity group (in our case the `User`) are strongl
 
 ## Implemenation & Tests
 
-{% gist c1e25ae24d405a58f081 %}
+main.go
+{% highlight go linenos %}
+package main
+
+import (
+	"fmt"
+	"time"
+
+	"appengine"
+	"appengine/datastore"
+)
+
+const (
+	KindUser        = "user"
+	KindUserProfile = "userprofile"
+)
+
+func main() {}
+
+type CreatedAtStruct struct {
+	CreatedAt time.Time
+}
+
+func (c *CreatedAtStruct) SetCreatedAt(t time.Time) {
+	c.CreatedAt = t
+}
+
+type CreationDateSetter interface {
+	SetCreatedAt(t time.Time)
+}
+
+type User struct{}
+
+type UserProfile struct {
+	CreatedAtStruct
+
+	Counter int
+}
+
+func putVersioned(c appengine.Context, kind string, parent *datastore.Key, v CreationDateSetter) (*datastore.Key, error) {
+	if parent == nil {
+		return nil, fmt.Errorf("parent must be set")
+	}
+
+	v.SetCreatedAt(time.Now())
+
+	return datastore.Put(c, datastore.NewIncompleteKey(c, kind, parent), v)
+}
+
+func getLatest(c appengine.Context, kind string, parent *datastore.Key, v interface{}) error {
+	q := datastore.NewQuery(kind).Ancestor(parent).Order("-CreatedAt").Limit(1)
+
+	_, err := q.Run(c).Next(v)
+
+	return err
+}
+{% endhighlight %}
+
+main_test.go
+
+{% highlight go linenos %}
+package main
+
+import (
+	"testing"
+
+	"appengine/aetest"
+	"appengine/datastore"
+)
+
+func TestVersionedStorageAfterEachPut(t *testing.T) {
+	c, err := aetest.NewContext(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, nil), &User{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i := 0; i < 10; i++ {
+		p := &UserProfile{Counter: i}
+		_, err := putVersioned(c, KindUserProfile, userkey, p)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		outputProfile := new(UserProfile)
+		err = getLatest(c, KindUserProfile, userkey, outputProfile)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if outputProfile.Counter != i {
+			t.Fatalf("Expected Counter to be %d but it was %d", i, outputProfile.Counter)
+		}
+	}
+}
+
+func TestVersionedStorageAfterAllPuts(t *testing.T) {
+	c, err := aetest.NewContext(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, nil), &User{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	upper := 10
+	for i := 1; i <= upper; i++ {
+		p := &UserProfile{Counter: i}
+		_, err := putVersioned(c, KindUserProfile, userkey, p)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	outputProfile := new(UserProfile)
+	err = getLatest(c, KindUserProfile, userkey, outputProfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if outputProfile.Counter != upper {
+		t.Fatalf("Expected Counter to be %d but it was %d", upper, outputProfile.Counter)
+	}
+}
+{% endhighlight %}
+
+[See Gist on GitHub](https://gist.github.com/tp/c1e25ae24d405a58f081)
