@@ -33,12 +33,25 @@
     padding: 0px 1em 0px 1em;
     border-left: 1px solid #c0c0c0;
   }
+
+  nav {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  nav a {
+    color: #000;
+  }
   </style>
 </head>
 <body>
 <a href="https://github.com/tp"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
-<a href="/">🏠</a>
+
 <div style="max-width: 900px; margin: auto;">
+  <nav>
+    <a href="/">🏠Home</a> - <a href="/contact.html">Contact</a>
+  </nav>
+
   {{ content }}
 
   {% if page.path contains '_posts' %}
