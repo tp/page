@@ -42,6 +42,20 @@
   nav a {
     color: #000;
   }
+
+  div.sbs {
+    display: flex;
+  }
+
+  div.sbs > div {
+    flex-grow: 1;  flex-basis: 0;
+  }
+
+  @media (max-width: 640px) {
+    div.sbs {
+      flex-direction: column;
+    }
+  }
   </style>
 </head>
 <body>
