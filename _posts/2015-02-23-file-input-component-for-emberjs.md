@@ -66,7 +66,7 @@ export default Ember.Component.extend({
 });
 {% endhighlight %}
 
-app/templates/components/image-input.js:
+app/templates/components/image-input.hbs:
 {% highlight html linenos %}
 {% raw %}
 <strong>Image Input</strong><br>
