@@ -13,7 +13,8 @@ Sadly it has [no built-in support for Ember.js](https://github.com/RubaXa/Sortab
 ## Creating a SortableList component
 
 app/components/sortable-list.js:
-{% highlight js linenos %}
+
+```js
 import Ember from 'ember';
 import Sortable from 'npm:sortablejs'; // this requires Ember CLI with ember-browserify, which is great!
 
@@ -62,10 +63,11 @@ export default Ember.Component.extend({
     this.get('Sortable').destroy();
   }
 });
-{% endhighlight %}
+```
 
 app/templates/components/sortable-list.hbs:
-{% highlight html linenos %}
+
+```handlebars
 {% raw %}
 {{#each viewModels as |viewModel index| }}
   <li class="sortableTopicListItem">
@@ -74,23 +76,25 @@ app/templates/components/sortable-list.hbs:
   </li>
 {{/each}}
 {% endraw %}
-{% endhighlight %}
+```
 
 ## Using the SortableList component
 
 Showing items with a SortableList is now very easy. All you have to do is supply some `viewModels` which have `displayName` property.
-{% highlight html linenos %}
+
+```handlebars
 {% raw %}
 {{sortable-list viewModels=viewModels itemMoved='moveItem' removeItem='removeItem'}}
 {% endraw %}
-{% endhighlight %}
+```
 
 It get's a little more complicated, when you want to reflect the actions that took place in the DOM in your internal data model.
 
 For this the work the enclosing component has to implement `moveItem` and `removeItem` actions where it recreates the changes in it's internal store.
 
 This is the relevant part from one of my enclosing components:
-{% highlight js linenos %}
+
+```js
 actions: {
   moveItem: function(oldIndex, newIndex) {
     Ember.assert('required `oldIndex` param is set', !Ember.isNone(oldIndex));
@@ -112,6 +116,6 @@ actions: {
     references.removeAt(index, 1);
   }
 }
-{% endhighlight %}
+```
 
 I hope this is helpful for everyone looking to solve a similar problem.
