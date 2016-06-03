@@ -22,17 +22,19 @@
   <style>
 
   {% if page.imagebg %}
-  html {
+  .bg {
     background: #FDFDFD url("/assets/background_web.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    position: absolute;
+    background-attachment: fixed;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
+    z-index: -1;
   }
   {% else %}
   body {
@@ -41,14 +43,15 @@
   {% endif %}
 
   body {
-    font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+    font-family: "Segoe UI", "Avenir Next", "Helvetica Neue", sans-serif;
     font-weight: 400; /* TODO: use 200 for Helvetica Neue */
     font-size: 18px;
+    margin: 0;
   }
 
   {% if !page.imagebg %}
   body > div > div.contentWrapper {
-    padding-top: 86vh;
+    padding-top: 65vh;
   }
   {% endif %}
 
@@ -59,8 +62,13 @@
   }
 
   nav {
-    width: 100%;
+    width: 900px;
     padding: 0 10px;
+    position: fixed;
+    margin: auto;
+    background-color: rgba(255,255,255,0.5);
+    border-radius: 0 0 10px 10px;
+    margin-top: -20px;
   }
 
   nav a {
@@ -83,11 +91,12 @@
   </style>
 </head>
 <body>
+<div class="bg"></div>
 <a href="https://github.com/tp"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
 
-<div style="max-width: 900px; margin: auto;">
+<div style="max-width: 900px; margin: auto; padding-top: 20px;">
   <nav>
-    <a href="/">🏠Home</a> - <a href="/contact.html">Contact</a>
+    <a href="/">Home</a>   <a href="/contact.html">Contact</a>
   </nav>
 
   <div class="contentWrapper">
