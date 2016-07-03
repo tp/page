@@ -1,5 +1,5 @@
 ---
-title: Increase video playback speed on Netflix
+title: Increase Video Playback Speed on Netflix
 layout: default
 ---
 

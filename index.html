@@ -13,14 +13,17 @@ imagebg: true
 </div>
 
 <div style="background-color: rgba(255,255,255,0.85); border-radius: 5px; padding: 15px;">
-  <h1>Most Recent Blog Posts</h1>
-  <ul class="posts">
+  <div class="recentPosts">
+    <h2>Recent Posts</h2>
     {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span>: <a href="{{ post.url }}">{{ post.title }}</a></li>
+      <h3><a class="postTitle" href="{{ post.url }}">{{ post.title }}</a></h3>
+      <span>{{ post.date | date: "%Y-%m-%d" }} {% if post.category %} in {{ post.category }}{% endif %}</span>
+      <hr>
     {% endfor %}
-  </ul>
 
-  <a href="/atom.xml">Blog Post Atom Feed</a>
+    <a href="/atom.xml">Posts Atom Feed</a>
+  </div>
+
 
   <hr>
 
