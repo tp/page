@@ -40,6 +40,13 @@
   body {
     background-color: #FDFDFD;
   }
+  .contentWrapper {
+    padding: 0 20px;
+  }
+  nav {
+    background-color: rgba(228,228,228,0.65) !important;
+  }
+
   {% endif %}
 
   body {
@@ -61,20 +68,34 @@
     border-left: 1px solid #c0c0c0;
   }
 
-  nav {
-    width: 900px;
-    padding: 0 10px;
-    position: fixed;
+  #mainWrapper {
+    max-width: 900px;
     margin: auto;
-    background-color: rgba(255,255,255,0.5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  nav {
+    padding: 0 20px;
+    background-color: rgba(255,255,255,0.65);
     border-radius: 0 0 10px 10px;
-    margin-top: -20px;
+    height: 40px;
+
+    -webkit-backdrop-filter: blur(7px);
+    position: -webkit-sticky;
+    top: 0px;
+    z-index: 1
   }
 
   nav a {
     color: #313131;
     font-family: Futura;
     text-decoration: none;
+    line-height: 40px;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
   }
 
   div.sbs {
@@ -134,9 +155,10 @@
 </head>
 <body>
 <div class="bg"></div>
-<a href="https://github.com/tp"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 1;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+<a href="https://github.com/tp"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
 
-<div style="max-width: 900px; margin: auto; padding-top: 20px;">
+<div id="mainWrapper">
+
   <nav>
     <a href="/">Home</a>   <a href="/contact.html">Contact</a>
   </nav>
