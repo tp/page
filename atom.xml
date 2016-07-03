@@ -4,11 +4,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
- <title>timm.io - Timm Preetz</title>
- <link href="http://www.timm.io/atom.xml" rel="self"/>
- <link href="http://www.timm.io/"/>
+ <title>Timm Preetz</title>
+ <link href="http://timm.preetz.name/atom.xml" rel="self"/>
+ <link href="http://timm.preetz.name/"/>
  <updated>{{ site.time | date_to_xmlschema }}</updated>
- <id>http://www.timm.io/</id>
+ <id>http://timm.preetz.name/</id>
  <author>
    <name>Timm Preetz</name>
    <email>timm@preetz.us</email>
@@ -17,9 +17,9 @@
  {% for post in site.posts %}
  <entry>
    <title>{{ post.title }}</title>
-   <link href="http://www.timm.io{{ post.url }}"/>
+   <link href="http://timm.preetz.name{{ post.url }}"/>
    <updated>{{ post.date | date_to_xmlschema }}</updated>
-   <id>http://www.timm.io{{ post.id }}</id>
+   <id>http://timm.preetz.name{{ post.id }}</id>
    <content type="html">{{ post.content | xml_escape }}</content>
  </entry>
  {% endfor %}
