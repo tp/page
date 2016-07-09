@@ -16,18 +16,11 @@ imagebg: true
   <div class="recentPosts">
     <h2>Recent Posts</h2>
     {% for post in site.posts %}
-      <h3><a class="postTitle" href="{{ post.url }}">{{ post.title }}</a></h3>
       <span>{{ post.date | date: "%Y-%m-%d" }} {% if post.category %} in {{ post.category }}{% endif %}</span>
+      <h3><a class="postTitle" href="{{ post.url }}">{{ post.title }}</a></h3>
       <hr>
     {% endfor %}
 
     <a href="/atom.xml">Posts Atom Feed</a>
   </div>
-
-
-  <hr>
-
-  <h4>Elsewhere:</h4>
-  <a href="https://github.com/tp" rel="me">@tp on GitHub</a><br>
-  <a href="https://twitter.com/timmpreetz" rel="me">@timmpreetz on Twitter</a><br>
 </div>

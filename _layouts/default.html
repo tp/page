@@ -38,19 +38,21 @@
   }
   {% else %}
   body {
-    background-color: #FDFDFD;
+    background-color: #ededed;
   }
   .contentWrapper {
     padding: 0 20px;
   }
   nav {
-    background-color: rgba(228,228,228,0.65) !important;
+    /* 
+    background-color: #313131 !important;
+    position: fixed !important; */
   }
 
   {% endif %}
 
   body {
-    font-family: "Segoe UI", "Avenir Next", "Helvetica Neue", sans-serif;
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
     font-weight: 400; /* TODO: use 200 for Helvetica Neue */
     font-size: 18px;
     margin: 0;
@@ -73,27 +75,28 @@
     margin: auto;
     display: flex;
     flex-direction: column;
+
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
   }
 
   @media only all and (min-width: 415px) {
     #mainWrapper {
       padding: 0 15px;
     }
-
-    nav {
-      border-radius: 0 0 10px 10px;
-    }
   }
 
   nav {
     padding: 0 20px;
-    background-color: rgba(255,255,255,0.65);
     height: 40px;
-
-    -webkit-backdrop-filter: blur(7px);
-    position: -webkit-sticky;
-    top: 0px;
-    z-index: 1
+    max-width: 900px;
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
   }
 
   nav a {
@@ -129,8 +132,8 @@
 
   .recentPosts a.postTitle {
     color: #313131;
+    font-weight: 400;
     text-decoration: none;
-    font-variant: small-caps;
   }
 
   .recentPosts a.postTitle:hover {
@@ -139,8 +142,9 @@
 
   .recentPosts span {
     color: #313131;
-    font-family: Courier, monospace;
-    font-size: 16px;
+    /* font-family: Courier, monospace; */
+    font-weight: 400;
+    font-size: 12px;
   }
 
   .recentPosts hr {
@@ -167,23 +171,37 @@
     padding: 20px;
     -webkit-backdrop-filter: blur(7px);
   }
+
+  #navWrapper {
+    position: fixed;
+    top: 0;
+    height: 40px;
+    left: 0;
+    right: 0;
+    display: flex;
+    background-color: rgba(255,255,255,0.65);
+    -webkit-backdrop-filter: blur(7px);
+    z-index: 1;
+    justify-content: center;
+  }
   </style>
 </head>
 <body>
 <div class="bg"></div>
-<a href="https://github.com/tp"><img style="position: absolute; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+
+<div id="navWrapper">
+  <nav>
+    <a href="/" style="margin-right: 20px;">
+      <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
+    </a>
+    {% if page.imagebg != true %}
+    {% endif %}
+    <a href="/archive">Archive</a>      <a href="/about">About</a>
+  </nav>
+</div>
 
 <div id="mainWrapper">
-
-  <nav>
-    {% if page.imagebg != true %}
-    <a href="/about.html">
-      <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: right; border-radius: 2px;">
-    </a>
-    {% endif %}
-    <a href="/">Home</a>   <a href="/contact.html">Contact</a>
-  </nav>
-
   <div class="contentWrapper">
   {{ content }}
   <div>
