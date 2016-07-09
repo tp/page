@@ -15,12 +15,12 @@ imagebg: true
 <div class="homepageOverview">
   <div class="recentPosts">
     <h2>Recent Posts</h2>
-    {% for post in site.posts %}
+    {% for post in site.posts offset: 0 limit: 3 %}
       <span>{{ post.date | date: "%Y-%m-%d" }} {% if post.category %} in {{ post.category }}{% endif %}</span>
       <h3><a class="postTitle" href="{{ post.url }}">{{ post.title }}</a></h3>
       <hr>
     {% endfor %}
 
-    <a href="/atom.xml">Posts Atom Feed</a>
+    <a href="/atom.xml">Atom Feed</a> | <a href="/archive">Archive</a>
   </div>
 </div>
