@@ -129,7 +129,7 @@
     }
   }
 
-  .recentPosts h3 {
+  .recentPosts h1 {
     line-height: 1em;
     padding: 0px;
     margin: 0em 0;
@@ -208,6 +208,9 @@
 
 <div id="mainWrapper">
   <div class="contentWrapper">
+  {% if page.path contains '_posts' %}
+    <h1>{{ page.title }}</h1>
+  {% endif %}
   {{ content }}
   <div>
 

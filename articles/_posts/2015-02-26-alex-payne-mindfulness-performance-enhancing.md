@@ -3,8 +3,6 @@ title: Alex Payne on Mindfulness as a "Performance Enhancing Tool"
 layout: default
 ---
 
-# {{ page.title }}
-
 > why do I want to be better at my job?  
 > who benefits if I’m more productive?  
 > does my labor reduce suffering more than sitting in mindful contemplation?

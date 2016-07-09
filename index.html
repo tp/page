@@ -1,26 +1,17 @@
 ---
 layout: default
-imagebg: true
+imagebg: false
 ---
-
-<div class="sbs" style="color: #fdfdfd;">
-  <div>
-    {{!-- <img src="http://www.lunados.com/assets/img/timm_preetz_640.jpg" alt="Timm Preetz" style="max-width: 320px;" class="img-rounded profilePicture"> --}}
-    <h1>Timm Preetz</h1>
-  </div>
-  <div>
-  </div>
-</div>
-
 <div class="homepageOverview">
   <div class="recentPosts">
-    <h2>Recent Posts</h2>
+
     {% for post in site.posts offset: 0 limit: 3 %}
-      <span>{{ post.date | date: "%Y-%m-%d" }} {% if post.category %} in {{ post.category }}{% endif %}</span>
-      <h3><a class="postTitle" href="{{ post.url }}">{{ post.title }}</a></h3>
+      <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+      <h1><a class="postTitle" href="{{ post.url }}">{{ post.title }}</a></h1>
+      {{ post.content }}
       <hr>
     {% endfor %}
-
-    <a href="/atom.xml">Atom Feed</a> | <a href="/archive">Archive</a>
   </div>
+
+  <a href="/atom.xml">Atom Feed</a> | <a href="/archive">Archive</a>
 </div>

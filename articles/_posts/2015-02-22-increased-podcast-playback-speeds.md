@@ -3,8 +3,6 @@ title: Increased Podcast Playback Speeds
 layout: default
 ---
 
-# {{ page.title }}
-
 Just a quick thanks to Marco Arment for his Smart Speed feature in [Overcast](https://overcast.fm/).
 
 Smart Speed combined with regular playback speed-ups allows me to easily listen to interview podcasts at speeds greater than 1.5x.

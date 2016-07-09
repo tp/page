@@ -3,8 +3,6 @@ title: Using RubaXa Sortable with Ember.js
 layout: default
 ---
 
-# {{ page.title }}
-
 <img src="/assets/posts/Sortable.gif" width="314">
 
 [Sortable by RubaXA](http://rubaxa.github.io/Sortable/) is a great library for visually sorting elements in HTML apps.

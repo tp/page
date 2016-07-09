@@ -3,8 +3,6 @@ title: Simple App Engine Datastore Entity Versioning With Go
 layout: default
 ---
 
-# {{ page.title }}
-
 In a recent project we needed the ability to save every version of a `User`'s profile (type `UserProfile`) in our database, so that we are able track changes over time and restore or review previous versions.
 
 Since there does not seem to be a standard way to do entity versioning with App Engine Datastore entities, I wrote up a quick sample below of how I solved this.

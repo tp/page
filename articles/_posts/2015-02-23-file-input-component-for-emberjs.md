@@ -3,8 +3,6 @@ title: Image (File) Input Component for Ember.js
 layout: default
 ---
 
-# {{ page.title }}
-
 In order to enable a great user experience I wanted to show the user's newly selected profile picture in one of our clients web apps right after she choose the desired file in her browser's file picker dialog.
 
 Unfortunately this is not yet as easy as a simple {% raw %}`<input type="file" file={{file}}>`{% endraw %}.
