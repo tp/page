@@ -1,4 +1,4 @@
-p > code { background: #272822; color: #f8f8f2; padding: 2px 3px; }
+p > code { background: #272822; color: #f8f8f2; padding: 2px 3px; display: inline-block; }
 
 .highlight .hll { background-color: #49483e; }
 .highlight  { background: #272822; color: #f8f8f2; padding: 1px; }
