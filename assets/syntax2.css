@@ -1,7 +1,7 @@
 p > code { background: #272822; color: #f8f8f2; padding: 2px 3px; display: inline-block; }
+.highlight  { background: #272822; color: #f8f8f2; padding: 10px 20px; }
 
 .highlight .hll { background-color: #49483e; }
-.highlight  { background: #272822; color: #f8f8f2; padding: 1px; }
 .highlight .c { color: #75715e } /* Comment */
 .highlight .err { color: #960050; background-color: #1e0010 } /* Error */
 .highlight .k { color: #66d9ef } /* Keyword */
