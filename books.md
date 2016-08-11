@@ -7,6 +7,7 @@ layout: default
 
 ## 2016
 
+* How to Get Filthy Rich in Rising Asia, Mohsin Hamid
 * Status Update, Alice E. Marwick
 * Drawing Yourself Awake, B. Alan Wallace 
 * Cracking the Coding Interview, Gayle Laakman McDowell
@@ -19,6 +20,7 @@ layout: default
 * The Night Manager, John le Carré
 * The Tender Bar, J. R. Moehringer
 * Open, Andre Agassi
+* The Miracle Morning, Hal Erod
 * The Surrender Experiment, Michael A. Singer
 
 ## 2015 and earlier
@@ -30,6 +32,7 @@ layout: default
 * Save the Cat, Snyder
 * The Martian, Andy Weir
 * Money, Tony Robbins
+* Games Prisoners Play, Kaminski
 * The Enormous Crocodile, Roald Dahl
 * The Giving Tree, Shel Silverstein
 * Oh, the Places You'll Go!, Dr. Seuss
