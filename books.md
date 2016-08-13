@@ -7,12 +7,15 @@ layout: default
 
 ## 2016
 
+
+* Never Let Me Go, Kazuo Ishiguro
 * How to Get Filthy Rich in Rising Asia, Mohsin Hamid
 * Status Update, Alice E. Marwick
 * Drawing Yourself Awake, B. Alan Wallace 
 * Cracking the Coding Interview, Gayle Laakman McDowell
 * Don Quixote, Miguel de Cervantes Saavedra (translation by John Ormsby)
 * Showing Up for Life, Bill Gates Sr.
+* The Baron in the Trees, Italo Calvino
 * Walden, Henry David Thoreau
 * Giving Good Weight, John McPhee
 * The Rosie Project & The Rosie Effect, Graeme Simsion
