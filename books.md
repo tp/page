@@ -8,10 +8,14 @@ layout: default
 ## 2016
 
 
+* Die Brücke über die Drina, Ivo Andrić
+* Die Wand, Marlen Haushofer
+* Managing Humans, Michael Lopp
 * Never Let Me Go, Kazuo Ishiguro
 * How to Get Filthy Rich in Rising Asia, Mohsin Hamid
 * Status Update, Alice E. Marwick
 * Drawing Yourself Awake, B. Alan Wallace 
+* Dreaming Yourself Awake, B. Alan Wallace 
 * Cracking the Coding Interview, Gayle Laakman McDowell
 * Don Quixote, Miguel de Cervantes Saavedra (translation by John Ormsby)
 * Showing Up for Life, Bill Gates Sr.
