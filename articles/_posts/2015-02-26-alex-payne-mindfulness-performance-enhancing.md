@@ -1,5 +1,5 @@
 ---
-title: Alex Payne on Mindfulness as a "Performance Enhancing Tool"
+title: Alex Payne on Mindfulness as a Performance Enhancing Tool
 layout: default
 ---
 
