@@ -7,6 +7,9 @@ layout: default
 
 ## 2016
 
+* Mom and Me and Mom, Maya Angelou
+* Pre-Suasion, Robert Cialdini
+* Blindness, José Saramago
 * So Good They Can't Ignore You, Cal Newport
 * One Flew Over the Cuckoo's Nest, Ken Kesey
 * The Bell Jar, Sylvia Plath
