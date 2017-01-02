@@ -5,8 +5,15 @@ layout: default
 
 # Books
 
+## 2017
+
+* The Inner Game of Tennis: The classic guide to the mental side of peak performance, W Timothy Gallwey
+* Amusing Ourselves to Death: Public Discourse in the Age of Show Business, Neil Postman
+
 ## 2016
 
+* My Struggle, Karl Ove Knausgård
+* Tools of Titans, Tim Ferris
 * Mom and Me and Mom, Maya Angelou
 * Pre-Suasion, Robert Cialdini
 * Blindness, José Saramago
@@ -55,3 +62,8 @@ layout: default
 * The Technician, Casey Muratori 
 * Life of Pi, Yann Martel
 * Glückskinder, Hermann Scherer
+
+## Further Reading
+
+* [Alan Kay’s Reading List](http://www.squeakland.org/resources/books/readingList.jsp)
+* [BOOKS by Derek Sivers](https://sivers.org/book)
