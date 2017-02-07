@@ -7,6 +7,9 @@ layout: default
 
 ## 2017
 
+* Peak: Secrets from the New Science of Expertise, Anders Ericsson
+* Mindstorms, Seymour Papert
+* Outliers: The Story of Success, Malcolm Gladwell
 * The Inner Game of Tennis: The classic guide to the mental side of peak performance, W Timothy Gallwey
 * Amusing Ourselves to Death: Public Discourse in the Age of Show Business, Neil Postman
 * The Machine Stops, E.M. Forster
