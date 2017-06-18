@@ -15,7 +15,6 @@ layout: default
 * The Sellout, Paul Beatty
 * The Bricks that Built the House, Kate Tempest
 * Elon Musk, Ashley Vance
-* Tools of Titans, Tim Ferriss
 * Peak: Secrets from the New Science of Expertise, Anders Ericsson
 * Mindstorms, Seymour Papert
 * Outliers: The Story of Success, Malcolm Gladwell
