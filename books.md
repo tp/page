@@ -5,6 +5,24 @@ layout: default
 
 # Books
 
+
+## 2017
+
+* Überwachen und Strafen, Michel Foucault
+* Radical Candor, Kim Scott
+* Stories of Your Life and Others, Ted Chiang
+* The Magic of Thinking Big, David Schwartz
+* The Sellout, Paul Beatty
+* The Bricks that Built the House, Kate Tempest
+* Elon Musk, Ashley Vance
+* Peak, Anders Ericsson
+* The Inner Game of Tennis, Timothy Gallwey
+* Amusing Ourselves to Death, Neil Postman
+* Tools of Titans, Tim Ferriss
+* Outliers, Malcom Gladwell
+* Mindstorms, Seymour Papert
+
+
 ## 2016
 
 * Mom and Me and Mom, Maya Angelou
@@ -21,7 +39,6 @@ layout: default
 * Status Update, Alice E. Marwick
 * Dreaming Yourself Awake, B. Alan Wallace 
 * Cracking the Coding Interview, Gayle Laakman McDowell
-* Don Quixote, Miguel de Cervantes Saavedra (translation by John Ormsby)
 * Showing Up for Life, Bill Gates Sr.
 * The Baron in the Trees, Italo Calvino
 * Walden, Henry David Thoreau
