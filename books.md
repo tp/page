@@ -15,16 +15,18 @@ layout: default
 * The Sellout, Paul Beatty
 * The Bricks that Built the House, Kate Tempest
 * Elon Musk, Ashley Vance
-* Peak, Anders Ericsson
-* The Inner Game of Tennis, Timothy Gallwey
-* Amusing Ourselves to Death, Neil Postman
 * Tools of Titans, Tim Ferriss
-* Outliers, Malcom Gladwell
+* Peak: Secrets from the New Science of Expertise, Anders Ericsson
 * Mindstorms, Seymour Papert
-
+* Outliers: The Story of Success, Malcolm Gladwell
+* The Inner Game of Tennis: The classic guide to the mental side of peak performance, W Timothy Gallwey
+* Amusing Ourselves to Death: Public Discourse in the Age of Show Business, Neil Postman
+* The Machine Stops, E.M. Forster
 
 ## 2016
 
+* My Struggle, Karl Ove Knausgård
+* Tools of Titans, Tim Ferris
 * Mom and Me and Mom, Maya Angelou
 * Pre-Suasion, Robert Cialdini
 * Blindness, José Saramago
@@ -72,3 +74,9 @@ layout: default
 * The Technician, Casey Muratori 
 * Life of Pi, Yann Martel
 * Glückskinder, Hermann Scherer
+* The Art of Possibility, Benjamin Zander
+
+## Further Reading
+
+* [Alan Kay’s Reading List](http://www.squeakland.org/resources/books/readingList.jsp)
+* [BOOKS by Derek Sivers](https://sivers.org/book)
