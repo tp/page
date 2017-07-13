@@ -8,6 +8,8 @@ layout: default
 
 ## 2017
 
+* Ego is the Enemy, Ryan Holiday
+* The Art of War, Sun Tzu
 * Überwachen und Strafen, Michel Foucault
 * Radical Candor, Kim Scott
 * Stories of Your Life and Others, Ted Chiang
