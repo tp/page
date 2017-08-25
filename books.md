@@ -8,6 +8,10 @@ layout: default
 
 ## 2017
 
+* "Surely You're Joking Mr. Feynman!", Richard Feynman
+* Death of a Salesman, Arthur Miller
+* 10% Happier, Dan Harris
+* Martha Argerich, Olivier Bellamy
 * Ego is the Enemy, Ryan Holiday
 * The Art of War, Sun Tzu
 * Überwachen und Strafen, Michel Foucault
