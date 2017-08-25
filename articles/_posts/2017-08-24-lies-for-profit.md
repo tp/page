@@ -1,5 +1,5 @@
 ---
-title: Lawrence Block: Telling Lies for Fun & Profit
+title: "Lawrence Block: Telling Lies for Fun & Profit"
 layout: default
 ---
 
