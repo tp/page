@@ -1,5 +1,5 @@
 ---
-title: Asynchronous Web APIs in 1994
+title: An Asynchronous Web API in 1994
 layout: default
 ---
 
