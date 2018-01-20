@@ -211,19 +211,11 @@
 
 <div id="mainWrapper">
   <div class="contentWrapper">
-  {% if page.path contains '_posts' %}
-    <h1>{{ page.title }}</h1>
-  {% endif %}
-  {{ content }}
+
+    {{ content }}
   <div>
 
-  {% if page.path contains '_posts' %}
-    {{!-- <hr> --}}
-    <p style="padding-top: 3em; font-size: 0.75em; text-align: right;">
-    first published on <i>{{ page.date | date: "%Y-%m-%d" }}</i> by Timm Preetz (<a href="https://twitter.com/timmpreetz" rel="me">@timmpreetz</a>)
-    </p>
-  {% else %}
-  {% endif %}
+
 </div>
 </body>
 </html>
