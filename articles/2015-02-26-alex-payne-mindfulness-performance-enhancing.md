@@ -1,7 +1,4 @@
----
-title: Alex Payne on Mindfulness as a Performance Enhancing Tool
-layout: default
----
+# Alex Payne on Mindfulness as a Performance Enhancing Tool
 
 > why do I want to be better at my job?  
 > who benefits if I’m more productive?  

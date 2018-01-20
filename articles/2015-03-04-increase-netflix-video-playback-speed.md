@@ -1,7 +1,4 @@
----
-title: Increase Video Playback Speed on Netflix
-layout: default
----
+# Increase Video Playback Speed on Netflix
 
 Like some other [people on the internet](http://www.reddit.com/r/netflix/comments/2ikk00/questionmeta_can_i_speed_up_the_playback_of_movies/) I was frustrated that I couldn't speed up the playback speed of Netflix videos like I got used to on YouTube.
 

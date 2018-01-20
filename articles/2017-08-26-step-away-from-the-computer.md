@@ -1,7 +1,4 @@
----
-title: "Rich Hickey: Step Away from the Computer"
-layout: default
----
+# Rich Hickey: Step Away from the Computer
 
 _Also known as [Hammock Driven Development](https://www.youtube.com/watch?v=f84n5oFoZBc)_
 

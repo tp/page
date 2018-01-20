@@ -1,7 +1,4 @@
----
-title: An Asynchronous Web API in 1994
-layout: default
----
+# An Asynchronous Web API in 1994
 
 After going down a [Hacker News](https://news.ycombinator.com/item?id=15898919) initiated rabbit hole, I crossed [Donald Knuth's 2017 Christmas Lecture](https://www.youtube.com/watch?v=BxQw4CdxLr8) and from there ended up on the [Online Encyclopedia of Integer Sequences](http://oeis.org/).
 

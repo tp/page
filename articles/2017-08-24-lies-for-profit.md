@@ -1,7 +1,4 @@
----
-title: "Lawrence Block: Telling Lies for Fun & Profit"
-layout: default
----
+# Lawrence Block: Telling Lies for Fun & Profit
 
 _A Kindle Sample Review_
 

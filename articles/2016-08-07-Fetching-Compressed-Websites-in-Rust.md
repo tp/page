@@ -1,7 +1,4 @@
----
-title: Fetching Potentially Compressed Webpages That Might Not be UTF-8 Encoded in Rust
-layout: default
----
+# Fetching Potentially Compressed Webpages That Might Not be UTF-8 Encoded in Rust
 
 > **TL;DR** This write-up explains how I build my first Rust crate to fetch compressed, non-UTF-8 encoded webpages.
 If you want to get straight to the code grab the [final `fetch` crate on crates.io](https://crates.io/crates/fetch) or [view the source on Github](https://github.com/tp/fetch-rs).

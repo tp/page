@@ -1,7 +1,4 @@
----
-title: Increased Podcast Playback Speeds
-layout: default
----
+# Increased Podcast Playback Speeds
 
 Just a quick thanks to Marco Arment for his Smart Speed feature in [Overcast](https://overcast.fm/).
 

@@ -1,7 +1,4 @@
----
-title: Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine
-layout: default
----
+# Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine
 
 Since Google App Engine's `urlfetch` service [imposes a 32MB response size limit](https://cloud.google.com/appengine/docs/go/urlfetch/#Go_Quotas_and_limits) on each request, one has to roll their own [http.Client](http://golang.org/pkg/net/http/#Client) implementation using `appengine/socket` to make requests exceeding that limit.
 

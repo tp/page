@@ -1,7 +1,4 @@
----
-title: Using RubaXa Sortable with Ember.js
-layout: default
----
+# Using RubaXa Sortable with Ember.js
 
 <img src="/assets/posts/Sortable.gif" width="314">
 

@@ -1,7 +1,4 @@
----
-title: Simple App Engine Datastore Entity Versioning With Go
-layout: default
----
+# Simple App Engine Datastore Entity Versioning With Go
 
 In a recent project we needed the ability to save every version of a `User`'s profile (type `UserProfile`) in our database, so that we are able track changes over time and restore or review previous versions.
 
@@ -24,7 +21,8 @@ And because writes to a single entity group (in our case the `User`) are strongl
 ## Implemenation & Tests
 
 main.go
-{% highlight go linenos %}
+
+```go
 package main
 
 import (
@@ -79,11 +77,11 @@ func getLatest(c appengine.Context, kind string, parent *datastore.Key, v interf
 
 	return err
 }
-{% endhighlight %}
+```
 
 main_test.go
 
-{% highlight go linenos %}
+```go
 package main
 
 import (
@@ -153,6 +151,6 @@ func TestVersionedStorageAfterAllPuts(t *testing.T) {
 		t.Fatalf("Expected Counter to be %d but it was %d", upper, outputProfile.Counter)
 	}
 }
-{% endhighlight %}
+```
 
 [See Gist on GitHub](https://gist.github.com/tp/c1e25ae24d405a58f081)
