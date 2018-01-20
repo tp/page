@@ -1,9 +1,3 @@
----
-title: About
-layout: default
-imagebg: true
----
-
 # Timm
 
 [Books](/books)
