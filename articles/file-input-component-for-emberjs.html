@@ -192,9 +192,7 @@
 <div id="mainWrapper">
   <div class="contentWrapper">
 
-    <hr />
-<h2>title: Image (File) Input Component for Ember.js
-layout: default</h2>
+    <h1>Image (File) Input Component for Ember.js</h1>
 <p>In order to enable a great user experience I wanted to show the user's newly selected profile picture in one of our clients web apps right after she choose the desired file in her browser's file picker dialog.</p>
 <p>Unfortunately this is not yet as easy as a simple {% raw %}<code>&lt;input type=&quot;file&quot; file={{file}}&gt;</code>{% endraw %}.</p>
 <p>Having found <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">this pure JavaScript implementation</a> of similar behaviour on HTML5 Rocks, I set out to port it to Ember.</p>
@@ -251,18 +249,24 @@ this.set('file', file)
 <p>app/templates/components/image-input.hbs:
 {% highlight html linenos %}
 {% raw %}
-<!-- raw HTML omitted -->Image Input<!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<strong>Image Input</strong><br></p>
 <p>{{#if file}}
-<!-- raw HTML omitted --></p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<img src="{{file.dataURL}}" width="300"></p>
+<ul>
+  <li>Name: {{file.name}}</li>
+  <li>Type: {{file.type}}</li>
+  <li>Size: {{file.size}} bytes</li>
+  <li>Last modified: {{file.date}}</li>
+</ul>
+{{/if}}
+<br>
 <p>{{ file-input fileChanged=&quot;fileSelectionChanged&quot;}}
 {% endraw %}
 {% endhighlight %}</p>
 <p>Now usage is as easy as {% raw %}<code>{{image-input}}</code>{% endraw %}!</p>
 <p>The result looks like this:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<!-- ![image-input Ember component](/assets/posts/ember.js_image-input_component.png) -->
+<img src="/assets/posts/ember.js_image-input_component.png" width="314">
 
   <div>
 

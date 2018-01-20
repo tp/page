@@ -1,0 +1,19 @@
+---
+---
+
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+ 
+ <title>Timm Preetz</title>
+ <link href="http://timm.preetz.name/atom.xml" rel="self"/>
+ <link href="http://timm.preetz.name/"/>
+ <updated></updated>
+ <id>http://timm.preetz.name/</id>
+ <author>
+   <name>Timm Preetz</name>
+   <email>timm@preetz.us</email>
+ </author>
+
+ 
+ 
+</feed>
