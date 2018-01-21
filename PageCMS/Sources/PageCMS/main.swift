@@ -55,7 +55,7 @@ let mostRecentArticles: [[String: Any]] = [];
 let environment = Environment()
 let template = try String(contentsOf: Path("/Users/timm/Projects/github/tp.github.com/_layouts/default.html").url, encoding: .utf8)
 
-let recentPosts: [Article] = Array(articles.map {
+let posts: [Article] = articles.map {
     x -> Article in
     let url = x.relativeOutputPath.rawValue.replacingOccurrences(of: "./", with: "/").replacingOccurrences(of: ".html", with: "");
     let date = nameFromFilePath(x.fullPath.rawValue) ?? "1970-01-01"
@@ -65,7 +65,9 @@ let recentPosts: [Article] = Array(articles.map {
 }.sorted {
     a, b in
     return a.date > b.date;
-}.prefix(5))
+}
+
+let recentPosts: [Article] = Array(posts.prefix(5))
 
 struct RssItem {
     let title: String
@@ -116,7 +118,8 @@ for page in (articles + mainPages) {
         
         let context: [String: Any] = [
             "recentPosts": recentPosts,
-            "feedItems": rssFeedItems
+            "feedItems": rssFeedItems,
+            "posts": posts,
         ]
         
         pageHTML = try environment.renderTemplate(string: fileContents, context: context)
