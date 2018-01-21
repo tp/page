@@ -55,8 +55,8 @@ let mostRecentArticles: [[String: Any]] = [];
 let environment = Environment()
 let template = try String(contentsOf: Path("/Users/timm/Projects/github/tp.github.com/_layouts/default.html").url, encoding: .utf8)
 
-let recentPosts: [Article] = articles.map {
-    x in
+let recentPosts: [Article] = Array(articles.map {
+    x -> Article in
     let url = x.relativeOutputPath.rawValue.replacingOccurrences(of: "./", with: "/").replacingOccurrences(of: ".html", with: "");
     let date = nameFromFilePath(x.fullPath.rawValue) ?? "1970-01-01"
     let title = titleFromPostMarkdown(x.fullPath) ?? "No title"
@@ -65,6 +65,41 @@ let recentPosts: [Article] = articles.map {
 }.sorted {
     a, b in
     return a.date > b.date;
+}.prefix(5))
+
+struct RssItem {
+    let title: String
+    let excerpt: String
+    let rssDate: String
+    let isoDate: String
+    let url: String
+    let id: String
+}
+
+let rssFeedItems: [RssItem] = recentPosts.map {
+    post in
+    
+    let escapedTitle: String = {
+        return CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, post.title as CFString, "[]." as CFString,":/?&=;+!@#$()',*" as CFString,CFStringConvertNSStringEncodingToEncoding(String.Encoding.utf8.rawValue))
+        }() as String!
+    
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd"
+    guard let date = dateFormatter.date(from: post.date) else {
+        fatalError("ERROR: Date conversion failed due to mismatched format.")
+    }
+    let postDate = date.addingTimeInterval(TimeInterval(60 * 60 * 12));
+    
+    let rfcDateFormat = DateFormatter()
+    rfcDateFormat.dateFormat = "EEE, dd MMM yyyy HH:mm:ss Z"
+    let rssDate = rfcDateFormat.string(from: postDate)
+    
+    let iso8601Formatter = DateFormatter(); // ISO8601DateFormatter() does not work with SPM
+    iso8601Formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
+    let isoDate = iso8601Formatter.string(from: postDate)
+    
+    return RssItem(title: escapedTitle, excerpt: "", rssDate: rssDate, isoDate: isoDate, url: post.url, id: post.url)
 }
 
 for page in (articles + mainPages) {
@@ -80,7 +115,8 @@ for page in (articles + mainPages) {
         let fileContents = try String(contentsOf: page.fullPath.url, encoding: .utf8)
         
         let context: [String: Any] = [
-            "recentPosts": recentPosts
+            "recentPosts": recentPosts,
+            "feedItems": rssFeedItems
         ]
         
         pageHTML = try environment.renderTemplate(string: fileContents, context: context)

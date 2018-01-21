@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+ <title>{{ site.title }}</title>
+ <description>{{ site.description }}</description>
+ <link>http://timm.preetz.name/</link>
+
+{% for post in feedItems %}
+    <item>
+    <title>{{ post.title }}</title>
+    <description>{{ post.excerpt }}</description>
+    <link>http://timm.preetz.name{{ post.url }}</link>
+    <guid isPermaLink="false">{{ post.id }}</guid>
+    <pubDate>{{ post.rssDate }}</pubDate>
+    </item>
+{% endfor %}
+
+</channel>
+</rss>
