@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+ <title>Timm Preetz</title>
+ <description>Personal page</description>
+ <link>http://timm.preetz.name/</link>
+ <atom:link href="http://timm.preetz.name/rss.xml" rel="self" type="application/rss+xml" />
+
+
+    <item>
+    <title><![CDATA[An Asynchronous Web API in 1994]]></title>
+    <description><![CDATA[<i>TBD</i>]]></description>
+    <link>http://timm.preetz.name/articles/asynchronous-web-api-1994</link>
+    <guid isPermaLink="false">/articles/asynchronous-web-api-1994</guid>
+    <pubDate>Tue, 12 Dec 2017 12:00:00 +0100</pubDate>
+    </item>
+
+    <item>
+    <title><![CDATA[Sam Harris: Lying]]></title>
+    <description><![CDATA[<i>TBD</i>]]></description>
+    <link>http://timm.preetz.name/articles/lying</link>
+    <guid isPermaLink="false">/articles/lying</guid>
+    <pubDate>Sun, 27 Aug 2017 12:00:00 +0200</pubDate>
+    </item>
+
+    <item>
+    <title><![CDATA[Rich Hickey: Step Away from the Computer]]></title>
+    <description><![CDATA[<i>TBD</i>]]></description>
+    <link>http://timm.preetz.name/articles/step-away-from-the-computer</link>
+    <guid isPermaLink="false">/articles/step-away-from-the-computer</guid>
+    <pubDate>Sat, 26 Aug 2017 12:00:00 +0200</pubDate>
+    </item>
+
+    <item>
+    <title><![CDATA["Kevin Maney: Trade-Off"]]></title>
+    <description><![CDATA[<i>TBD</i>]]></description>
+    <link>http://timm.preetz.name/articles/trade-off</link>
+    <guid isPermaLink="false">/articles/trade-off</guid>
+    <pubDate>Fri, 25 Aug 2017 12:00:00 +0200</pubDate>
+    </item>
+
+    <item>
+    <title><![CDATA[Lawrence Block: Telling Lies for Fun & Profit]]></title>
+    <description><![CDATA[<i>TBD</i>]]></description>
+    <link>http://timm.preetz.name/articles/lies-for-profit</link>
+    <guid isPermaLink="false">/articles/lies-for-profit</guid>
+    <pubDate>Thu, 24 Aug 2017 12:00:00 +0200</pubDate>
+    </item>
+
+
+</channel>
+</rss>

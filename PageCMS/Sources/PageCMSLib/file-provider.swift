@@ -84,7 +84,6 @@ public func getOutputNameFromFilename(_ fileName: String) -> String {
     return nameWithoutSpaces; // .replacingOccurrences(of: ".md", with: "")
 }
 
-
 public func nameFromFilePath(_ filePath: String) -> String? {
     guard let match = filePath.range(of: "\\d{4}-\\d{2}-\\d{2}", options: .regularExpression) else {
         //        print("plain filename")

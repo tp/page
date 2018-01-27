@@ -1,5 +1,7 @@
 # Timm
 
+<img src="/assets/TIMM_IMG_0944_PROG.jpg" style="width: 100%">
+
 [Books](/books)
 
 <br>

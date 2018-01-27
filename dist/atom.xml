@@ -1,19 +1,54 @@
----
----
-
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
  
  <title>Timm Preetz</title>
  <link href="http://timm.preetz.name/atom.xml" rel="self"/>
  <link href="http://timm.preetz.name/"/>
- <updated></updated>
  <id>http://timm.preetz.name/</id>
  <author>
    <name>Timm Preetz</name>
-   <email>timm@preetz.us</email>
  </author>
 
+ 
+ <entry>
+   <title><![CDATA[An Asynchronous Web API in 1994]]></title>
+   <link href="http://timm.preetz.name/articles/asynchronous-web-api-1994"/>
+   <updated>2017-12-12T12:00:00.000+01:00</updated>
+   <id>http://timm.preetz.name/articles/asynchronous-web-api-1994</id>
+   <content type="html"><![CDATA[<i>TBD</i>]]></content>
+ </entry>
+ 
+ <entry>
+   <title><![CDATA[Sam Harris: Lying]]></title>
+   <link href="http://timm.preetz.name/articles/lying"/>
+   <updated>2017-08-27T12:00:00.000+02:00</updated>
+   <id>http://timm.preetz.name/articles/lying</id>
+   <content type="html"><![CDATA[<i>TBD</i>]]></content>
+ </entry>
+ 
+ <entry>
+   <title><![CDATA[Rich Hickey: Step Away from the Computer]]></title>
+   <link href="http://timm.preetz.name/articles/step-away-from-the-computer"/>
+   <updated>2017-08-26T12:00:00.000+02:00</updated>
+   <id>http://timm.preetz.name/articles/step-away-from-the-computer</id>
+   <content type="html"><![CDATA[<i>TBD</i>]]></content>
+ </entry>
+ 
+ <entry>
+   <title><![CDATA["Kevin Maney: Trade-Off"]]></title>
+   <link href="http://timm.preetz.name/articles/trade-off"/>
+   <updated>2017-08-25T12:00:00.000+02:00</updated>
+   <id>http://timm.preetz.name/articles/trade-off</id>
+   <content type="html"><![CDATA[<i>TBD</i>]]></content>
+ </entry>
+ 
+ <entry>
+   <title><![CDATA[Lawrence Block: Telling Lies for Fun & Profit]]></title>
+   <link href="http://timm.preetz.name/articles/lies-for-profit"/>
+   <updated>2017-08-24T12:00:00.000+02:00</updated>
+   <id>http://timm.preetz.name/articles/lies-for-profit</id>
+   <content type="html"><![CDATA[<i>TBD</i>]]></content>
+ </entry>
  
  
 </feed>

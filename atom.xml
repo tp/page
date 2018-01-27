@@ -11,11 +11,11 @@
 
  {% for post in feedItems %}
  <entry>
-   <title>{{ post.title }}</title>
+   <title><![CDATA[{{ post.title }}]]></title>
    <link href="http://timm.preetz.name{{ post.url }}"/>
    <updated>{{ post.isoDate }}</updated>
    <id>http://timm.preetz.name{{ post.id }}</id>
-   <content type="html">{{ post.excerpt }}</content>
+   <content type="html"><![CDATA[{{ post.excerpt }}]]></content>
  </entry>
  {% endfor %}
  

@@ -81,10 +81,10 @@ struct RssItem {
 let rssFeedItems: [RssItem] = recentPosts.map {
     post in
     
-    let escapedTitle: String = {
-        return CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, post.title as CFString, "[]." as CFString,":/?&=;+!@#$()',*" as CFString,CFStringConvertNSStringEncodingToEncoding(String.Encoding.utf8.rawValue))
-        }() as String!
-    
+//    let escapedTitle: String = {
+//        return CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, post.title as CFString, "[]." as CFString,":/?&=;+!@#$()',*" as CFString,CFStringConvertNSStringEncodingToEncoding(String.Encoding.utf8.rawValue))
+//        }() as String!
+//
     
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -101,7 +101,7 @@ let rssFeedItems: [RssItem] = recentPosts.map {
     iso8601Formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
     let isoDate = iso8601Formatter.string(from: postDate)
     
-    return RssItem(title: escapedTitle, excerpt: "", rssDate: rssDate, isoDate: isoDate, url: post.url, id: post.url)
+    return RssItem(title: post.title, excerpt: "<i>TBD</i>", rssDate: rssDate, isoDate: isoDate, url: post.url, id: post.url)
 }
 
 for page in (articles + mainPages) {
@@ -117,6 +117,10 @@ for page in (articles + mainPages) {
         let fileContents = try String(contentsOf: page.fullPath.url, encoding: .utf8)
         
         let context: [String: Any] = [
+            "site": [
+                "title": "Timm Preetz",
+                "description": "Personal page",
+            ],
             "recentPosts": recentPosts,
             "feedItems": rssFeedItems,
             "posts": posts,

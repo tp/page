@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<rss version="2.0">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
  <title>{{ site.title }}</title>
  <description>{{ site.description }}</description>
  <link>http://timm.preetz.name/</link>
+ <atom:link href="http://timm.preetz.name/rss.xml" rel="self" type="application/rss+xml" />
 
 {% for post in feedItems %}
     <item>
-    <title>{{ post.title }}</title>
-    <description>{{ post.excerpt }}</description>
+    <title><![CDATA[{{ post.title }}]]></title>
+    <description><![CDATA[{{ post.excerpt }}]]></description>
     <link>http://timm.preetz.name{{ post.url }}</link>
     <guid isPermaLink="false">{{ post.id }}</guid>
     <pubDate>{{ post.rssDate }}</pubDate>
