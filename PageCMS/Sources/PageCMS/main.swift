@@ -6,7 +6,33 @@ struct Article {
     let title: String
     let date: String
     let url: String
+    let bodyHTML: String
 }
+
+let environment = Environment()
+
+func renderBody(source: WebPageSource, context: [String: Any] = [:]) throws -> String {
+    //    var pageHTML: String = ""
+    if (source.type == PageType.markdown) {
+        let markdownSource = try String(contentsOf: source.fullPath.url, encoding: .utf8)
+        return try markdownToHTML(markdownSource, options: [])
+    } else {
+        // plain or HTML
+        
+        let fileContents = try String(contentsOf: source.fullPath.url, encoding: .utf8)
+        
+        let context: [String: Any] = [
+            "site": [
+                "title": "Timm Preetz",
+                "description": "Personal page",
+            ],
+        ].merging(context, uniquingKeysWith: { (first, _) in first });
+        
+        return try environment.renderTemplate(string: fileContents, context: context)
+    }
+}
+
+
 //
 //let context = [
 //    "articles": [
@@ -52,16 +78,17 @@ print(mainPages)
 
 let mostRecentArticles: [[String: Any]] = [];
 
-let environment = Environment()
+
 let template = try String(contentsOf: Path("/Users/timm/Projects/github/tp.github.com/_layouts/default.html").url, encoding: .utf8)
 
-let posts: [Article] = articles.map {
+let posts: [Article] = try articles.map {
     x -> Article in
     let url = x.relativeOutputPath.rawValue.replacingOccurrences(of: "./", with: "/").replacingOccurrences(of: ".html", with: "");
     let date = nameFromFilePath(x.fullPath.rawValue) ?? "1970-01-01"
     let title = titleFromPostMarkdown(x.fullPath) ?? "No title"
+    let body = try renderBody(source: x)
     
-    return Article(title: title, date: date, url: url)
+    return Article(title: title, date: date, url: url, bodyHTML: body)
 }.sorted {
     a, b in
     return a.date > b.date;
@@ -101,33 +128,18 @@ let rssFeedItems: [RssItem] = recentPosts.map {
     iso8601Formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSXXXXX"
     let isoDate = iso8601Formatter.string(from: postDate)
     
-    return RssItem(title: post.title, excerpt: "<i>TBD</i>", rssDate: rssDate, isoDate: isoDate, url: post.url, id: post.url)
+    return RssItem(title: post.title, excerpt: post.bodyHTML, rssDate: rssDate, isoDate: isoDate, url: post.url, id: post.url)
 }
 
 for page in (articles + mainPages) {
     let outputFilePath = distDirectoy + page.relativeOutputPath
-
-    var pageHTML: String = ""
-    if (page.type == PageType.markdown) {
-        let markdownSource = try String(contentsOf: page.fullPath.url, encoding: .utf8)
-        pageHTML = try markdownToHTML(markdownSource, options: [])
-    } else {
-        // plain or HTML
-        
-        let fileContents = try String(contentsOf: page.fullPath.url, encoding: .utf8)
-        
-        let context: [String: Any] = [
-            "site": [
-                "title": "Timm Preetz",
-                "description": "Personal page",
-            ],
-            "recentPosts": recentPosts,
-            "feedItems": rssFeedItems,
-            "posts": posts,
-        ]
-        
-        pageHTML = try environment.renderTemplate(string: fileContents, context: context)
-    }
+    
+    let context: [String: Any] = [
+        "recentPosts": recentPosts,
+        "feedItems": rssFeedItems,
+        "posts": posts,
+    ]
+    let pageHTML = try renderBody(source: page, context: context)
     
     var rendered: String = ""
     if (page.type == PageType.plain) {
