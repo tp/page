@@ -73,7 +73,7 @@ public func generateSite(_ configuration: SiteConfiguration) throws {
         //    var pageHTML: String = ""
         if (source.type == PageType.markdown) {
             let markdownSource = try String(contentsOf: source.fullSourcePath.url, encoding: .utf8)
-            return try markdownToHTML(markdownSource, options: [])
+            return try markdownToHTML(convertFootnotes(input: markdownSource), options: [])
         } else {
             // plain or HTML
             
@@ -319,4 +319,56 @@ public func titleFromPostMarkdown(_ filePath: Path) -> String? {
 //    
 //    return date
     return nil
+}
+
+func convertFootnotes(input: String) throws -> String {
+    var text = input
+    var handledFootnotes = Set<String>()
+    let re = try NSRegularExpression(pattern: "\\[\\^([^\\]]+)\\]", options: [])
+    
+    var startChar = 0
+    
+    while let firstMatch = re.firstMatch(in: text, options: [], range: NSRange(location: startChar, length: text.utf16.count - startChar)) {
+        let firstMatchRange = firstMatch.range(at: 1)
+        startChar = firstMatchRange.upperBound
+        let footnoteIdentifier = (text as NSString).substring(with: firstMatchRange)
+        
+        handledFootnotes.insert(footnoteIdentifier)
+        
+        text = (text as NSString).replacingCharacters(in: firstMatch.range, with: "<sup id=\"fa_\(footnoteIdentifier)\">[\(footnoteIdentifier)](#fn_\(footnoteIdentifier))</sup>")
+        
+        print(footnoteIdentifier)
+        
+        // Now find the matching part
+        
+        let footnoteExpression = try NSRegularExpression(pattern: NSRegularExpression.escapedPattern(for: "[^\(footnoteIdentifier)]:"), options: [])
+        if let footnoteMatch = footnoteExpression.firstMatch(in: text, options: [], range: NSRange(location: startChar, length: text.utf16.count - startChar)) {
+            let footnoteText = "<b id=\"fn_\(footnoteIdentifier)\">\(footnoteIdentifier)</b> [↩](#fa_\(footnoteIdentifier))" // TODO: Should include content, and link to go up afterwards
+            text = (text as NSString).replacingCharacters(in: footnoteMatch.range, with: footnoteText)
+        }
+        
+//        print(startChar)
+//        print(text.utf16.count)
+    }
+    
+//    re.firstMatch(in: input, options: [], range: NSRange(location: 0, length: input.utf16.count))
+//
+//
+//
+//    if let firstMatch = re.firstMatch(in: input, options: [], range: NSRange(location: startChar, length: input.utf16.count)) {
+//
+//    }
+    
+//    re.
+    // let matches = re.matches(in: fileContents, range: NSRange(location: 0, length: fileContents.utf16.count))
+    
+    
+    
+    /**
+     Bla bla <sup id="a1">[1](#f1)</sup>
+     Then from within the footnote, link back to it.
+     
+     
+ */
+    return text
 }

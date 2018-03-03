@@ -240,7 +240,7 @@ fn fetch_deflate_compressed_page() {
     fetch_page(&quot;http://httpbin.org/deflate&quot;).expect(&quot;Fetch to succeed&quot;);
 }
 </code></pre>
-<p>After all tests passed[^1] I was satisfied with the initial scope of library and went on to publish it to crates.io.</p>
+<p>After all tests passed<sup id="fa_1"><a href="#fn_1">1</a></sup> I was satisfied with the initial scope of library and went on to publish it to crates.io.</p>
 <p>This turned out to be a little bit trickier than it probably should have been, due to me initially naming the crate “http-fetch”.</p>
 <p>When integration testing the crate with another project I soon found out that while your crate name on crates.io can contain a hyphen, you have to import it with a <a href="http://stackoverflow.com/questions/31846789/crate-name-with-hyphens-not-being-recognized">different</a> <a href="https://m.reddit.com/r/rust/comments/4rlom7/what_characters_are_allowed_in_a_crate_name/d52bdyp">name</a> when using it in Rust code. Not wanting to explain this (confusing) behavior in the README I decided to rename the crate (which I had already published). Since it was not possible to rename from “http-fetch” to “http_fetch” for some reason (cargo would not allow this), I created a new crate named “<a href="crates.io/crates/fetch">fetch</a>”.</p>
 <h2>Retrospection</h2>
@@ -250,7 +250,7 @@ fn fetch_deflate_compressed_page() {
 <p>A lack of understanding <a href="https://doc.rust-lang.org/book/lifetimes.html">lifetimes</a> has also so far prevented me from breaking the code up into smaller functions, which would require some special annotations (I assume).</p>
 <p>All in all I was highly rewarded for this experiment by being exposed to new concepts and different approaches to API design and programming altogether. Furthermore I was positively surprised how quick I could pursue and find my way around the crates given the lack of full code completion. Thanks to great documentation being available for all crates used, this was not as big of a slowdown as I would have expected initially.</p>
 <p>Now I am looking forward to writing more code in Rust and get a better understanding of and write future-proof solutions for the issues mentioned above.</p>
-<p>[^1]: Which was did not succeed immediately, since I had an error with DEFLATE compressed responses. Turns out you have to run them through the <a href="http://alexcrichton.com/flate2-rs/flate2/read/struct.ZlibDecoder.html"><code>ZlibDecoder</code></a> instead of the <a href="http://alexcrichton.com/flate2-rs/flate2/read/struct.DeflateDecoder.html"><code>DeflateDecoder</code></a> which I assumed at first (given the name). So, lesson learned, always test your code 🤗</p>
+<p><b id="fn_1">1</b> <a href="#fa_1">↩</a> Which was did not succeed immediately, since I had an error with DEFLATE compressed responses. Turns out you have to run them through the <a href="http://alexcrichton.com/flate2-rs/flate2/read/struct.ZlibDecoder.html"><code>ZlibDecoder</code></a> instead of the <a href="http://alexcrichton.com/flate2-rs/flate2/read/struct.DeflateDecoder.html"><code>DeflateDecoder</code></a> which I assumed at first (given the name). So, lesson learned, always test your code 🤗</p>
 
   <div>
 
