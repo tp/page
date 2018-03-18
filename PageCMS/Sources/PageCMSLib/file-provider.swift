@@ -286,7 +286,7 @@ func readPageSources(directory: Path, outputPrefixFolder prefix: Path?) throws -
                 return StaticFileMapping(inputPath: filepath, outPath: Path("./\(filepath.fileName)"))
         }
         
-        return WebPageSource(fullSourcePath: path, relativeOutputPath: outputPath, type: typeForExtension("html"), assetsToCopy: assetsToCopy)
+        return WebPageSource(fullSourcePath: path, relativeOutputPath: outputPath, type: typeForExtension("md"), assetsToCopy: assetsToCopy)
     }
     
     return plainFileSources + folderBasedSources
