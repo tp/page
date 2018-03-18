@@ -108,7 +108,7 @@ public func generateSite(_ configuration: SiteConfiguration) throws {
     
     let posts: [Article] = try articles.map {
         x -> Article in
-        let url = (Path("/") + x.relativeOutputPath).resolved.rawValue.replacingOccurrences(of: "./", with: "/").replacingOccurrences(of: ".html", with: "");
+        let url = (Path("/") + x.relativeOutputPath).resolved.rawValue.replacingOccurrences(of: "./", with: "/").replacingOccurrences(of: ".html", with: "").replacingOccurrences(of: "/index", with: "/")
         print("url", url, x.fullSourcePath)
         let date = nameFromFilePath(x.fullSourcePath.rawValue) ?? "1970-01-01"
         let title = titleFromPostMarkdown(x.fullSourcePath) ?? "No title"
@@ -189,13 +189,21 @@ public func generateSite(_ configuration: SiteConfiguration) throws {
             rendered = try environment.renderTemplate(string: template, context: context)
         }
         
+        try outputFilePath.parent.createDirectory()
+        
+        print("created dir \(outputFilePath.parent)")
+        
+        for asset in page.assetsToCopy {
+            print("copy \(asset.inputPath) to \(outputFilePath.parent + asset.outPath)")
+            try asset.inputPath.copyFile(to: outputFilePath.parent + asset.outPath)
+        }
+        
         try rendered.write(to: outputFilePath.url, atomically: true, encoding: .utf8)
         
         // print("Downloaded file: \(outputName) \n \(htmlFromMarkdown)")
         print("written HTML to \(outputFilePath.rawValue)")
     }
 }
-
 
 public enum PageType {
     case plain
@@ -210,6 +218,8 @@ struct WebPageSource {
     public let relativeOutputPath: Path
     
     public let type: PageType
+    
+    public let assetsToCopy: [StaticFileMapping]
 }
 
 public enum SourceError: Error {
@@ -232,11 +242,15 @@ func readPageSources(directory: Path, outputPrefixFolder prefix: Path?) throws -
         throw SourceError.AnyError
     }
     
-    let files = directory.find(searchDepth: 0) { path in
+    let indexFilesInFolder = directory.find(searchDepth: 0) { path in
+        path.isDirectory && (path + Path("./index.md")).exists
+    }.map { $0 + Path("./index.md") }
+    
+    let plainFiles = directory.find(searchDepth: 0) { path in
         path.pathExtension == "md" || path.pathExtension == "html" || path.pathExtension == "xml"
     }
-    
-    return files.map {
+
+    let plainFileSources: [WebPageSource] = plainFiles.map {
         filePath in
         
         let fileExtension = filePath.pathExtension == "xml" ? "xml" : "html";
@@ -249,8 +263,33 @@ func readPageSources(directory: Path, outputPrefixFolder prefix: Path?) throws -
         
         print("webpage source out", outputPath)
         
-        return WebPageSource(fullSourcePath: filePath, relativeOutputPath: outputPath, type: pageType)
+        return WebPageSource(fullSourcePath: filePath, relativeOutputPath: outputPath, type: pageType, assetsToCopy: [])
     }
+    
+    
+    let folderBasedSources: [WebPageSource] = indexFilesInFolder.map {
+        path in
+        
+        let fileName = getOutputNameFromFilename(path.parent.fileName)
+        let fileNamePath = Path("./\(fileName)/index.html");
+        
+        let outputPath = prefix != nil ? prefix! + fileNamePath : fileNamePath
+        
+        print(fileNamePath)
+//        fatalError()
+        
+        let assetsToCopy = path.parent.find(searchDepth: 0) {
+            filepath in
+            return filepath != path
+            }.map {
+                filepath in
+                return StaticFileMapping(inputPath: filepath, outPath: Path("./\(filepath.fileName)"))
+        }
+        
+        return WebPageSource(fullSourcePath: path, relativeOutputPath: outputPath, type: typeForExtension("html"), assetsToCopy: assetsToCopy)
+    }
+    
+    return plainFileSources + folderBasedSources
     
 //    return []
 }
