@@ -201,7 +201,7 @@
 <p><video src="./cursor-example.mov" autoplay="true" loop="true" muted="true" width="108"></video></p>
 <p>In Chrome and Firefox those canvases can be used as a cursor by setting the <code>cursor</code> property in CSS to <code>url(canvas.toDataURL())</code>. The data URL is guaranteed to contain a <code>base64</code> encoded <code>PNG</code> image of the canvas.</p>
 <p>Edge though currently only supports <a href="https://en.wikipedia.org/wiki/ICO_(file_format)"><code>CUR</code> files</a>. Those files wrap the cursor image, optionally at different sizes, with some metadata. Luckily for us, a newer version of the CUR file format allows embedding <code>PNG</code> file data directly.</p>
-<p>So I wrote a small library that reads a canvas into <code>PNG</code> blob and then inserts this data into a new <code>Blob</code> that builds up the <code>CUR</code> file. We can then create an <code>ObjectURL</code> of that <code>CUR</code> file which can be used in CSS similarly to the above method.</p>
+<p>So I wrote a small library that reads a canvas into <code>PNG</code> blob and then inserts this data into a new <code>Blob</code> that builds up the <code>CUR</code> file. We can then create an <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL">&quot;<code>object URL</code>&quot;</a> of that <code>CUR</code> file which can be used in CSS similarly to the above method.</p>
 <p>Example:</p>
 <pre><code class="language-js">// call the `curObjectURLFromCanvas` function to retrieve an object URL pointing to a `CUR` file containing the canvas' image
 const cursorObjectURL = curObjectURLFromCanvas(canvas);

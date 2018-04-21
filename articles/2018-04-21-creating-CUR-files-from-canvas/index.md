@@ -9,7 +9,7 @@ In Chrome and Firefox those canvases can be used as a cursor by setting the `cur
 
 Edge though currently only supports [`CUR` files](https://en.wikipedia.org/wiki/ICO_(file_format)). Those files wrap the cursor image, optionally at different sizes, with some metadata. Luckily for us, a newer version of the CUR file format allows embedding `PNG` file data directly.
 
-So I wrote a small library that reads a canvas into `PNG` blob and then inserts this data into a new `Blob` that builds up the `CUR` file. We can then create an `ObjectURL` of that `CUR` file which can be used in CSS similarly to the above method.
+So I wrote a small library that reads a canvas into `PNG` blob and then inserts this data into a new `Blob` that builds up the `CUR` file. We can then create an ["`object URL`"](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL) of that `CUR` file which can be used in CSS similarly to the above method.
 
 Example:
 
