@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body style="font-family: sans-serif;">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ramda/0.25.0/ramda.min.js"></script>
+    <script src="https://calmm-js.github.io/partial.lenses/partial.lenses.js"></script>
+
+
+Last week I needed to update some deeply nested fields in the immutable state object of a Redux application. While the imperative and `Immutable.js` code got a little unwiedly to follow, I came upon a concise solution using Ramda and lenses.
+
+Suppose we have the following user:
+
+<pre>
+    const user = {
+      name: "Bob",
+      neighbor: {
+        name: "Sam"
+      },
+      favoriteFoods: [
+        {
+          name: "Fries"
+        },
+        {
+          name: "Burgers"
+        }
+      ]
+    };
+
+</pre>
+
+<pre class="hidden">
+  <pre class="language-klipse-eval-js">
+    var user = {
+      name: "Bob",
+      neighbor: {
+        name: "Sam"
+      },
+      favoriteFoods: [
+        {
+          name: "Fries"
+        },
+        {
+          name: "Burgers"
+        }
+      ]
+    };
+  </pre>
+</pre>
+
+If we wanted a copy of this with all nested food names updated by a `makeHealthy` function we would encapsulate it in a separate function, but that function internally would still be a little unwiedly:
+
+<pre class="language-klipse-eval-js">
+  const makeHealthy = name => `Green ${name}`;
+
+  function updateUserFoodNames(user, nameTransform) {
+    return {
+      ...user,
+      favoriteFoods: user.favoriteFoods.map(food => ({
+        ...food,
+        name: nameTransform(food.name),
+      })),
+    }
+  }
+
+  const newUser = updateUserFoodNames(user, makeHealthy)
+  
+  newUser; // output
+</pre>
+
+
+As you can see there is quite a bit of repetition between destination and source names, for example in `favoriteFoods: user.favoriteFoods.map`. In even more complex object structure it might be hard to spot if the left and right sides don't match up.
+
+As I was already familiar with the concept of lenses (from a Swift library), I thought to look for a library to do so in TypeScript as well.
+
+Since we were already using `Ramda` in the project, I tried there lenses, working towards modifying ever more nested fields of the object:
+
+
+<pre class="language-klipse-eval-js">
+  let makeHealthy = name => `Green ${name}`;
+
+
+
+const makeUserHealthy = R.over(R.lensProp('name'), makeHealthy);
+
+console.log("Healthy user\n", makeUserHealthy(user));
+
+/**
+ * The next step was to update a more deeply nested field, which was possible using `compose`
+ */
+
+const makeNeighborHealthy = R.over(R.compose(R.lensProp('neighbor'), R.lensProp('name')), makeHealthy);
+
+console.log("Healthy neighbor in user\n", makeNeighborHealthy(user));
+
+/**
+ * In the final update function, I wanted to map over each item in the `favoriteFoods` array
+ *
+ * This was achieved by combining 2 `over` functions and the `map`
+ */
+
+const makeFoodsHealthy = over(
+  lensProp('favoriteFoods'),
+  map(
+    over(
+      lensProp('name'),
+      makeHealthy
+    )
+  )
+);
+
+console.log("Healthy foods in user\n", makeFoodsHealthy(user));
+
+</pre>
+
+What's nice here, is that we always get a `User` type back, so we don't have to compose any objects parts manually.
+
+makeUserHealthy(user); // {"favoriteFoods": [{"name": "Fries"}, {"name": "Burgers"}], "name": "Bob & Salad", "neighbor": {"name": "Sam"}}
+makeNeighborHealthy(user); // {"favoriteFoods": [{"name": "Fries"}, {"name": "Burgers"}], "name": "Bob", "neighbor": {"name": "Sam & Salad"}}
+makeFoodsHealthy(user); // {"favoriteFoods": [{"name": "Fries & Salad"}, {"name": "Burgers & Salad"}], "name": "Bob", "neighbor": {"name": "Sam"}}
+
+
+<h2>Bonus</h2>
+
+While researching how to compose the lenses in Ramda, I came across the [partial.lenses](https://github.com/calmm-js/partial.lenses) library, which offers a shorthand syntax and even provides a special path type to map over arrays:
+
+
+
+<pre>
+    const user = {
+      name: "Bob",
+      neighbor: {
+        name: "Sam"
+      },
+      favoriteFoods: [
+        {
+          name: "Fries"
+        },
+        {
+          name: "Burgers"
+        }
+      ]
+    };
+    
+    const makeHealthy = name => `Green ${name}`;
+    
+    const userWithHealthyFoods = L.modify([ 'favoriteFoods', L.elems, 'name'], makeHealthy)
+    
+    userWithHealthyFoods(user);
+</pre>
+
+[Playground link](https://calmm-js.github.io/partial.lenses/playground.html#MYewdgzgLgBArhApgJxgXhgbwFBgIYC2iAXDAEQBCIARmQDS6ICWA5gBbUjKk75GlkAyoTLYAvgwBmeAG5cmURADEQIACYRSAbWy9CJckuRNEEURN259AinGQsUZ8dgC64gNzZsoSLAJ4Aa0QACUQ8ABsoNgBPdBg+RHQAPhgAAwBxZEREMBgAEkwEsVTPb3BoeCRkAHUFNlCIqOiVdQg4gBkAOgJ1JklogAotGAByaTljRRaNEboYLsRwxAIIOZGEkZc5-yCGyJiASi8EFFqovabpiAGT5AP3IA)
+
+<link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/app.klipse.tech/css/codemirror.css">
+
+<script >
+    window.klipse_settings = {
+        selector_eval_js: '.language-klipse-eval-js', // css selector for the html elements you want to klipsify
+        // no_dynamic_scripts: true,
+    };
+</script>
+
+<script type="text/javascript">
+  // import infestines from "https://unpkg.com/infestines@0.4.7/dist/infestines.cjs.js";
+  // import L from "https://unpkg.com/partial.lenses@13.12.0/dist/partial.lenses.cjs.js";
+
+  console.log(infestines); 
+
+</script>
+
+<script src="https://storage.googleapis.com/app.klipse.tech/plugin_prod/js/klipse_plugin.min.js"></script>
+</body>
+
+</html>
