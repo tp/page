@@ -8,6 +8,59 @@
 
 
     <item>
+    <title><![CDATA[Custom Cursors: Creating CUR Files from Canvas]]></title>
+    <description><![CDATA[<h1>Custom Cursors: Creating CUR Files from Canvas</h1>
+<p>A recent product design required switching various custom, dynamic cursors at runtime. These were prepared at runtime and drawn onto a <code>Canvas</code>:</p>
+<p><video src="./cursor-example.mov" autoplay="true" loop="true" muted="true" width="108"></video></p>
+<p>In Chrome and Firefox those canvases can be used as a cursor by setting the <code>cursor</code> property in CSS to <code>url(canvas.toDataURL())</code>. The data URL is guaranteed to contain a <code>base64</code> encoded <code>PNG</code> image of the canvas.</p>
+<p>Edge though currently only supports <a href="https://en.wikipedia.org/wiki/ICO_(file_format)"><code>CUR</code> files</a>. Those files wrap the cursor image, optionally at different sizes, with some metadata. Luckily for us, a newer version of the CUR file format allows embedding <code>PNG</code> file data directly.</p>
+<p>So I wrote a small library that reads a canvas into <code>PNG</code> blob and then inserts this data into a new <code>Blob</code> that builds up the <code>CUR</code> file. We can then create an <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL">&quot;<code>object URL</code>&quot;</a> of that <code>CUR</code> file which can be used in CSS similarly to the above method.</p>
+<p>Example:</p>
+<pre><code class="language-js">// call the `curObjectURLFromCanvas` function to retrieve an object URL pointing to a `CUR` file containing the canvas' image
+const cursorObjectURL = curObjectURLFromCanvas(canvas);
+
+// Use this URL in your inline style (or in a programatically created `StyleSheet`)
+body.style.cursor = `url(${cursorObjectURL}), pointer`;
+</code></pre>
+<p>The library is called <code>cursor-utilities</code> and is available on <a href="https://www.npmjs.com/package/cursor-utilities">npm</a>, and the source is on <a href="https://github.com/tp/cursor-utilities">GitHub</a>.</p>
+]]></description>
+    <link>https://timm.preetz.name/articles/creating-CUR-files-from-canvas/</link>
+    <guid isPermaLink="false">/articles/creating-CUR-files-from-canvas/</guid>
+    <pubDate>Sat, 21 Apr 2018 12:00:00 +0000</pubDate>
+    </item>
+
+    <item>
+    <title><![CDATA[WebGL: Smooth Edges on Transparent Canvases]]></title>
+    <description><![CDATA[<h1>WebGL: Smooth Edges on Transparent Canvases</h1>
+<h2>Task</h2>
+<p>For a client project I needed to draw text on a transparent <code>WebGL</code> canvas, which was overlaying a video playing in the background of the page.</p>
+<p>After having a hard time with some of the more elaborate <code>Three.js</code> based examples, I was able to quickly gain an initial understanding of the underlying plumbing when studying <a href="http://tehmou.github.io/WebGL-from-Scratch/explain.html#mouse_ripple">this WebGL-from-Scratch example</a>.</p>
+<p>The effect came together quickly and looked great, but unfortunately it didn't render the same across all browsers. In Safari the partially transparent edges of the text where leading to while artifacts, as to can see here around the highlighted arc of the letter <code>e</code>:</p>
+<p><img src="./Safari_before.png" alt="" /></p>
+<p>At first I thought the <code>alpha</code> property of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext"><code>contextAttributes</code></a> hadn't been honored, but when switching to a partially transparent font I would be able to see through the letters just fine.</p>
+<h2>Solution</h2>
+<p>Since I was already investigating the context properties, I tried my hand at the next one that could be related related to the transparency issue: <code>premultipliedAlpha</code>.</p>
+<p>Simply changing this from <code>false</code> to  <code>true</code> didn't improve anything for me in Safari. That was not entirely unexpected, since I assumed that I would have to actually &quot;pre-multiply&quot; the alpha for the setting to work correctly.</p>
+<p>I didn't know how to actually do this, and whether or not this could even be done with information from the canvas alone (or whether it would require knowing what is underneath it), so I just implemented this first attempt in the shader:</p>
+<pre><code class="language-glsl">vec4 pixel = texture2D(tex0, uv).xyzw;
+
+gl_FragColor = vec4(pixel.x * pixel.w, pixel.y * pixel.w, pixel.z * pixel.w, pixel.w);
+</code></pre>
+<p>Luckily that did indeed solve the white marks on the edges, which are now very smooth:</p>
+<p><img src="./Safari_after.png" alt="" /></p>
+<h2>Next Steps</h2>
+<p>While the edges are now smooth across the 3 browser listed below, you can see that the rendering color differs across them:</p>
+<p><img src="./comparison.png" alt="" /></p>
+<p>Next, I'll have to look into how not only to achieve smooth but also color correct renderings.</p>
+<h2>Further Reading</h2>
+<p>A sample project containing the code used for this post is available on GitHub at <a href="https://github.com/tp/webgl-premultipliedAlpha"><code>tp/webgl-premultipliedAlpha</code></a>. You can view the demo in browser <a href="https://cdn.rawgit.com/tp/webgl-premultipliedAlpha/ee3190f9/index.html">using this link</a>.</p>
+]]></description>
+    <link>https://timm.preetz.name/articles/webgl-smooth-edges-on-transparent-canvases/</link>
+    <guid isPermaLink="false">/articles/webgl-smooth-edges-on-transparent-canvases/</guid>
+    <pubDate>Sun, 18 Mar 2018 12:00:00 +0000</pubDate>
+    </item>
+
+    <item>
     <title><![CDATA[7 Days Without Recreational Media]]></title>
     <description><![CDATA[<h1>7 Days Without Recreational Media</h1>
 <p><em>If I didn’t write this today—right now even—I’d never do it.</em></p>
@@ -101,61 +154,6 @@ A: &quot;To lie is to intentionally mislead others when they expect honest commu
     <link>https://timm.preetz.name/articles/lying</link>
     <guid isPermaLink="false">/articles/lying</guid>
     <pubDate>Sun, 27 Aug 2017 12:00:00 +0000</pubDate>
-    </item>
-
-    <item>
-    <title><![CDATA[Rich Hickey: Step Away from the Computer]]></title>
-    <description><![CDATA[<h1>Rich Hickey: Step Away from the Computer</h1>
-<p><em>Also known as <a href="https://www.youtube.com/watch?v=f84n5oFoZBc">Hammock Driven Development</a></em></p>
-<p>Opening Question: When was the last time you thought hard about something for</p>
-<ul>
-<li>an hour?</li>
-<li>a day?</li>
-<li>over the course of a month?</li>
-</ul>
-<hr />
-<p>&quot;Key Note&quot; talk by Rich Hickey focussing on the problem solving aspect of programming, which in his experience is influenced and successful due to a lot of thinking without the computer at hand.</p>
-<p>He starts out with the well-established data point that bugs are most costly when they have to fixed in production and that it would be preferable to fix them during development.<br />
-Then he goes backwards one step further and suggest that bugs are least expensive to prevent in the <em>design</em> of the software.<br />
-Relating to this, it is his understanding that &quot;the biggest problems in software are problems of misconceptions&quot;. When not the actual problems at hand are solved, but rather an attempt is made at solving perceived problems or problems arising solely from the suggested &quot;solution&quot;.</p>
-<p>Another interesting section was about tradeoffs, a word often used to justify a rushed or not fully tested implementation. According to Hickey a real tradeoff requires at least 2 possible solutions, which are then weighed and, finally, one is picked. Once you made a tradeoff, he suggests to record your reasoning and the decision in writing.</p>
-<p>The major problem this talk focuses on, going back to the opening question, is that not enough <em>thought</em> is put into the problem solving aspect of software development (which after all is the whole purpose of writing programs commercially).</p>
-<p>Speaking of the mind Hickey starts out describing it as two parts: the &quot;Waking Brain&quot; and the &quot;Background Brain&quot;. According to Hickey the first one is very tactical, while the second one is strategical, abstracts, has a great ability to synthesize. Unfortunately the &quot;Background Brain&quot; can't be used directly, but rather will work on what is most prominent in the &quot;Waking Brain&quot;. The way to get the &quot;Background Brain&quot; to work on what one desires, is to &quot;load it up&quot;.</p>
-<p>In order to do this, one foremost has to be aware that the &quot;Background Brain&quot; can only work on 7±2 problems. So how does one deal with designs that have more than 9 parts? According to Hickey a limited subset of problems should be picked and focused on those.<br />
-Once the problems to be uploaded are picked, the currently proposed solution (from the &quot;Waking Brain&quot;) should be written down.</p>
-<p>Then one should go over the picked problems in varying orders.</p>
-<p>With all this preparation done, now the hammock comes into play. This &quot;mind's eye time&quot; — lying down with your eyes closed and thinking uninterruptedly — is an integral part of the process.</p>
-<p>Whenever you &quot;hear back&quot; from your &quot;Background Brain&quot;, depending on the situation you might want to act on it immediately, or just take note of the proposed solution. Preferably in writing.</p>
-]]></description>
-    <link>https://timm.preetz.name/articles/step-away-from-the-computer</link>
-    <guid isPermaLink="false">/articles/step-away-from-the-computer</guid>
-    <pubDate>Sat, 26 Aug 2017 12:00:00 +0000</pubDate>
-    </item>
-
-    <item>
-    <title><![CDATA["Kevin Maney: Trade-Off"]]></title>
-    <description><![CDATA[<h1>&quot;Kevin Maney: Trade-Off&quot;</h1>
-<p><em>A Kindle Sample Review</em></p>
-<p>After a lengthy foreword, the excerpt from the book was only a 2 page introduction and the prologue, or beginning thereof so most of this review does is not actually based on Maney's writing.</p>
-<p>Luckily the foreword by Jim Collins already refers to and summarizes some points from the book:</p>
-<ul>
-<li>Maney came to the conclusion, that the &quot;best people [...] have the courage to make rigorous choices&quot;</li>
-<li>Basic concept: &quot;rigorous choices between high-fidelity and high-convenience&quot;
-<ul>
-<li>fidelity: &quot;being something special and hard to get&quot;</li>
-<li>convenience: &quot;being easily accessible, even at the expense of quality&quot;</li>
-</ul>
-</li>
-</ul>
-<p>According to Collins the books &quot;does not in itself gives answers about what you should do, and not do. Rather [...] it forces you to engage in a powerful question, [...] from which you derive your own insight [...]&quot;.</p>
-<p>Quoting Maney: &quot;You have to make trade-offs to become distinctive, rather than merely employable.&quot;</p>
-<p>Then Collins describes Maney's job description as &quot;Kevin Maney&quot;, suggesting that he has successfully done just that.</p>
-<p>Maney starts the book with trade-off examples from the movie industry. How Netflix stuck to DVDs even though basic streaming was available (but the CEO believed in the quality advantage of DVDs over the convenience of streaming of the time)<sup id="fa_1"><a href="#fn_1">1</a></sup>, and how Hollywood jumped on the 3D bandwagon to keep people going to the theaters.</p>
-<p><b id="fn_1">1</b> <a href="#fa_1">↩</a> Attributed to Reed Hastings (CEO of Netflix): People are willing to trade the quality of an experience for the convenience of getting it, and vice versa.</p>
-]]></description>
-    <link>https://timm.preetz.name/articles/trade-off</link>
-    <guid isPermaLink="false">/articles/trade-off</guid>
-    <pubDate>Fri, 25 Aug 2017 12:00:00 +0000</pubDate>
     </item>
 
 
