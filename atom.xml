@@ -2,9 +2,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
  
  <title>Timm Preetz</title>
- <link href="http://timm.preetz.name/atom.xml" rel="self"/>
- <link href="http://timm.preetz.name/"/>
- <id>http://timm.preetz.name/</id>
+ <link href="https://timm.preetz.name/atom.xml" rel="self"/>
+ <link href="https://timm.preetz.name/"/>
+ <id>https://timm.preetz.name/</id>
  <author>
    <name>Timm Preetz</name>
  </author>
@@ -12,9 +12,9 @@
  {% for post in feedItems %}
  <entry>
    <title><![CDATA[{{ post.title }}]]></title>
-   <link href="http://timm.preetz.name{{ post.url }}"/>
+   <link href="https://timm.preetz.name{{ post.url }}"/>
    <updated>{{ post.isoDate }}</updated>
-   <id>http://timm.preetz.name{{ post.id }}</id>
+   <id>https://timm.preetz.name{{ post.id }}</id>
    <content type="html"><![CDATA[{{ post.excerpt }}]]></content>
  </entry>
  {% endfor %}
