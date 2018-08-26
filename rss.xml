@@ -3,14 +3,14 @@
 <channel>
  <title>{{ site.title }}</title>
  <description>{{ site.description }}</description>
- <link>http://timm.preetz.name/</link>
- <atom:link href="http://timm.preetz.name/rss.xml" rel="self" type="application/rss+xml" />
+ <link>https://timm.preetz.name/</link>
+ <atom:link href="https://timm.preetz.name/rss.xml" rel="self" type="application/rss+xml" />
 
 {% for post in feedItems %}
     <item>
     <title><![CDATA[{{ post.title }}]]></title>
     <description><![CDATA[{{ post.excerpt }}]]></description>
-    <link>http://timm.preetz.name{{ post.url }}</link>
+    <link>https://timm.preetz.name{{ post.url }}</link>
     <guid isPermaLink="false">{{ post.id }}</guid>
     <pubDate>{{ post.rssDate }}</pubDate>
     </item>
