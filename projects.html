@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
   <title>Timm Preetz | Timm Preetz</title>
-  <link href="http://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
+  <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
 
@@ -173,15 +173,10 @@
     padding-top: 40px;
     margin-top: -40px;
   }
-
-  img {
-    max-width: 100%;
-  }
   </style>
 </head>
 <body>
 <div class="bg"></div>
-<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
 
 <div id="navWrapper">
   <nav>
@@ -189,27 +184,14 @@
       <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
     </a>
     
-    <a href="/archive">Archive</a>      <a href="/about">About</a>
+    <a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a>
   </nav>
 </div>
 
 <div id="mainWrapper">
   <div class="contentWrapper">
 
-    <h1>Custom Cursors: Creating CUR Files from Canvas</h1>
-<p>A recent product design required switching various custom, dynamic cursors at runtime. These were prepared at runtime and drawn onto a <code>Canvas</code>:</p>
-<p><video src="./cursor-example.mov" autoplay="true" loop="true" muted="true" width="108"></video></p>
-<p>In Chrome and Firefox those canvases can be used as a cursor by setting the <code>cursor</code> property in CSS to <code>url(canvas.toDataURL())</code>. The data URL is guaranteed to contain a <code>base64</code> encoded <code>PNG</code> image of the canvas.</p>
-<p>Edge though currently only supports <a href="https://en.wikipedia.org/wiki/ICO_(file_format)"><code>CUR</code> files</a>. Those files wrap the cursor image, optionally at different sizes, with some metadata. Luckily for us, a newer version of the CUR file format allows embedding <code>PNG</code> file data directly.</p>
-<p>So I wrote a small library that reads a canvas into <code>PNG</code> blob and then inserts this data into a new <code>Blob</code> that builds up the <code>CUR</code> file. We can then create an <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL">&quot;<code>object URL</code>&quot;</a> of that <code>CUR</code> file which can be used in CSS similarly to the above method.</p>
-<p>Example:</p>
-<pre><code class="language-js">// call the `curObjectURLFromCanvas` function to retrieve an object URL pointing to a `CUR` file containing the canvas' image
-const cursorObjectURL = curObjectURLFromCanvas(canvas);
-
-// Use this URL in your inline style (or in a programatically created `StyleSheet`)
-body.style.cursor = `url(${cursorObjectURL}), pointer`;
-</code></pre>
-<p>The library is called <code>cursor-utilities</code> and is available on <a href="https://www.npmjs.com/package/cursor-utilities">npm</a>, and the source is on <a href="https://github.com/tp/cursor-utilities">GitHub</a>.</p>
+    <h1>Projects</h1>
 
   <div>
 
