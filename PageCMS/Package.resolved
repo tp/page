@@ -2,12 +2,30 @@
   "object": {
     "pins": [
       {
+        "package": "cmark",
+        "repositoryURL": "https://github.com/brokenhandsio/cmark-gfm.git",
+        "state": {
+          "branch": null,
+          "revision": "28d762c29119b5e1c3c0ba1e87198a6c0abcdd7a",
+          "version": "1.0.0"
+        }
+      },
+      {
         "package": "FileKit",
         "repositoryURL": "https://github.com/nvzqz/FileKit",
         "state": {
           "branch": null,
           "revision": "93505a1ad04b4a2de01abd751ace4f05c6db16a5",
           "version": "5.0.0"
+        }
+      },
+      {
+        "package": "SwiftMarkdown",
+        "repositoryURL": "https://github.com/vapor-community/markdown.git",
+        "state": {
+          "branch": null,
+          "revision": "aea4876786fa284f6d86af1ce3436a17e22035b5",
+          "version": "0.4.0"
         }
       },
       {
@@ -35,24 +53,6 @@
           "branch": null,
           "revision": "e2f33d4337c0761676efe26e98a78b1e30e93de6",
           "version": "0.8.0"
-        }
-      },
-      {
-        "package": "SwiftMarkdown",
-        "repositoryURL": "https://github.com/vapor-community/markdown.git",
-        "state": {
-          "branch": null,
-          "revision": "aea4876786fa284f6d86af1ce3436a17e22035b5",
-          "version": "0.4.0"
-        }
-      },
-      {
-        "package": "cmark",
-        "repositoryURL": "https://github.com/brokenhandsio/cmark-gfm.git",
-        "state": {
-          "branch": null,
-          "revision": "28d762c29119b5e1c3c0ba1e87198a6c0abcdd7a",
-          "version": "1.0.0"
         }
       }
     ]

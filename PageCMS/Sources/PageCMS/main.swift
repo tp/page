@@ -1,20 +1,25 @@
 import PageCMSLib
 import FileKit
+import Foundation
+
+let cwd = FileManager.default.currentDirectoryPath
+
+print("CWD: \(cwd)")
 
 let configuration = SiteConfiguration(
-    rootOutputDirectory: Path("/Users/timm/Projects/github/tp.github.com/dist/"),
+    rootOutputDirectory:  Path("\(cwd)/../dist/"),
     siteContext: [
         "title": "Timm Preetz",
         "description": "Personal page",
     ],
     articleMappings: [
-        ArticleMapping(sourceDirectoryPath: Path("/Users/timm/Projects/github/tp.github.com/articles/"), outputDirectoryPrefix: Path("./articles"))
+        ArticleMapping(sourceDirectoryPath: Path("\(cwd)/../articles/"), outputDirectoryPrefix: Path("./articles"))
     ],
     pageMappings: [
-        PageMapping(sourceDirectoryPath: Path("/Users/timm/Projects/github/tp.github.com/"), outputDirectoryPrefix: Path("./"))
+        PageMapping(sourceDirectoryPath: Path("\(cwd)/.."), outputDirectoryPrefix: Path("./"))
     ],
     staticFileMappings: [
-        StaticFileMapping(inputPath: Path("/Users/timm/Projects/github/tp.github.com/CNAME"), outPath: Path("./CNAME"))
+        StaticFileMapping(inputPath: Path("\(cwd)/../CNAME"), outPath: Path("./CNAME"))
     ]
 );
 

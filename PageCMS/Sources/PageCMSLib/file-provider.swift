@@ -10,6 +10,8 @@ import SwiftMarkdown
 import Stencil
 import FileKit
 
+let cwd = FileManager.default.currentDirectoryPath
+
 // TODO: Create redirects from Symlinks ?
 
 public struct ArticleMapping {
@@ -104,7 +106,8 @@ public func generateSite(_ configuration: SiteConfiguration) throws {
         return try readPageSources(directory: mapping.sourceDirectoryPath, outputPrefixFolder: mapping.outputDirectoryPrefix)
     })
     
-    let template = try String(contentsOf: Path("/Users/timm/Projects/github/tp.github.com/_layouts/default.html").url, encoding: .utf8) // TODO: make configurable / dynamic based on page/post
+    
+    let template = try String(contentsOf: Path("\(cwd)/../_layouts/default.html").url, encoding: .utf8) // TODO: make configurable / dynamic based on page/post
     
     let posts: [Article] = try articles.map {
         x -> Article in
