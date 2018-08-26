@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-  <title>{% if site.title %}{{ site.title }} | {% endif %}Timm Preetz</title>
-  <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
+  <title>Timm Preetz | Timm Preetz</title>
+  <link href="http://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
 
@@ -21,22 +21,7 @@
   </script>
   <style>
 
-  {% if page.imagebg %}
-  .bg {
-    background: #FDFDFD url("/assets/TIMM_IMG_0944_PROG.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-attachment: fixed;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-  }
-  {% else %}
+  
   body {
     background-color: #ededed;
   }
@@ -49,7 +34,7 @@
     position: fixed !important; */
   }
 
-  {% endif %}
+  
 
   body {
     font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
@@ -58,11 +43,7 @@
     margin: 0;
   }
 
-  {% if !page.imagebg %}
-  body > div > div.contentWrapper {
-    padding-top: 65vh;
-  }
-  {% endif %}
+  
 
   blockquote {
     margin-left: 0.25em;
@@ -200,22 +181,45 @@
 </head>
 <body>
 <div class="bg"></div>
+<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
 
 <div id="navWrapper">
   <nav>
     <a href="/" style="margin-right: 20px;">
       <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
     </a>
-    {% if page.imagebg != true %}
-    {% endif %}
-    <a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a>
+    
+    <a href="/archive">Archive</a>      <a href="/about">About</a>
   </nav>
 </div>
 
 <div id="mainWrapper">
   <div class="contentWrapper">
 
-    {{ content }}
+    <h1>WebGL: Smooth Edges on Transparent Canvases</h1>
+<h2>Task</h2>
+<p>For a client project I needed to draw text on a transparent <code>WebGL</code> canvas, which was overlaying a video playing in the background of the page.</p>
+<p>After having a hard time with some of the more elaborate <code>Three.js</code> based examples, I was able to quickly gain an initial understanding of the underlying plumbing when studying <a href="http://tehmou.github.io/WebGL-from-Scratch/explain.html#mouse_ripple">this WebGL-from-Scratch example</a>.</p>
+<p>The effect came together quickly and looked great, but unfortunately it didn't render the same across all browsers. In Safari the partially transparent edges of the text where leading to while artifacts, as to can see here around the highlighted arc of the letter <code>e</code>:</p>
+<p><img src="./Safari_before.png" alt="" /></p>
+<p>At first I thought the <code>alpha</code> property of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/getContext"><code>contextAttributes</code></a> hadn't been honored, but when switching to a partially transparent font I would be able to see through the letters just fine.</p>
+<h2>Solution</h2>
+<p>Since I was already investigating the context properties, I tried my hand at the next one that could be related related to the transparency issue: <code>premultipliedAlpha</code>.</p>
+<p>Simply changing this from <code>false</code> to  <code>true</code> didn't improve anything for me in Safari. That was not entirely unexpected, since I assumed that I would have to actually &quot;pre-multiply&quot; the alpha for the setting to work correctly.</p>
+<p>I didn't know how to actually do this, and whether or not this could even be done with information from the canvas alone (or whether it would require knowing what is underneath it), so I just implemented this first attempt in the shader:</p>
+<pre><code class="language-glsl">vec4 pixel = texture2D(tex0, uv).xyzw;
+
+gl_FragColor = vec4(pixel.x * pixel.w, pixel.y * pixel.w, pixel.z * pixel.w, pixel.w);
+</code></pre>
+<p>Luckily that did indeed solve the white marks on the edges, which are now very smooth:</p>
+<p><img src="./Safari_after.png" alt="" /></p>
+<h2>Next Steps</h2>
+<p>While the edges are now smooth across the 3 browser listed below, you can see that the rendering color differs across them:</p>
+<p><img src="./comparison.png" alt="" /></p>
+<p>Next, I'll have to look into how not only to achieve smooth but also color correct renderings.</p>
+<h2>Further Reading</h2>
+<p>A sample project containing the code used for this post is available on GitHub at <a href="https://github.com/tp/webgl-premultipliedAlpha"><code>tp/webgl-premultipliedAlpha</code></a>. You can view the demo in browser <a href="https://cdn.rawgit.com/tp/webgl-premultipliedAlpha/ee3190f9/index.html">using this link</a>.</p>
+
   <div>
 
 

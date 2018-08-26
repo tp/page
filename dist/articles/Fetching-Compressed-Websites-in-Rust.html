@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+  <title>Timm Preetz | Timm Preetz</title>
+  <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
+
+  <link rel="stylesheet" type="text/css" href="/assets/syntax2.css"/>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33068051-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  <style>
+
+  
+  body {
+    background-color: #ededed;
+  }
+  .contentWrapper {
+    padding: 0 20px;
+  }
+  nav {
+    /* 
+    background-color: #313131 !important;
+    position: fixed !important; */
+  }
+
+  
+
+  body {
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-weight: 400; /* TODO: use 200 for Helvetica Neue */
+    font-size: 18px;
+    margin: 0;
+  }
+
+  
+
+  blockquote {
+    margin-left: 0.25em;
+    padding: 0px 1em 0px 1em;
+    border-left: 1px solid #c0c0c0;
+  }
+
+  #mainWrapper {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 40px;
+    overflow-x: hidden;
+
+    /*
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+    */
+  }
+
+  @media only all and (min-width: 415px) {
+    #mainWrapper {
+      padding: 0 15px;
+    }
+  }
+
+  nav {
+    padding: 0 20px;
+    height: 40px;
+    max-width: 900px;
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  nav a {
+    color: #313131;
+    font-family: Futura;
+    text-decoration: none;
+    line-height: 40px;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  div.sbs {
+    display: flex;
+  }
+
+  div.sbs > div {
+    flex-grow: 1;  flex-basis: 0;
+  }
+
+  @media (max-width: 640px) {
+    div.sbs {
+      flex-direction: column;
+    }
+  }
+
+  .recentPosts h1 {
+    line-height: 1em;
+    padding: 0px;
+    margin: 0em 0;
+  }
+
+  .recentPosts a.postTitle {
+    color: #313131;
+    font-weight: 400;
+    text-decoration: none;
+  }
+
+  .recentPosts a.postTitle:hover {
+    text-decoration: underline;
+  }
+
+  .recentPosts hr {
+    margin: 50px 0;
+  }
+
+  .recentPosts span {
+    color: #313131;
+    /* font-family: Courier, monospace; */
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  a, a:visited, a:hover, a:active {
+    color: #313131;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  hr {
+    background-color: #bfbfbf;
+    border: 0;
+    height: 1px;
+  }
+
+  .homepageOverview {
+    border-radius: 5px 5px 0 0; 
+    padding: 20px;
+  }
+
+  #navWrapper {
+    position: fixed;
+    top: 0;
+    height: 40px;
+    left: 0;
+    right: 0;
+    display: flex;
+    background-color: rgba(255,255,255,0.65);
+    -webkit-backdrop-filter: blur(7px);
+    z-index: 1;
+    justify-content: center;
+  }
+
+  sup[id^=fnref] {
+    padding-top: 40px;
+    margin-top: -40px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+
+<div id="navWrapper">
+  <nav>
+    <a href="/" style="margin-right: 20px;">
+      <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
+    </a>
+    
+    <a href="/archive">Archive</a>      <a href="/about">About</a>
+  </nav>
+</div>
+
+<div id="mainWrapper">
+  <div class="contentWrapper">
+
+    <h1>Fetching Potentially Compressed Webpages That Might Not be UTF-8 Encoded in Rust</h1>
+<blockquote>
+<p><strong>TL;DR</strong> This write-up explains how I build my first Rust crate to fetch compressed, non-UTF-8 encoded webpages.
+If you want to get straight to the code grab the <a href="https://crates.io/crates/fetch">final <code>fetch</code> crate on crates.io</a> or <a href="https://github.com/tp/fetch-rs">view the source on Github</a>.</p>
+</blockquote>
+<p>For a side-project I needed to download some arbitrary webpages (HTML or plain text only). In absence of a targeted shipping date, I decided to use this opportunity to write this piece of software in <a href="https://www.rust-lang.org/">Rust</a> which I have interestedly observed for a long time but never actually used.</p>
+<h2>Preparation</h2>
+<p>Since there is no http client in the <a href="https://doc.rust-lang.org/std/">Rust standard library</a> I picked the currently most popular http library on <a href="https://crates.io/search?q=http&amp;sort=downloads">crates.io</a>: <a href="https://github.com/hyperium/hyper">hyper</a>.</p>
+<p>The <a href="http://hyper.rs/hyper/v0.9.10/hyper/client/index.html#get">basic client example</a> looked fine initially but quickly turned out to be insufficient when testing with a variety of sites.
+Many sites send compressed or non-UTF-8 encoded data, and while the former could often be solved by setting the <code>Accept-Encoding</code> header to <code>identity</code>, the latter required some more changes to the program since strings are always <a href="https://doc.rust-lang.org/std/string/struct.String.html#utf-8">UTF-8 encoded in Rust</a> and thus needed to be converted.</p>
+<p>So I expanded my list of dependencies to the following set of crates:</p>
+<ul>
+<li><a href="https://github.com/hyperium/hyper">hyper</a>: <a href="http://hyper.rs/hyper/v0.9.10/hyper/client/index.html">http client</a> to retrieve the data from the server</li>
+<li><a href="https://github.com/alexcrichton/flate2-rs">flate2</a>: compression library that is used to decode <a href="https://en.wikipedia.org/wiki/Gzip">gzip</a> and <a href="https://en.wikipedia.org/wiki/DEFLATE">DEFLATE</a> compressed responses</li>
+<li><a href="https://github.com/lifthrasiir/rust-encoding">encoding</a>: character set conversion from various encodings to Rust strings</li>
+</ul>
+<h2>Implementation</h2>
+<p>First let's look at how easily the current implementation make it to fetch a pages body as <code>String</code>:</p>
+<pre><code class="language-rust">let body = fetch::fetch_page(&quot;https://www.rust-lang.org/en-US/&quot;);
+</code></pre>
+<blockquote>
+<p>The final project used for the prototype and this blog post is available on Github at <a href="https://github.com/tp/fetch-rs">tp/fetch-rs</a>. It has also been publish as the <a href="http://crates.io/crates/fetch"><code>fetch</code> crate on crates.io</a>.</p>
+</blockquote>
+<p>Like alluded to above, I started out with a simple <code>hyper</code> client that worked fine for the first few manual fetches. I could just read the response into a string using:</p>
+<pre><code class="language-rust">let mut body_buffer = String::new();
+
+response.read_to_string(&amp;mut body_buffer);
+</code></pre>
+<p>But this would fail when the page was not encoded in UTF-8 or would just return garbled output for compressed content.</p>
+<p>So I went looking for an encoding and a decompression library, which let me to <code>encoding</code> and <code>flate2</code>.</p>
+<p>Now things became a little more involved since I had to explore the 2 new crates, which had to be done differently from how I would normally approach this, since full autocompletion for crates <a href="https://github.com/phildawes/racer/issues/551">is not yet available</a>. But thanks to the pervasive use of <a href="https://doc.rust-lang.org/book/documentation.html#about-rustdoc"><code>rustdoc</code></a> there is a good amount of documentation on every crate that I encountered.</p>
+<p>So after a while of reading the API documentations, I was able to unzip the response body</p>
+<pre><code class="language-rust">let mut unzipped_body_buffer = Vec::new();
+GzDecoder::new(body_buffer.as_slice());
+d.read_to_end(&amp;mut unzipped_body_buffer);
+</code></pre>
+<p>and also convert the given charset to UTF-8:</p>
+<pre><code class="language-rust">let decoder = encoding_from_whatwg_label(charset).unwrap();
+return decoder.decode(&amp;unzipped_body_buffer, DecoderTrap::Strict)
+</code></pre>
+<p><em>[Please note that the examples above are abbreviated excerpts from the actual source code and do not contain proper error handling. Please look at the <a href="https://github.com/tp/fetch-rs/blob/master/src/lib.rs">source</a> to see how errors are currently handled.]</em></p>
+<p>Once my spot checks succeeded, I wanted to try the Rust testing facilities to ship some tests with the library. As it turns out, testing your code is super easy: Just annotate test functions in your library with <code>#[test]</code> and run <code>cargo test</code>.</p>
+<p>Currently I just check whether the fetch returns a <a href="https://doc.rust-lang.org/std/result/enum.Result.html">success value</a>, but as a next step I want to setup a test server and compare the whole response body to a reference file.</p>
+<pre><code class="language-rust">#[test]
+fn fetch_deflate_compressed_page() {
+    fetch_page(&quot;http://httpbin.org/deflate&quot;).expect(&quot;Fetch to succeed&quot;);
+}
+</code></pre>
+<p>After all tests passed<sup id="fa_1"><a href="#fn_1">1</a></sup> I was satisfied with the initial scope of library and went on to publish it to crates.io.</p>
+<p>This turned out to be a little bit trickier than it probably should have been, due to me initially naming the crate “http-fetch”.</p>
+<p>When integration testing the crate with another project I soon found out that while your crate name on crates.io can contain a hyphen, you have to import it with a <a href="http://stackoverflow.com/questions/31846789/crate-name-with-hyphens-not-being-recognized">different</a> <a href="https://m.reddit.com/r/rust/comments/4rlom7/what_characters_are_allowed_in_a_crate_name/d52bdyp">name</a> when using it in Rust code. Not wanting to explain this (confusing) behavior in the README I decided to rename the crate (which I had already published). Since it was not possible to rename from “http-fetch” to “http_fetch” for some reason (cargo would not allow this), I created a new crate named “<a href="crates.io/crates/fetch">fetch</a>”.</p>
+<h2>Retrospection</h2>
+<p>Though this project is small and in a functional state right now, there are already a number of points that I need to dig into deeper before writing more complex programs in Rust:</p>
+<p><strong>Error handling</strong>: In order to return errors from <code>fetch</code> using the <a href="https://doc.rust-lang.org/std/result/enum.Result.html">Result</a> type which requires a common interface for all possible errors I am currently transforming all errors and replace them with a string containing a short description of where the error occurred. Sadly this looses the original error, which the call side might want to evaluate to help with debugging etc.</p>
+<p><strong><a href="https://doc.rust-lang.org/book/references-and-borrowing.html#borrowing">Borrowing</a> and Ownership</strong>: When reading into the buffer a second time I would get <a href="https://doc.rust-lang.org/error-index.html#E0506">error E0506</a> reported by the compiler. While I don't yet fully understand the reason for this, the suggested solution of just scoping offending code in its on <code>{ }</code> block works.</p>
+<p>A lack of understanding <a href="https://doc.rust-lang.org/book/lifetimes.html">lifetimes</a> has also so far prevented me from breaking the code up into smaller functions, which would require some special annotations (I assume).</p>
+<p>All in all I was highly rewarded for this experiment by being exposed to new concepts and different approaches to API design and programming altogether. Furthermore I was positively surprised how quick I could pursue and find my way around the crates given the lack of full code completion. Thanks to great documentation being available for all crates used, this was not as big of a slowdown as I would have expected initially.</p>
+<p>Now I am looking forward to writing more code in Rust and get a better understanding of and write future-proof solutions for the issues mentioned above.</p>
+<p><b id="fn_1">1</b> <a href="#fa_1">↩</a> Which was did not succeed immediately, since I had an error with DEFLATE compressed responses. Turns out you have to run them through the <a href="http://alexcrichton.com/flate2-rs/flate2/read/struct.ZlibDecoder.html"><code>ZlibDecoder</code></a> instead of the <a href="http://alexcrichton.com/flate2-rs/flate2/read/struct.DeflateDecoder.html"><code>DeflateDecoder</code></a> which I assumed at first (given the name). So, lesson learned, always test your code 🤗</p>
+
+  <div>
+
+
+</div>
+</body>
+</html>

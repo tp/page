@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-  <title>{% if site.title %}{{ site.title }} | {% endif %}Timm Preetz</title>
+  <title>Timm Preetz | Timm Preetz</title>
   <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
@@ -21,22 +21,7 @@
   </script>
   <style>
 
-  {% if page.imagebg %}
-  .bg {
-    background: #FDFDFD url("/assets/TIMM_IMG_0944_PROG.jpg") no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    background-attachment: fixed;
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-  }
-  {% else %}
+  
   body {
     background-color: #ededed;
   }
@@ -49,7 +34,7 @@
     position: fixed !important; */
   }
 
-  {% endif %}
+  
 
   body {
     font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
@@ -58,11 +43,7 @@
     margin: 0;
   }
 
-  {% if !page.imagebg %}
-  body > div > div.contentWrapper {
-    padding-top: 65vh;
-  }
-  {% endif %}
+  
 
   blockquote {
     margin-left: 0.25em;
@@ -200,22 +181,97 @@
 </head>
 <body>
 <div class="bg"></div>
+<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
 
 <div id="navWrapper">
   <nav>
     <a href="/" style="margin-right: 20px;">
       <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
     </a>
-    {% if page.imagebg != true %}
-    {% endif %}
-    <a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a>
+    
+    <a href="/archive">Archive</a>      <a href="/about">About</a>
   </nav>
 </div>
 
 <div id="mainWrapper">
   <div class="contentWrapper">
 
-    {{ content }}
+    <h1>Image (File) Input Component for Ember.js</h1>
+<p>In order to enable a great user experience I wanted to show the user's newly selected profile picture in one of our clients web apps right after she choose the desired file in her browser's file picker dialog.</p>
+<p>Unfortunately this is not yet as easy as a simple {% raw %}<code>&lt;input type=&quot;file&quot; file={{file}}&gt;</code>{% endraw %}.</p>
+<p>Having found <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">this pure JavaScript implementation</a> of similar behaviour on HTML5 Rocks, I set out to port it to Ember.</p>
+<p>Since I was not able to find any recent Ember-compatible code solving this problem, I created my own version using the latest Ember conventions: a <a href="http://emberjs.com/api/classes/Ember.Component.html">component</a>.</p>
+<p>app/components/file-input.js:
+{% highlight javascript linenos %}
+import Ember from 'ember';</p>
+<p>export default Ember.TextField.extend({
+type: 'file',
+change: function(e) {
+let self = this;</p>
+<pre><code>var inputFiles = e.target.files;
+if (inputFiles.length &lt; 1) {
+  return;
+}
+
+let inputFile = inputFiles[0];
+
+let fileInfo = {
+  name: inputFile.name,
+  type: inputFile.type || 'n/a',
+  size: inputFile.size,
+  date: inputFile.lastModifiedDate ?
+        inputFile.lastModifiedDate.toLocaleDateString() : 'n/a',
+};
+
+var fileReader = new FileReader();
+
+fileReader.onload = function(e) {
+  let fileReader = e.target;
+  fileInfo.dataURL = fileReader.result;
+
+  self.sendAction('fileChanged', fileInfo);
+};
+
+let firstFile = e.target.files[0];
+fileReader.readAsDataURL(firstFile);
+</code></pre>
+<p>},
+});
+{% endhighlight %}</p>
+<p>app/components/image-input.js:
+{% highlight js linenos %}
+import Ember from 'ember';</p>
+<p>export default Ember.Component.extend({
+file: null,
+actions: {
+fileSelectionChanged: function(file) {
+this.set('file', file)
+},
+},
+});
+{% endhighlight %}</p>
+<p>app/templates/components/image-input.hbs:
+{% highlight html linenos %}
+{% raw %}
+<strong>Image Input</strong><br></p>
+<p>{{#if file}}
+<img src="{{file.dataURL}}" width="300"></p>
+<ul>
+  <li>Name: {{file.name}}</li>
+  <li>Type: {{file.type}}</li>
+  <li>Size: {{file.size}} bytes</li>
+  <li>Last modified: {{file.date}}</li>
+</ul>
+{{/if}}
+<br>
+<p>{{ file-input fileChanged=&quot;fileSelectionChanged&quot;}}
+{% endraw %}
+{% endhighlight %}</p>
+<p>Now usage is as easy as {% raw %}<code>{{image-input}}</code>{% endraw %}!</p>
+<p>The result looks like this:</p>
+<!-- ![image-input Ember component](/assets/posts/ember.js_image-input_component.png) -->
+<img src="/assets/posts/ember.js_image-input_component.png" width="314">
+
   <div>
 
 

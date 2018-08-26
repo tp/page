@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+  <title>Timm Preetz | Timm Preetz</title>
+  <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
+
+  <link rel="stylesheet" type="text/css" href="/assets/syntax2.css"/>
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33068051-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+  <style>
+
+  
+  body {
+    background-color: #ededed;
+  }
+  .contentWrapper {
+    padding: 0 20px;
+  }
+  nav {
+    /* 
+    background-color: #313131 !important;
+    position: fixed !important; */
+  }
+
+  
+
+  body {
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-weight: 400; /* TODO: use 200 for Helvetica Neue */
+    font-size: 18px;
+    margin: 0;
+  }
+
+  
+
+  blockquote {
+    margin-left: 0.25em;
+    padding: 0px 1em 0px 1em;
+    border-left: 1px solid #c0c0c0;
+  }
+
+  #mainWrapper {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 40px;
+    overflow-x: hidden;
+
+    /*
+    position: fixed;
+    top: 40px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: scroll;
+    */
+  }
+
+  @media only all and (min-width: 415px) {
+    #mainWrapper {
+      padding: 0 15px;
+    }
+  }
+
+  nav {
+    padding: 0 20px;
+    height: 40px;
+    max-width: 900px;
+    display: flex;
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+
+  nav a {
+    color: #313131;
+    font-family: Futura;
+    text-decoration: none;
+    line-height: 40px;
+  }
+
+  nav a:hover {
+    text-decoration: underline;
+  }
+
+  div.sbs {
+    display: flex;
+  }
+
+  div.sbs > div {
+    flex-grow: 1;  flex-basis: 0;
+  }
+
+  @media (max-width: 640px) {
+    div.sbs {
+      flex-direction: column;
+    }
+  }
+
+  .recentPosts h1 {
+    line-height: 1em;
+    padding: 0px;
+    margin: 0em 0;
+  }
+
+  .recentPosts a.postTitle {
+    color: #313131;
+    font-weight: 400;
+    text-decoration: none;
+  }
+
+  .recentPosts a.postTitle:hover {
+    text-decoration: underline;
+  }
+
+  .recentPosts hr {
+    margin: 50px 0;
+  }
+
+  .recentPosts span {
+    color: #313131;
+    /* font-family: Courier, monospace; */
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  a, a:visited, a:hover, a:active {
+    color: #313131;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  hr {
+    background-color: #bfbfbf;
+    border: 0;
+    height: 1px;
+  }
+
+  .homepageOverview {
+    border-radius: 5px 5px 0 0; 
+    padding: 20px;
+  }
+
+  #navWrapper {
+    position: fixed;
+    top: 0;
+    height: 40px;
+    left: 0;
+    right: 0;
+    display: flex;
+    background-color: rgba(255,255,255,0.65);
+    -webkit-backdrop-filter: blur(7px);
+    z-index: 1;
+    justify-content: center;
+  }
+
+  sup[id^=fnref] {
+    padding-top: 40px;
+    margin-top: -40px;
+  }
+
+  img {
+    max-width: 100%;
+  }
+  </style>
+</head>
+<body>
+<div class="bg"></div>
+<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
+
+<div id="navWrapper">
+  <nav>
+    <a href="/" style="margin-right: 20px;">
+      <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
+    </a>
+    
+    <a href="/archive">Archive</a>      <a href="/about">About</a>
+  </nav>
+</div>
+
+<div id="mainWrapper">
+  <div class="contentWrapper">
+
+    <h1>Simple App Engine Datastore Entity Versioning With Go</h1>
+<p>In a recent project we needed the ability to save every version of a <code>User</code>'s profile (type <code>UserProfile</code>) in our database, so that we are able track changes over time and restore or review previous versions.</p>
+<p>Since there does not seem to be a standard way to do entity versioning with App Engine Datastore entities, I wrote up a quick sample below of how I solved this.</p>
+<p>I think there are two basically two way to achieve this whithout data normalization (i.e. storing the latest version in a special place):</p>
+<ul>
+<li>Store an ever increasing version number with the entities. Pick the one with the highest version number when querying. Optionally this can be used to only allow successive saves (from version 3 to 4 to 5 etc.).</li>
+<li>Store the creation/save date with each entity. Pick the entity with the most recent creation date when querying.</li>
+</ul>
+<p>(I won't delve into <a href="http://en.wikipedia.org/wiki/Delta_encoding">delta compression</a> here, which may be worth considering if your entities are sufficiently large or change a lot.)</p>
+<p>I opted for a solution based on the entity creation time instead of a entity versioning solution that requires successive entities versions since those can be created without reading the previous entities' version number from the <code>datastore</code>.</p>
+<p>This also has the benefit that we’re able to restore the state of the whole database for any point in time since all changing entities are tagged with their creation date.</p>
+<p>And because writes to a single entity group (in our case the <code>User</code>) are strongly consistend and <a href="https://cloud.google.com/appengine/docs/go/datastore/#Go_Datastore_writes_and_data_visibility">guaranteed to be executed before the next read</a> of entities in that group, we are always seeing the most recently created <code>UserProfile</code> in our queries.</p>
+<h2>Implemenation &amp; Tests</h2>
+<p>main.go</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;fmt&quot;
+	&quot;time&quot;
+
+	&quot;appengine&quot;
+	&quot;appengine/datastore&quot;
+)
+
+const (
+	KindUser        = &quot;user&quot;
+	KindUserProfile = &quot;userprofile&quot;
+)
+
+func main() {}
+
+type CreatedAtStruct struct {
+	CreatedAt time.Time
+}
+
+func (c *CreatedAtStruct) SetCreatedAt(t time.Time) {
+	c.CreatedAt = t
+}
+
+type CreationDateSetter interface {
+	SetCreatedAt(t time.Time)
+}
+
+type User struct{}
+
+type UserProfile struct {
+	CreatedAtStruct
+
+	Counter int
+}
+
+func putVersioned(c appengine.Context, kind string, parent *datastore.Key, v CreationDateSetter) (*datastore.Key, error) {
+	if parent == nil {
+		return nil, fmt.Errorf(&quot;parent must be set&quot;)
+	}
+
+	v.SetCreatedAt(time.Now())
+
+	return datastore.Put(c, datastore.NewIncompleteKey(c, kind, parent), v)
+}
+
+func getLatest(c appengine.Context, kind string, parent *datastore.Key, v interface{}) error {
+	q := datastore.NewQuery(kind).Ancestor(parent).Order(&quot;-CreatedAt&quot;).Limit(1)
+
+	_, err := q.Run(c).Next(v)
+
+	return err
+}
+</code></pre>
+<p>main_test.go</p>
+<pre><code class="language-go">package main
+
+import (
+	&quot;testing&quot;
+
+	&quot;appengine/aetest&quot;
+	&quot;appengine/datastore&quot;
+)
+
+func TestVersionedStorageAfterEachPut(t *testing.T) {
+	c, err := aetest.NewContext(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, nil), &amp;User{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i := 0; i &lt; 10; i++ {
+		p := &amp;UserProfile{Counter: i}
+		_, err := putVersioned(c, KindUserProfile, userkey, p)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		outputProfile := new(UserProfile)
+		err = getLatest(c, KindUserProfile, userkey, outputProfile)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if outputProfile.Counter != i {
+			t.Fatalf(&quot;Expected Counter to be %d but it was %d&quot;, i, outputProfile.Counter)
+		}
+	}
+}
+
+func TestVersionedStorageAfterAllPuts(t *testing.T) {
+	c, err := aetest.NewContext(nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, nil), &amp;User{})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	upper := 10
+	for i := 1; i &lt;= upper; i++ {
+		p := &amp;UserProfile{Counter: i}
+		_, err := putVersioned(c, KindUserProfile, userkey, p)
+		if err != nil {
+			t.Fatal(err)
+		}
+	}
+
+	outputProfile := new(UserProfile)
+	err = getLatest(c, KindUserProfile, userkey, outputProfile)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if outputProfile.Counter != upper {
+		t.Fatalf(&quot;Expected Counter to be %d but it was %d&quot;, upper, outputProfile.Counter)
+	}
+}
+</code></pre>
+<p><a href="https://gist.github.com/tp/c1e25ae24d405a58f081">See Gist on GitHub</a></p>
+
+  <div>
+
+
+</div>
+</body>
+</html>
