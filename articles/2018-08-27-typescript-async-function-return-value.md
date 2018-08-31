@@ -22,7 +22,7 @@ const context =  createContext(apiConfig);
 ```
 [Playground](https://www.typescriptlang.org/play/#src=%0D%0A%0D%0Afunction%20createContext%3CT%20extends%20()%20%3D%3E%20any%3E(configProvider%3A%20T)%3A%20%7B%20config%3A%20ReturnType%3CT%3E%20%7D%20%7B%0D%0A%20%20%20%20return%20%7B%0D%0A%20%20%20%20%20%20%20%20config%3A%20configProvider()%2C%0D%0A%20%20%20%20%7D%0D%0A%7D%0D%0A%0D%0Afunction%20apiConfig()%20%7B%0D%0A%20%20%20%20return%20%7B%0D%0A%20%20%20%20%20%20%20%20endpoint%3A%20'https%3A%2F%2Fwww.example.com'%0D%0A%20%20%20%20%7D%0D%0A%7D%0D%0A%0D%0A%2F**%0D%0A%20*%20context%20has%20type%20%60%7B%20config%3A%20%7B%20endpoint%3A%20string%3B%20%7D%3B%20%7D%60%0D%0A%20*%2F%0D%0Aconst%20context%20%3D%20%20createContext(apiConfig))
 
-Since `async` functions are becoming more prevalent in the code I work with, I have been wondering whether a similar helper can be employed to get the type of a successfully resolved `Promise`.
+Now that `async` functions are becoming more prevalent in the code I work with, I have been wondering whether a similar helper can be employed to get the type of a successfully resolved `Promise`.
 
 As a first building block I wrote a type to extract the `Promise`'s resolved type:
 
