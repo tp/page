@@ -154,7 +154,7 @@
     
       img {
         max-width: 100%;
-      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Simple App Engine Datastore Entity Versioning With Go</h1>
+      }</style><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Simple App Engine Datastore Entity Versioning With Go</h1>
 <p>In a recent project we needed the ability to save every version of a <code>User</code>'s profile (type <code>UserProfile</code>) in our database, so that we are able track changes over time and restore or review previous versions.</p>
 <p>Since there does not seem to be a standard way to do entity versioning with App Engine Datastore entities, I wrote up a quick sample below of how I solved this.</p>
 <p>I think there are two basically two way to achieve this whithout data normalization (i.e. storing the latest version in a special place):</p>
@@ -168,129 +168,129 @@
 <p>And because writes to a single entity group (in our case the <code>User</code>) are strongly consistend and <a href="https://cloud.google.com/appengine/docs/go/datastore/#Go_Datastore_writes_and_data_visibility">guaranteed to be executed before the next read</a> of entities in that group, we are always seeing the most recently created <code>UserProfile</code> in our queries.</p>
 <h2>Implemenation &amp; Tests</h2>
 <p>main.go</p>
-<pre><code class="language-go">package main
+<pre><code class="language-go"><span class="hljs-keyword">package</span> main
 
-import (
-	&quot;fmt&quot;
-	&quot;time&quot;
+<span class="hljs-keyword">import</span> (
+	<span class="hljs-string">"fmt"</span>
+	<span class="hljs-string">"time"</span>
 
-	&quot;appengine&quot;
-	&quot;appengine/datastore&quot;
+	<span class="hljs-string">"appengine"</span>
+	<span class="hljs-string">"appengine/datastore"</span>
 )
 
-const (
-	KindUser        = &quot;user&quot;
-	KindUserProfile = &quot;userprofile&quot;
+<span class="hljs-keyword">const</span> (
+	KindUser        = <span class="hljs-string">"user"</span>
+	KindUserProfile = <span class="hljs-string">"userprofile"</span>
 )
 
-func main() {}
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {}
 
-type CreatedAtStruct struct {
+<span class="hljs-keyword">type</span> CreatedAtStruct <span class="hljs-keyword">struct</span> {
 	CreatedAt time.Time
 }
 
-func (c *CreatedAtStruct) SetCreatedAt(t time.Time) {
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(c *CreatedAtStruct)</span> <span class="hljs-title">SetCreatedAt</span><span class="hljs-params">(t time.Time)</span></span> {
 	c.CreatedAt = t
 }
 
-type CreationDateSetter interface {
+<span class="hljs-keyword">type</span> CreationDateSetter <span class="hljs-keyword">interface</span> {
 	SetCreatedAt(t time.Time)
 }
 
-type User struct{}
+<span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span>{}
 
-type UserProfile struct {
+<span class="hljs-keyword">type</span> UserProfile <span class="hljs-keyword">struct</span> {
 	CreatedAtStruct
 
-	Counter int
+	Counter <span class="hljs-keyword">int</span>
 }
 
-func putVersioned(c appengine.Context, kind string, parent *datastore.Key, v CreationDateSetter) (*datastore.Key, error) {
-	if parent == nil {
-		return nil, fmt.Errorf(&quot;parent must be set&quot;)
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">putVersioned</span><span class="hljs-params">(c appengine.Context, kind <span class="hljs-keyword">string</span>, parent *datastore.Key, v CreationDateSetter)</span> <span class="hljs-params">(*datastore.Key, error)</span></span> {
+	<span class="hljs-keyword">if</span> parent == <span class="hljs-literal">nil</span> {
+		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"parent must be set"</span>)
 	}
 
 	v.SetCreatedAt(time.Now())
 
-	return datastore.Put(c, datastore.NewIncompleteKey(c, kind, parent), v)
+	<span class="hljs-keyword">return</span> datastore.Put(c, datastore.NewIncompleteKey(c, kind, parent), v)
 }
 
-func getLatest(c appengine.Context, kind string, parent *datastore.Key, v interface{}) error {
-	q := datastore.NewQuery(kind).Ancestor(parent).Order(&quot;-CreatedAt&quot;).Limit(1)
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getLatest</span><span class="hljs-params">(c appengine.Context, kind <span class="hljs-keyword">string</span>, parent *datastore.Key, v <span class="hljs-keyword">interface</span>{})</span> <span class="hljs-title">error</span></span> {
+	q := datastore.NewQuery(kind).Ancestor(parent).Order(<span class="hljs-string">"-CreatedAt"</span>).Limit(<span class="hljs-number">1</span>)
 
 	_, err := q.Run(c).Next(v)
 
-	return err
+	<span class="hljs-keyword">return</span> err
 }
 </code></pre>
 <p>main_test.go</p>
-<pre><code class="language-go">package main
+<pre><code class="language-go"><span class="hljs-keyword">package</span> main
 
-import (
-	&quot;testing&quot;
+<span class="hljs-keyword">import</span> (
+	<span class="hljs-string">"testing"</span>
 
-	&quot;appengine/aetest&quot;
-	&quot;appengine/datastore&quot;
+	<span class="hljs-string">"appengine/aetest"</span>
+	<span class="hljs-string">"appengine/datastore"</span>
 )
 
-func TestVersionedStorageAfterEachPut(t *testing.T) {
-	c, err := aetest.NewContext(nil)
-	if err != nil {
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestVersionedStorageAfterEachPut</span><span class="hljs-params">(t *testing.T)</span></span> {
+	c, err := aetest.NewContext(<span class="hljs-literal">nil</span>)
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 		t.Fatal(err)
 	}
 
-	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, nil), &amp;User{})
-	if err != nil {
+	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, <span class="hljs-literal">nil</span>), &amp;User{})
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 		t.Fatal(err)
 	}
 
-	for i := 0; i &lt; 10; i++ {
+	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ {
 		p := &amp;UserProfile{Counter: i}
 		_, err := putVersioned(c, KindUserProfile, userkey, p)
-		if err != nil {
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 			t.Fatal(err)
 		}
 
-		outputProfile := new(UserProfile)
+		outputProfile := <span class="hljs-built_in">new</span>(UserProfile)
 		err = getLatest(c, KindUserProfile, userkey, outputProfile)
-		if err != nil {
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 			t.Fatal(err)
 		}
 
-		if outputProfile.Counter != i {
-			t.Fatalf(&quot;Expected Counter to be %d but it was %d&quot;, i, outputProfile.Counter)
+		<span class="hljs-keyword">if</span> outputProfile.Counter != i {
+			t.Fatalf(<span class="hljs-string">"Expected Counter to be %d but it was %d"</span>, i, outputProfile.Counter)
 		}
 	}
 }
 
-func TestVersionedStorageAfterAllPuts(t *testing.T) {
-	c, err := aetest.NewContext(nil)
-	if err != nil {
+<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestVersionedStorageAfterAllPuts</span><span class="hljs-params">(t *testing.T)</span></span> {
+	c, err := aetest.NewContext(<span class="hljs-literal">nil</span>)
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 		t.Fatal(err)
 	}
 
-	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, nil), &amp;User{})
-	if err != nil {
+	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, <span class="hljs-literal">nil</span>), &amp;User{})
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 		t.Fatal(err)
 	}
 
-	upper := 10
-	for i := 1; i &lt;= upper; i++ {
+	upper := <span class="hljs-number">10</span>
+	<span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span>; i &lt;= upper; i++ {
 		p := &amp;UserProfile{Counter: i}
 		_, err := putVersioned(c, KindUserProfile, userkey, p)
-		if err != nil {
+		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 			t.Fatal(err)
 		}
 	}
 
-	outputProfile := new(UserProfile)
+	outputProfile := <span class="hljs-built_in">new</span>(UserProfile)
 	err = getLatest(c, KindUserProfile, userkey, outputProfile)
-	if err != nil {
+	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
 		t.Fatal(err)
 	}
 
-	if outputProfile.Counter != upper {
-		t.Fatalf(&quot;Expected Counter to be %d but it was %d&quot;, upper, outputProfile.Counter)
+	<span class="hljs-keyword">if</span> outputProfile.Counter != upper {
+		t.Fatalf(<span class="hljs-string">"Expected Counter to be %d but it was %d"</span>, upper, outputProfile.Counter)
 	}
 }
 </code></pre>

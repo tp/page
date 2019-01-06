@@ -154,7 +154,7 @@
     
       img {
         max-width: 100%;
-      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Fetching Potentially Compressed Webpages That Might Not be UTF-8 Encoded in Rust</h1>
+      }</style><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Fetching Potentially Compressed Webpages That Might Not be UTF-8 Encoded in Rust</h1>
 <blockquote>
 <p><strong>TL;DR</strong> This write-up explains how I build my first Rust crate to fetch compressed, non-UTF-8 encoded webpages.
 If you want to get straight to the code grab the <a href="https://crates.io/crates/fetch">final <code>fetch</code> crate on crates.io</a> or <a href="https://github.com/tp/fetch-rs">view the source on Github</a>.</p>
@@ -172,34 +172,34 @@ Many sites send compressed or non-UTF-8 encoded data, and while the former could
 </ul>
 <h2>Implementation</h2>
 <p>First let's look at how easily the current implementation make it to fetch a pages body as <code>String</code>:</p>
-<pre><code class="language-rust">let body = fetch::fetch_page(&quot;https://www.rust-lang.org/en-US/&quot;);
+<pre><code class="language-rust"><span class="hljs-keyword">let</span> body = fetch::fetch_page(<span class="hljs-string">"https://www.rust-lang.org/en-US/"</span>);
 </code></pre>
 <blockquote>
 <p>The final project used for the prototype and this blog post is available on Github at <a href="https://github.com/tp/fetch-rs">tp/fetch-rs</a>. It has also been publish as the <a href="http://crates.io/crates/fetch"><code>fetch</code> crate on crates.io</a>.</p>
 </blockquote>
 <p>Like alluded to above, I started out with a simple <code>hyper</code> client that worked fine for the first few manual fetches. I could just read the response into a string using:</p>
-<pre><code class="language-rust">let mut body_buffer = String::new();
+<pre><code class="language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> body_buffer = <span class="hljs-built_in">String</span>::new();
 
-response.read_to_string(&amp;mut body_buffer);
+response.read_to_string(&amp;<span class="hljs-keyword">mut</span> body_buffer);
 </code></pre>
 <p>But this would fail when the page was not encoded in UTF-8 or would just return garbled output for compressed content.</p>
 <p>So I went looking for an encoding and a decompression library, which let me to <code>encoding</code> and <code>flate2</code>.</p>
 <p>Now things became a little more involved since I had to explore the 2 new crates, which had to be done differently from how I would normally approach this, since full autocompletion for crates <a href="https://github.com/phildawes/racer/issues/551">is not yet available</a>. But thanks to the pervasive use of <a href="https://doc.rust-lang.org/book/documentation.html#about-rustdoc"><code>rustdoc</code></a> there is a good amount of documentation on every crate that I encountered.</p>
 <p>So after a while of reading the API documentations, I was able to unzip the response body</p>
-<pre><code class="language-rust">let mut unzipped_body_buffer = Vec::new();
+<pre><code class="language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> unzipped_body_buffer = <span class="hljs-built_in">Vec</span>::new();
 GzDecoder::new(body_buffer.as_slice());
-d.read_to_end(&amp;mut unzipped_body_buffer);
+d.read_to_end(&amp;<span class="hljs-keyword">mut</span> unzipped_body_buffer);
 </code></pre>
 <p>and also convert the given charset to UTF-8:</p>
-<pre><code class="language-rust">let decoder = encoding_from_whatwg_label(charset).unwrap();
-return decoder.decode(&amp;unzipped_body_buffer, DecoderTrap::Strict)
+<pre><code class="language-rust"><span class="hljs-keyword">let</span> decoder = encoding_from_whatwg_label(charset).unwrap();
+<span class="hljs-keyword">return</span> decoder.decode(&amp;unzipped_body_buffer, DecoderTrap::Strict)
 </code></pre>
 <p><em>[Please note that the examples above are abbreviated excerpts from the actual source code and do not contain proper error handling. Please look at the <a href="https://github.com/tp/fetch-rs/blob/master/src/lib.rs">source</a> to see how errors are currently handled.]</em></p>
 <p>Once my spot checks succeeded, I wanted to try the Rust testing facilities to ship some tests with the library. As it turns out, testing your code is super easy: Just annotate test functions in your library with <code>#[test]</code> and run <code>cargo test</code>.</p>
 <p>Currently I just check whether the fetch returns a <a href="https://doc.rust-lang.org/std/result/enum.Result.html">success value</a>, but as a next step I want to setup a test server and compare the whole response body to a reference file.</p>
-<pre><code class="language-rust">#[test]
-fn fetch_deflate_compressed_page() {
-    fetch_page(&quot;http://httpbin.org/deflate&quot;).expect(&quot;Fetch to succeed&quot;);
+<pre><code class="language-rust"><span class="hljs-meta">#[test]</span>
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fetch_deflate_compressed_page</span></span>() {
+    fetch_page(<span class="hljs-string">"http://httpbin.org/deflate"</span>).expect(<span class="hljs-string">"Fetch to succeed"</span>);
 }
 </code></pre>
 <p>After all tests passed<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> I was satisfied with the initial scope of library and went on to publish it to crates.io.</p>
