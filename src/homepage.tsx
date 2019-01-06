@@ -42,8 +42,7 @@ export function Homepage(props: HomepageProps) {
 export function Archive(props: HomepageProps) {
   const mostRecentArticles = props.articles
     .slice()
-    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
-    .slice(0, 5);
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf());
 
   return (
     <>
@@ -53,7 +52,7 @@ export function Archive(props: HomepageProps) {
           return (
             <li key={i}>
               {article.date.toISOString().substring(0, 10)}{" "}
-              <a href={"/ " + article.link}>{article.title}</a>
+              <a href={"/" + article.link}>{article.title}</a>
             </li>
           );
         })}

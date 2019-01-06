@@ -6,6 +6,11 @@ import * as ReactDOMServer from "react-dom/server";
 import * as React from "react";
 import { Template } from "./template";
 import { Homepage, ArticleInfo, Archive } from "./homepage";
+import * as Prism from "prismjs";
+var loadLanguages = require("prismjs/components/");
+loadLanguages(["typescript", "go", "swift", "rust"]);
+
+// Returns a highlighted HTML string
 
 async function* sourceFiles(
   folder: string,
@@ -19,20 +24,17 @@ async function* sourceFiles(
       yield entryPath;
     }
   }
-  //   yield "asd";
 }
 
 async function main() {
-  const hljs = require("highlight.js");
-
   const md = new MarkdownIt({
     html: true,
     linkify: false,
     typographer: false,
     highlight: function(str, lang) {
-      if (lang && hljs.getLanguage(lang)) {
+      if (lang) {
         try {
-          return hljs.highlight(lang, str).value;
+          return Prism.highlight(str, Prism.languages[lang]);
         } catch (__) {}
       }
 

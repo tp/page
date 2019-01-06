@@ -160,95 +160,95 @@
 Sadly it has <a href="https://github.com/RubaXa/Sortable/issues/175">no built-in support for Ember.js</a>, so I thought I would elaborate here how I added it to a client's <a href="http://emberjs.com/">Ember.js</a> app.</p>
 <h2>Creating a SortableList component</h2>
 <p>app/components/sortable-list.js:</p>
-<pre><code class="language-js"><span class="hljs-keyword">import</span> Ember <span class="hljs-keyword">from</span> <span class="hljs-string">'ember'</span>;
-<span class="hljs-keyword">import</span> Sortable <span class="hljs-keyword">from</span> <span class="hljs-string">'npm:sortablejs'</span>; <span class="hljs-comment">// this requires Ember CLI with ember-browserify, which is great!</span>
+<pre><code class="language-js"><span class="token keyword">import</span> Ember <span class="token keyword">from</span> <span class="token string">'ember'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> Sortable <span class="token keyword">from</span> <span class="token string">'npm:sortablejs'</span><span class="token punctuation">;</span> <span class="token comment">// this requires Ember CLI with ember-browserify, which is great!</span>
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Ember.Component.extend({
-  <span class="hljs-attr">init</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">this</span>._super();
+<span class="token keyword">export</span> <span class="token keyword">default</span> Ember<span class="token punctuation">.</span>Component<span class="token punctuation">.</span><span class="token function">extend</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  init<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    Ember.assert(<span class="hljs-string">'required `viewModels` param is set'</span>, !Ember.isNone(<span class="hljs-keyword">this</span>.get(<span class="hljs-string">'viewModels'</span>)));
-  },
-  <span class="hljs-attr">tagName</span>: <span class="hljs-string">'ul'</span>,
-  <span class="hljs-attr">classNames</span>: [<span class="hljs-string">'sortableList'</span>],
-  <span class="hljs-attr">actions</span>: {
-    <span class="hljs-attr">removeItem</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">index</span>) </span>{
-      <span class="hljs-keyword">this</span>.sendAction(<span class="hljs-string">'removeItem'</span>, index);
-    }
-  },
-  <span class="hljs-attr">didInsertElement</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">'Setup Sortable in didInsertElement'</span>);
+    Ember<span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span><span class="token string">'required `viewModels` param is set'</span><span class="token punctuation">,</span> <span class="token operator">!</span>Ember<span class="token punctuation">.</span><span class="token function">isNone</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'viewModels'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  tagName<span class="token punctuation">:</span> <span class="token string">'ul'</span><span class="token punctuation">,</span>
+  classNames<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'sortableList'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    removeItem<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">sendAction</span><span class="token punctuation">(</span><span class="token string">'removeItem'</span><span class="token punctuation">,</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  didInsertElement<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">'Setup Sortable in didInsertElement'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">let</span> s = Sortable.create(<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-keyword">this</span>.get(<span class="hljs-string">'elementId'</span>)), {
-      <span class="hljs-attr">draggable</span>: <span class="hljs-string">".sortableTopicListItem"</span>,
-      <span class="hljs-attr">onSort</span>: <span class="hljs-function">(<span class="hljs-params">evt</span>) =&gt;</span> {
-        <span class="hljs-keyword">if</span> (evt.type !== <span class="hljs-string">'sort'</span>) {
-          <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">'Skipping event that is not sort.'</span>)
-          <span class="hljs-keyword">return</span>;
-        }
+    <span class="token keyword">let</span> s <span class="token operator">=</span> Sortable<span class="token punctuation">.</span><span class="token function">create</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'elementId'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      draggable<span class="token punctuation">:</span> <span class="token string">".sortableTopicListItem"</span><span class="token punctuation">,</span>
+      onSort<span class="token punctuation">:</span> <span class="token punctuation">(</span>evt<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>evt<span class="token punctuation">.</span>type <span class="token operator">!==</span> <span class="token string">'sort'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">'Skipping event that is not sort.'</span><span class="token punctuation">)</span>
+          <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-keyword">if</span> (evt.oldIndex === evt.newIndex) {
-          <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">'NOOP, evt.oldIndex === evt.newIndex; not sending action; not removing element'</span>);
-          <span class="hljs-keyword">return</span>;
-        }
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>evt<span class="token punctuation">.</span>oldIndex <span class="token operator">===</span> evt<span class="token punctuation">.</span>newIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          console<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">'NOOP, evt.oldIndex === evt.newIndex; not sending action; not removing element'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+          <span class="token keyword">return</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
 
-        <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">`evt.oldIndex = <span class="hljs-subst">${evt.oldIndex}</span> -&gt; evt.newIndex = <span class="hljs-subst">${evt.newIndex}</span>`</span>);
+        console<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`evt.oldIndex = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>evt<span class="token punctuation">.</span>oldIndex<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> -> evt.newIndex = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>evt<span class="token punctuation">.</span>newIndex<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-keyword">let</span> dragItem = evt.item;
-        dragItem.parentNode.removeChild(dragItem);
+        <span class="token keyword">let</span> dragItem <span class="token operator">=</span> evt<span class="token punctuation">.</span>item<span class="token punctuation">;</span>
+        dragItem<span class="token punctuation">.</span>parentNode<span class="token punctuation">.</span><span class="token function">removeChild</span><span class="token punctuation">(</span>dragItem<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        <span class="hljs-keyword">this</span>.sendAction(<span class="hljs-string">'itemMoved'</span>, evt.oldIndex, evt.newIndex);
-      },
-    });
+        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">sendAction</span><span class="token punctuation">(</span><span class="token string">'itemMoved'</span><span class="token punctuation">,</span> evt<span class="token punctuation">.</span>oldIndex<span class="token punctuation">,</span> evt<span class="token punctuation">.</span>newIndex<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">this</span>.set(<span class="hljs-string">'Sortable'</span>, s); <span class="hljs-comment">// for later destruction</span>
-  },
-  <span class="hljs-attr">willDestroyElement</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">'destroying Sortable in willDestroyElement'</span>);
-    <span class="hljs-keyword">this</span>.get(<span class="hljs-string">'Sortable'</span>).destroy();
-  }
-});
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'Sortable'</span><span class="token punctuation">,</span> s<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// for later destruction</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  willDestroyElement<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token string">'destroying Sortable in willDestroyElement'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'Sortable'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">destroy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>app/templates/components/sortable-list.hbs:</p>
-<pre><code class="language-handlebars"><span class="xml">{% raw %}
-</span><span class="hljs-template-tag">{{#<span class="hljs-name"><span class="hljs-builtin-name">each</span></span> viewModels as |viewModel index| }}</span><span class="xml">
-  <span class="hljs-tag">&lt;<span class="hljs-name">li</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"sortableTopicListItem"</span>&gt;</span>
-    </span><span class="hljs-template-variable">{{viewModel.displayName}}</span><span class="xml">
-    <span class="hljs-tag">&lt;<span class="hljs-name">i</span> </span></span><span class="hljs-template-variable">{{<span class="hljs-builtin-name">action</span> removeItem index}}</span><span class="xml"><span class="hljs-tag"> <span class="hljs-attr">class</span>=<span class="hljs-string">"remove"</span>&gt;</span>✖<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">li</span>&gt;</span>
-</span><span class="hljs-template-tag">{{/<span class="hljs-name"><span class="hljs-builtin-name">each</span></span>}}</span><span class="xml">
+<pre><code class="language-handlebars">{% raw %}
+{{#each viewModels as |viewModel index| }}
+  &lt;li class=&quot;sortableTopicListItem&quot;&gt;
+    {{viewModel.displayName}}
+    &lt;i {{action removeItem index}} class=&quot;remove&quot;&gt;✖&lt;/i&gt;
+  &lt;/li&gt;
+{{/each}}
 {% endraw %}
-</span></code></pre>
+</code></pre>
 <h2>Using the SortableList component</h2>
 <p>Showing items with a SortableList is now very easy. All you have to do is supply some <code>viewModels</code> which have <code>displayName</code> property.</p>
-<pre><code class="language-handlebars"><span class="xml">{% raw %}
-</span><span class="hljs-template-variable">{{sortable-list viewModels=viewModels itemMoved='moveItem' removeItem='removeItem'}}</span><span class="xml">
+<pre><code class="language-handlebars">{% raw %}
+{{sortable-list viewModels=viewModels itemMoved='moveItem' removeItem='removeItem'}}
 {% endraw %}
-</span></code></pre>
+</code></pre>
 <p>It get's a little more complicated, when you want to reflect the actions that took place in the DOM in your internal data model.</p>
 <p>For this the work the enclosing component has to implement <code>moveItem</code> and <code>removeItem</code> actions where it recreates the changes in it's internal store.</p>
 <p>This is the relevant part from one of my enclosing components:</p>
-<pre><code class="language-js">actions: {
-  <span class="hljs-attr">moveItem</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">oldIndex, newIndex</span>) </span>{
-    Ember.assert(<span class="hljs-string">'required `oldIndex` param is set'</span>, !Ember.isNone(oldIndex));
-    Ember.assert(<span class="hljs-string">'required `newIndex` param is set'</span>, !Ember.isNone(newIndex));
+<pre><code class="language-js">actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+  moveItem<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>oldIndex<span class="token punctuation">,</span> newIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Ember<span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span><span class="token string">'required `oldIndex` param is set'</span><span class="token punctuation">,</span> <span class="token operator">!</span>Ember<span class="token punctuation">.</span><span class="token function">isNone</span><span class="token punctuation">(</span>oldIndex<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    Ember<span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span><span class="token string">'required `newIndex` param is set'</span><span class="token punctuation">,</span> <span class="token operator">!</span>Ember<span class="token punctuation">.</span><span class="token function">isNone</span><span class="token punctuation">(</span>newIndex<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-built_in">console</span>.debug(<span class="hljs-string">`oldIndex = <span class="hljs-subst">${oldIndex}</span> -&gt; newIndex = <span class="hljs-subst">${newIndex}</span>`</span>);
+    console<span class="token punctuation">.</span><span class="token function">debug</span><span class="token punctuation">(</span><span class="token template-string"><span class="token string">`oldIndex = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>oldIndex<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string"> -> newIndex = </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>newIndex<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">let</span> references = <span class="hljs-keyword">this</span>.get(<span class="hljs-string">'value'</span>); <span class="hljs-comment">// Your underlying array</span>
+    <span class="token keyword">let</span> references <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Your underlying array</span>
 
-    <span class="hljs-keyword">let</span> movingReference = references.objectAt(oldIndex);
+    <span class="token keyword">let</span> movingReference <span class="token operator">=</span> references<span class="token punctuation">.</span><span class="token function">objectAt</span><span class="token punctuation">(</span>oldIndex<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    references.removeAt(oldIndex, <span class="hljs-number">1</span>);
-    references.insertAt(newIndex, movingReference);
-  },
-  <span class="hljs-attr">removeItem</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">index</span>) </span>{
-    Ember.assert(<span class="hljs-string">'required `index` param is set'</span>, !Ember.isNone(index));
+    references<span class="token punctuation">.</span><span class="token function">removeAt</span><span class="token punctuation">(</span>oldIndex<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    references<span class="token punctuation">.</span><span class="token function">insertAt</span><span class="token punctuation">(</span>newIndex<span class="token punctuation">,</span> movingReference<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  removeItem<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    Ember<span class="token punctuation">.</span><span class="token function">assert</span><span class="token punctuation">(</span><span class="token string">'required `index` param is set'</span><span class="token punctuation">,</span> <span class="token operator">!</span>Ember<span class="token punctuation">.</span><span class="token function">isNone</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-    <span class="hljs-keyword">let</span> references = <span class="hljs-keyword">this</span>.get(<span class="hljs-string">'value'</span>);
-    references.removeAt(index, <span class="hljs-number">1</span>);
-  }
-}
+    <span class="token keyword">let</span> references <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'value'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    references<span class="token punctuation">.</span><span class="token function">removeAt</span><span class="token punctuation">(</span>index<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>I hope this is helpful for everyone looking to solve a similar problem.</p>
 </div></div></div></body></html>

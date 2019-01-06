@@ -165,9 +165,9 @@
 <p>Since I was already investigating the context properties, I tried my hand at the next one that could be related related to the transparency issue: <code>premultipliedAlpha</code>.</p>
 <p>Simply changing this from <code>false</code> to  <code>true</code> didn't improve anything for me in Safari. That was not entirely unexpected, since I assumed that I would have to actually &quot;pre-multiply&quot; the alpha for the setting to work correctly.</p>
 <p>I didn't know how to actually do this, and whether or not this could even be done with information from the canvas alone (or whether it would require knowing what is underneath it), so I just implemented this first attempt in the shader:</p>
-<pre><code class="language-glsl"><span class="hljs-type">vec4</span> pixel = <span class="hljs-built_in">texture2D</span>(tex0, uv).xyzw;
+<pre><code class="language-glsl">vec4 pixel = texture2D(tex0, uv).xyzw;
 
-<span class="hljs-built_in">gl_FragColor</span> = <span class="hljs-type">vec4</span>(pixel.x * pixel.w, pixel.y * pixel.w, pixel.z * pixel.w, pixel.w);
+gl_FragColor = vec4(pixel.x * pixel.w, pixel.y * pixel.w, pixel.z * pixel.w, pixel.w);
 </code></pre>
 <p>Luckily that did indeed solve the white marks on the edges, which are now very smooth:</p>
 <p><img src="./Safari_after.png" alt=""></p>

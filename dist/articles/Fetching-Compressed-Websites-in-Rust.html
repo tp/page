@@ -172,35 +172,35 @@ Many sites send compressed or non-UTF-8 encoded data, and while the former could
 </ul>
 <h2>Implementation</h2>
 <p>First let's look at how easily the current implementation make it to fetch a pages body as <code>String</code>:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">let</span> body = fetch::fetch_page(<span class="hljs-string">"https://www.rust-lang.org/en-US/"</span>);
+<pre><code class="language-rust"><span class="token keyword">let</span> body <span class="token operator">=</span> fetch<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">fetch_page</span><span class="token punctuation">(</span><span class="token string">"https://www.rust-lang.org/en-US/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <blockquote>
 <p>The final project used for the prototype and this blog post is available on Github at <a href="https://github.com/tp/fetch-rs">tp/fetch-rs</a>. It has also been publish as the <a href="http://crates.io/crates/fetch"><code>fetch</code> crate on crates.io</a>.</p>
 </blockquote>
 <p>Like alluded to above, I started out with a simple <code>hyper</code> client that worked fine for the first few manual fetches. I could just read the response into a string using:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> body_buffer = <span class="hljs-built_in">String</span>::new();
+<pre><code class="language-rust"><span class="token keyword">let</span> <span class="token keyword">mut</span> body_buffer <span class="token operator">=</span> String<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-response.read_to_string(&amp;<span class="hljs-keyword">mut</span> body_buffer);
+response<span class="token punctuation">.</span><span class="token function">read_to_string</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token keyword">mut</span> body_buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>But this would fail when the page was not encoded in UTF-8 or would just return garbled output for compressed content.</p>
 <p>So I went looking for an encoding and a decompression library, which let me to <code>encoding</code> and <code>flate2</code>.</p>
 <p>Now things became a little more involved since I had to explore the 2 new crates, which had to be done differently from how I would normally approach this, since full autocompletion for crates <a href="https://github.com/phildawes/racer/issues/551">is not yet available</a>. But thanks to the pervasive use of <a href="https://doc.rust-lang.org/book/documentation.html#about-rustdoc"><code>rustdoc</code></a> there is a good amount of documentation on every crate that I encountered.</p>
 <p>So after a while of reading the API documentations, I was able to unzip the response body</p>
-<pre><code class="language-rust"><span class="hljs-keyword">let</span> <span class="hljs-keyword">mut</span> unzipped_body_buffer = <span class="hljs-built_in">Vec</span>::new();
-GzDecoder::new(body_buffer.as_slice());
-d.read_to_end(&amp;<span class="hljs-keyword">mut</span> unzipped_body_buffer);
+<pre><code class="language-rust"><span class="token keyword">let</span> <span class="token keyword">mut</span> unzipped_body_buffer <span class="token operator">=</span> Vec<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">new</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+GzDecoder<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">new</span><span class="token punctuation">(</span>body_buffer<span class="token punctuation">.</span><span class="token function">as_slice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+d<span class="token punctuation">.</span><span class="token function">read_to_end</span><span class="token punctuation">(</span><span class="token operator">&amp;</span><span class="token keyword">mut</span> unzipped_body_buffer<span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <p>and also convert the given charset to UTF-8:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">let</span> decoder = encoding_from_whatwg_label(charset).unwrap();
-<span class="hljs-keyword">return</span> decoder.decode(&amp;unzipped_body_buffer, DecoderTrap::Strict)
+<pre><code class="language-rust"><span class="token keyword">let</span> decoder <span class="token operator">=</span> <span class="token function">encoding_from_whatwg_label</span><span class="token punctuation">(</span>charset<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">unwrap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">return</span> decoder<span class="token punctuation">.</span><span class="token function">decode</span><span class="token punctuation">(</span><span class="token operator">&amp;</span>unzipped_body_buffer<span class="token punctuation">,</span> DecoderTrap<span class="token punctuation">:</span><span class="token punctuation">:</span>Strict<span class="token punctuation">)</span>
 </code></pre>
 <p><em>[Please note that the examples above are abbreviated excerpts from the actual source code and do not contain proper error handling. Please look at the <a href="https://github.com/tp/fetch-rs/blob/master/src/lib.rs">source</a> to see how errors are currently handled.]</em></p>
 <p>Once my spot checks succeeded, I wanted to try the Rust testing facilities to ship some tests with the library. As it turns out, testing your code is super easy: Just annotate test functions in your library with <code>#[test]</code> and run <code>cargo test</code>.</p>
 <p>Currently I just check whether the fetch returns a <a href="https://doc.rust-lang.org/std/result/enum.Result.html">success value</a>, but as a next step I want to setup a test server and compare the whole response body to a reference file.</p>
-<pre><code class="language-rust"><span class="hljs-meta">#[test]</span>
-<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">fetch_deflate_compressed_page</span></span>() {
-    fetch_page(<span class="hljs-string">"http://httpbin.org/deflate"</span>).expect(<span class="hljs-string">"Fetch to succeed"</span>);
-}
+<pre><code class="language-rust"><span class="token attribute attr-name">#[test]</span>
+<span class="token keyword">fn</span> <span class="token function">fetch_deflate_compressed_page</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">fetch_page</span><span class="token punctuation">(</span><span class="token string">"http://httpbin.org/deflate"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">expect</span><span class="token punctuation">(</span><span class="token string">"Fetch to succeed"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p>After all tests passed<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> I was satisfied with the initial scope of library and went on to publish it to crates.io.</p>
 <p>This turned out to be a little bit trickier than it probably should have been, due to me initially naming the crate “http-fetch”.</p>

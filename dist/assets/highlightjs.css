@@ -1,101 +1,136 @@
-/*
+/* PrismJS 1.15.0
+https://prismjs.com/download.html#themes=prism-okaidia&languages=markup+css+clike+javascript+typescript+swift */
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
 
-Atom One Dark With support for ReasonML by Gidi Morris, based off work by Daniel Gamage
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #f8f8f2;
+  background: none;
+  text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.5;
 
-Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+  -moz-tab-size: 4;
+  -o-tab-size: 4;
+  tab-size: 4;
 
-*/
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  line-height: 1.3em;
-  color: #abb2bf;
-  background: #282c34;
-  border-radius: 5px;
+  -webkit-hyphens: none;
+  -moz-hyphens: none;
+  -ms-hyphens: none;
+  hyphens: none;
 }
-.hljs-keyword,
-.hljs-operator {
+
+/* Code blocks */
+pre[class*="language-"] {
+  padding: 1em;
+  margin: 0.5em 0;
+  overflow: auto;
+  border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+  background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+  padding: 0.1em;
+  border-radius: 0.3em;
+  white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: slategray;
+}
+
+.token.punctuation {
+  color: #f8f8f2;
+}
+
+.namespace {
+  opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
   color: #f92672;
 }
-.hljs-pattern-match {
-  color: #f92672;
+
+.token.boolean,
+.token.number {
+  color: #ae81ff;
 }
-.hljs-pattern-match .hljs-constructor {
-  color: #61aeee;
-}
-.hljs-function {
-  color: #61aeee;
-}
-.hljs-function .hljs-params {
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
   color: #a6e22e;
 }
-.hljs-function .hljs-params .hljs-typing {
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+  color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function,
+.token.class-name {
+  color: #e6db74;
+}
+
+.token.keyword {
+  color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
   color: #fd971f;
 }
-.hljs-module-access .hljs-module {
-  color: #7e57c2;
-}
-.hljs-constructor {
-  color: #e2b93d;
-}
-.hljs-constructor .hljs-string {
-  color: #9ccc65;
-}
-.hljs-comment,
-.hljs-quote {
-  color: #b18eb1;
-  font-style: italic;
-}
-.hljs-doctag,
-.hljs-formula {
-  color: #c678dd;
-}
-.hljs-section,
-.hljs-name,
-.hljs-selector-tag,
-.hljs-deletion,
-.hljs-subst {
-  color: #e06c75;
-}
-.hljs-literal {
-  color: #56b6c2;
-}
-.hljs-string,
-.hljs-regexp,
-.hljs-addition,
-.hljs-attribute,
-.hljs-meta-string {
-  color: #98c379;
-}
-.hljs-built_in,
-.hljs-class .hljs-title {
-  color: #e6c07b;
-}
-.hljs-attr,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-type,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-number {
-  color: #d19a66;
-}
-.hljs-symbol,
-.hljs-bullet,
-.hljs-link,
-.hljs-meta,
-.hljs-selector-id,
-.hljs-title {
-  color: #61aeee;
-}
-.hljs-emphasis {
-  font-style: italic;
-}
-.hljs-strong {
+
+.token.important,
+.token.bold {
   font-weight: bold;
 }
-.hljs-link {
-  text-decoration: underline;
+.token.italic {
+  font-style: italic;
+}
+
+.token.entity {
+  cursor: help;
+}
+
+pre {
+  background-color: #272822;
+  overflow-y: scroll;
+  padding: 10px 5px;
+}
+
+a {
+  padding-top: 50px;
+  margin-top: -50px;
+  display: inline-block; /* required for webkit browsers */
 }

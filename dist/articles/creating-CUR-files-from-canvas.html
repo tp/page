@@ -161,11 +161,11 @@
 <p>Edge though currently only supports <a href="https://en.wikipedia.org/wiki/ICO_(file_format)"><code>CUR</code> files</a>. Those files wrap the cursor image, optionally at different sizes, with some metadata. Luckily for us, a newer version of the CUR file format allows embedding <code>PNG</code> file data directly.</p>
 <p>So I wrote a small library that reads a canvas into <code>PNG</code> blob and then inserts this data into a new <code>Blob</code> that builds up the <code>CUR</code> file. We can then create an <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL">&quot;<code>object URL</code>&quot;</a> of that <code>CUR</code> file which can be used in CSS similarly to the above method.</p>
 <p>Example:</p>
-<pre><code class="language-js"><span class="hljs-comment">// call the `curObjectURLFromCanvas` function to retrieve an object URL pointing to a `CUR` file containing the canvas' image</span>
-<span class="hljs-keyword">const</span> cursorObjectURL = curObjectURLFromCanvas(canvas);
+<pre><code class="language-js"><span class="token comment">// call the `curObjectURLFromCanvas` function to retrieve an object URL pointing to a `CUR` file containing the canvas' image</span>
+<span class="token keyword">const</span> cursorObjectURL <span class="token operator">=</span> <span class="token function">curObjectURLFromCanvas</span><span class="token punctuation">(</span>canvas<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-<span class="hljs-comment">// Use this URL in your inline style (or in a programatically created `StyleSheet`)</span>
-body.style.cursor = <span class="hljs-string">`url(<span class="hljs-subst">${cursorObjectURL}</span>), pointer`</span>;
+<span class="token comment">// Use this URL in your inline style (or in a programatically created `StyleSheet`)</span>
+body<span class="token punctuation">.</span>style<span class="token punctuation">.</span>cursor <span class="token operator">=</span> <span class="token template-string"><span class="token string">`url(</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>cursorObjectURL<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">), pointer`</span></span><span class="token punctuation">;</span>
 </code></pre>
 <p>The library is called <code>cursor-utilities</code> and is available on <a href="https://www.npmjs.com/package/cursor-utilities">npm</a>, and the source is on <a href="https://github.com/tp/cursor-utilities">GitHub</a>.</p>
 </div></div></div></body></html>

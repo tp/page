@@ -168,131 +168,131 @@
 <p>And because writes to a single entity group (in our case the <code>User</code>) are strongly consistend and <a href="https://cloud.google.com/appengine/docs/go/datastore/#Go_Datastore_writes_and_data_visibility">guaranteed to be executed before the next read</a> of entities in that group, we are always seeing the most recently created <code>UserProfile</code> in our queries.</p>
 <h2>Implemenation &amp; Tests</h2>
 <p>main.go</p>
-<pre><code class="language-go"><span class="hljs-keyword">package</span> main
+<pre><code class="language-go"><span class="token keyword">package</span> main
 
-<span class="hljs-keyword">import</span> (
-	<span class="hljs-string">"fmt"</span>
-	<span class="hljs-string">"time"</span>
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"fmt"</span>
+	<span class="token string">"time"</span>
 
-	<span class="hljs-string">"appengine"</span>
-	<span class="hljs-string">"appengine/datastore"</span>
-)
+	<span class="token string">"appengine"</span>
+	<span class="token string">"appengine/datastore"</span>
+<span class="token punctuation">)</span>
 
-<span class="hljs-keyword">const</span> (
-	KindUser        = <span class="hljs-string">"user"</span>
-	KindUserProfile = <span class="hljs-string">"userprofile"</span>
-)
+<span class="token keyword">const</span> <span class="token punctuation">(</span>
+	KindUser        <span class="token operator">=</span> <span class="token string">"user"</span>
+	KindUserProfile <span class="token operator">=</span> <span class="token string">"userprofile"</span>
+<span class="token punctuation">)</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span> {}
+<span class="token keyword">func</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-<span class="hljs-keyword">type</span> CreatedAtStruct <span class="hljs-keyword">struct</span> {
-	CreatedAt time.Time
-}
+<span class="token keyword">type</span> CreatedAtStruct <span class="token keyword">struct</span> <span class="token punctuation">{</span>
+	CreatedAt time<span class="token punctuation">.</span>Time
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-params">(c *CreatedAtStruct)</span> <span class="hljs-title">SetCreatedAt</span><span class="hljs-params">(t time.Time)</span></span> {
-	c.CreatedAt = t
-}
+<span class="token keyword">func</span> <span class="token punctuation">(</span>c <span class="token operator">*</span>CreatedAtStruct<span class="token punctuation">)</span> <span class="token function">SetCreatedAt</span><span class="token punctuation">(</span>t time<span class="token punctuation">.</span>Time<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">.</span>CreatedAt <span class="token operator">=</span> t
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">type</span> CreationDateSetter <span class="hljs-keyword">interface</span> {
-	SetCreatedAt(t time.Time)
-}
+<span class="token keyword">type</span> CreationDateSetter <span class="token keyword">interface</span> <span class="token punctuation">{</span>
+	<span class="token function">SetCreatedAt</span><span class="token punctuation">(</span>t time<span class="token punctuation">.</span>Time<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-keyword">type</span> User <span class="hljs-keyword">struct</span>{}
+<span class="token keyword">type</span> User <span class="token keyword">struct</span><span class="token punctuation">{</span><span class="token punctuation">}</span>
 
-<span class="hljs-keyword">type</span> UserProfile <span class="hljs-keyword">struct</span> {
+<span class="token keyword">type</span> UserProfile <span class="token keyword">struct</span> <span class="token punctuation">{</span>
 	CreatedAtStruct
 
-	Counter <span class="hljs-keyword">int</span>
-}
+	Counter <span class="token builtin">int</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">putVersioned</span><span class="hljs-params">(c appengine.Context, kind <span class="hljs-keyword">string</span>, parent *datastore.Key, v CreationDateSetter)</span> <span class="hljs-params">(*datastore.Key, error)</span></span> {
-	<span class="hljs-keyword">if</span> parent == <span class="hljs-literal">nil</span> {
-		<span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span>, fmt.Errorf(<span class="hljs-string">"parent must be set"</span>)
-	}
+<span class="token keyword">func</span> <span class="token function">putVersioned</span><span class="token punctuation">(</span>c appengine<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> kind <span class="token builtin">string</span><span class="token punctuation">,</span> parent <span class="token operator">*</span>datastore<span class="token punctuation">.</span>Key<span class="token punctuation">,</span> v CreationDateSetter<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token operator">*</span>datastore<span class="token punctuation">.</span>Key<span class="token punctuation">,</span> <span class="token builtin">error</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token keyword">if</span> parent <span class="token operator">==</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">nil</span><span class="token punctuation">,</span> fmt<span class="token punctuation">.</span><span class="token function">Errorf</span><span class="token punctuation">(</span><span class="token string">"parent must be set"</span><span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
 
-	v.SetCreatedAt(time.Now())
+	v<span class="token punctuation">.</span><span class="token function">SetCreatedAt</span><span class="token punctuation">(</span>time<span class="token punctuation">.</span><span class="token function">Now</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
 
-	<span class="hljs-keyword">return</span> datastore.Put(c, datastore.NewIncompleteKey(c, kind, parent), v)
-}
+	<span class="token keyword">return</span> datastore<span class="token punctuation">.</span><span class="token function">Put</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> datastore<span class="token punctuation">.</span><span class="token function">NewIncompleteKey</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> kind<span class="token punctuation">,</span> parent<span class="token punctuation">)</span><span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getLatest</span><span class="hljs-params">(c appengine.Context, kind <span class="hljs-keyword">string</span>, parent *datastore.Key, v <span class="hljs-keyword">interface</span>{})</span> <span class="hljs-title">error</span></span> {
-	q := datastore.NewQuery(kind).Ancestor(parent).Order(<span class="hljs-string">"-CreatedAt"</span>).Limit(<span class="hljs-number">1</span>)
+<span class="token keyword">func</span> <span class="token function">getLatest</span><span class="token punctuation">(</span>c appengine<span class="token punctuation">.</span>Context<span class="token punctuation">,</span> kind <span class="token builtin">string</span><span class="token punctuation">,</span> parent <span class="token operator">*</span>datastore<span class="token punctuation">.</span>Key<span class="token punctuation">,</span> v <span class="token keyword">interface</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token builtin">error</span> <span class="token punctuation">{</span>
+	q <span class="token operator">:=</span> datastore<span class="token punctuation">.</span><span class="token function">NewQuery</span><span class="token punctuation">(</span>kind<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Ancestor</span><span class="token punctuation">(</span>parent<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Order</span><span class="token punctuation">(</span><span class="token string">"-CreatedAt"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Limit</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
 
-	_, err := q.Run(c).Next(v)
+	<span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">:=</span> q<span class="token punctuation">.</span><span class="token function">Run</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">Next</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
 
-	<span class="hljs-keyword">return</span> err
-}
+	<span class="token keyword">return</span> err
+<span class="token punctuation">}</span>
 </code></pre>
 <p>main_test.go</p>
-<pre><code class="language-go"><span class="hljs-keyword">package</span> main
+<pre><code class="language-go"><span class="token keyword">package</span> main
 
-<span class="hljs-keyword">import</span> (
-	<span class="hljs-string">"testing"</span>
+<span class="token keyword">import</span> <span class="token punctuation">(</span>
+	<span class="token string">"testing"</span>
 
-	<span class="hljs-string">"appengine/aetest"</span>
-	<span class="hljs-string">"appengine/datastore"</span>
-)
+	<span class="token string">"appengine/aetest"</span>
+	<span class="token string">"appengine/datastore"</span>
+<span class="token punctuation">)</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestVersionedStorageAfterEachPut</span><span class="hljs-params">(t *testing.T)</span></span> {
-	c, err := aetest.NewContext(<span class="hljs-literal">nil</span>)
-	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-		t.Fatal(err)
-	}
+<span class="token keyword">func</span> <span class="token function">TestVersionedStorageAfterEachPut</span><span class="token punctuation">(</span>t <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">,</span> err <span class="token operator">:=</span> aetest<span class="token punctuation">.</span><span class="token function">NewContext</span><span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
 
-	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, <span class="hljs-literal">nil</span>), &amp;User{})
-	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-		t.Fatal(err)
-	}
+	userkey<span class="token punctuation">,</span> err <span class="token operator">:=</span> datastore<span class="token punctuation">.</span><span class="token function">Put</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> datastore<span class="token punctuation">.</span><span class="token function">NewIncompleteKey</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> KindUser<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>User<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
 
-	<span class="hljs-keyword">for</span> i := <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++ {
-		p := &amp;UserProfile{Counter: i}
-		_, err := putVersioned(c, KindUserProfile, userkey, p)
-		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-			t.Fatal(err)
-		}
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+		p <span class="token operator">:=</span> <span class="token operator">&amp;</span>UserProfile<span class="token punctuation">{</span>Counter<span class="token punctuation">:</span> i<span class="token punctuation">}</span>
+		<span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">putVersioned</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> KindUserProfile<span class="token punctuation">,</span> userkey<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
 
-		outputProfile := <span class="hljs-built_in">new</span>(UserProfile)
-		err = getLatest(c, KindUserProfile, userkey, outputProfile)
-		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-			t.Fatal(err)
-		}
+		outputProfile <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>UserProfile<span class="token punctuation">)</span>
+		err <span class="token operator">=</span> <span class="token function">getLatest</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> KindUserProfile<span class="token punctuation">,</span> userkey<span class="token punctuation">,</span> outputProfile<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
 
-		<span class="hljs-keyword">if</span> outputProfile.Counter != i {
-			t.Fatalf(<span class="hljs-string">"Expected Counter to be %d but it was %d"</span>, i, outputProfile.Counter)
-		}
-	}
-}
+		<span class="token keyword">if</span> outputProfile<span class="token punctuation">.</span>Counter <span class="token operator">!=</span> i <span class="token punctuation">{</span>
+			t<span class="token punctuation">.</span><span class="token function">Fatalf</span><span class="token punctuation">(</span><span class="token string">"Expected Counter to be %d but it was %d"</span><span class="token punctuation">,</span> i<span class="token punctuation">,</span> outputProfile<span class="token punctuation">.</span>Counter<span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">TestVersionedStorageAfterAllPuts</span><span class="hljs-params">(t *testing.T)</span></span> {
-	c, err := aetest.NewContext(<span class="hljs-literal">nil</span>)
-	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-		t.Fatal(err)
-	}
+<span class="token keyword">func</span> <span class="token function">TestVersionedStorageAfterAllPuts</span><span class="token punctuation">(</span>t <span class="token operator">*</span>testing<span class="token punctuation">.</span>T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	c<span class="token punctuation">,</span> err <span class="token operator">:=</span> aetest<span class="token punctuation">.</span><span class="token function">NewContext</span><span class="token punctuation">(</span><span class="token boolean">nil</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
 
-	userkey, err := datastore.Put(c, datastore.NewIncompleteKey(c, KindUser, <span class="hljs-literal">nil</span>), &amp;User{})
-	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-		t.Fatal(err)
-	}
+	userkey<span class="token punctuation">,</span> err <span class="token operator">:=</span> datastore<span class="token punctuation">.</span><span class="token function">Put</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> datastore<span class="token punctuation">.</span><span class="token function">NewIncompleteKey</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> KindUser<span class="token punctuation">,</span> <span class="token boolean">nil</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>User<span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
 
-	upper := <span class="hljs-number">10</span>
-	<span class="hljs-keyword">for</span> i := <span class="hljs-number">1</span>; i &lt;= upper; i++ {
-		p := &amp;UserProfile{Counter: i}
-		_, err := putVersioned(c, KindUserProfile, userkey, p)
-		<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-			t.Fatal(err)
-		}
-	}
+	upper <span class="token operator">:=</span> <span class="token number">10</span>
+	<span class="token keyword">for</span> i <span class="token operator">:=</span> <span class="token number">1</span><span class="token punctuation">;</span> i <span class="token operator">&lt;=</span> upper<span class="token punctuation">;</span> i<span class="token operator">++</span> <span class="token punctuation">{</span>
+		p <span class="token operator">:=</span> <span class="token operator">&amp;</span>UserProfile<span class="token punctuation">{</span>Counter<span class="token punctuation">:</span> i<span class="token punctuation">}</span>
+		<span class="token boolean">_</span><span class="token punctuation">,</span> err <span class="token operator">:=</span> <span class="token function">putVersioned</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> KindUserProfile<span class="token punctuation">,</span> userkey<span class="token punctuation">,</span> p<span class="token punctuation">)</span>
+		<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+			t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+		<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
 
-	outputProfile := <span class="hljs-built_in">new</span>(UserProfile)
-	err = getLatest(c, KindUserProfile, userkey, outputProfile)
-	<span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
-		t.Fatal(err)
-	}
+	outputProfile <span class="token operator">:=</span> <span class="token function">new</span><span class="token punctuation">(</span>UserProfile<span class="token punctuation">)</span>
+	err <span class="token operator">=</span> <span class="token function">getLatest</span><span class="token punctuation">(</span>c<span class="token punctuation">,</span> KindUserProfile<span class="token punctuation">,</span> userkey<span class="token punctuation">,</span> outputProfile<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> err <span class="token operator">!=</span> <span class="token boolean">nil</span> <span class="token punctuation">{</span>
+		t<span class="token punctuation">.</span><span class="token function">Fatal</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
 
-	<span class="hljs-keyword">if</span> outputProfile.Counter != upper {
-		t.Fatalf(<span class="hljs-string">"Expected Counter to be %d but it was %d"</span>, upper, outputProfile.Counter)
-	}
-}
+	<span class="token keyword">if</span> outputProfile<span class="token punctuation">.</span>Counter <span class="token operator">!=</span> upper <span class="token punctuation">{</span>
+		t<span class="token punctuation">.</span><span class="token function">Fatalf</span><span class="token punctuation">(</span><span class="token string">"Expected Counter to be %d but it was %d"</span><span class="token punctuation">,</span> upper<span class="token punctuation">,</span> outputProfile<span class="token punctuation">.</span>Counter<span class="token punctuation">)</span>
+	<span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre>
 <p><a href="https://gist.github.com/tp/c1e25ae24d405a58f081">See Gist on GitHub</a></p>
 </div></div></div></body></html>
