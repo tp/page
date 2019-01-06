@@ -23,10 +23,21 @@ async function* sourceFiles(
 }
 
 async function main() {
+  const hljs = require("highlight.js");
+
   const md = new MarkdownIt({
     html: true,
     linkify: false,
-    typographer: false
+    typographer: false,
+    highlight: function(str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(lang, str).value;
+        } catch (__) {}
+      }
+
+      return ""; // use external default escaping
+    }
   }).use(require("markdown-it-footnote"));
 
   // articles

@@ -54,6 +54,7 @@ function Head(props: HeaderProps) {
       <meta httpEquiv="content-type" content="text/html;charset=utf-8" />
       <title>{props.title} | Timm Preetz</title>
       <Style />
+      <link rel="stylesheet" href="/assets/highlightjs.css" />
     </head>
   );
 }

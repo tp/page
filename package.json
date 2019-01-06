@@ -10,6 +10,7 @@
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "fs-extra": "^7.0.1",
+    "highlight.js": "^9.13.1",
     "markdown-it": "^8.4.2",
     "markdown-it-footnote": "^3.0.1",
     "react": "^16.7.0",
