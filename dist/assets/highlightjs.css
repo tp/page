@@ -134,3 +134,20 @@ a {
   margin-top: -50px;
   display: inline-block;
 }
+
+@font-face {
+  font-family: "iA Writer Quattro";
+  src: url("/assets/iAWriterQuattroS-Regular.woff2") format("woff2");
+}
+
+h1 {
+  font-family: Futura;
+}
+
+p {
+  font-family: "iA Writer Quattro", -apple-system, BlinkMacSystemFont, Arial,
+    sans-serif;
+  font-size: 18px;
+  line-height: 1.6em;
+  margin: 2.5em 0;
+}
