@@ -1,212 +1,165 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-  <title>Timm Preetz | Timm Preetz</title>
-  <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
-
-  <link rel="stylesheet" type="text/css" href="/assets/syntax2.css"/>
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-33068051-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-  <style>
-
-  
-  body {
-    background-color: #ededed;
-  }
-  .contentWrapper {
-    padding: 0 20px;
-  }
-  nav {
-    /* 
-    background-color: #313131 !important;
-    position: fixed !important; */
-  }
-
-  
-
-  body {
-    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
-    font-weight: 400; /* TODO: use 200 for Helvetica Neue */
-    font-size: 18px;
-    margin: 0;
-  }
-
-  
-
-  blockquote {
-    margin-left: 0.25em;
-    padding: 0px 1em 0px 1em;
-    border-left: 1px solid #c0c0c0;
-  }
-
-  #mainWrapper {
-    max-width: 900px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-
-    margin-top: 40px;
-    overflow-x: hidden;
-
-    /*
-    position: fixed;
-    top: 40px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: scroll;
-    */
-  }
-
-  @media only all and (min-width: 415px) {
-    #mainWrapper {
-      padding: 0 15px;
-    }
-  }
-
-  nav {
-    padding: 0 20px;
-    height: 40px;
-    max-width: 900px;
-    display: flex;
-    flex-basis: 0;
-    flex-grow: 1;
-  }
-
-  nav a {
-    color: #313131;
-    font-family: Futura;
-    text-decoration: none;
-    line-height: 40px;
-  }
-
-  nav a:hover {
-    text-decoration: underline;
-  }
-
-  div.sbs {
-    display: flex;
-  }
-
-  div.sbs > div {
-    flex-grow: 1;  flex-basis: 0;
-  }
-
-  @media (max-width: 640px) {
-    div.sbs {
-      flex-direction: column;
-    }
-  }
-
-  .recentPosts h1 {
-    line-height: 1em;
-    padding: 0px;
-    margin: 0em 0;
-  }
-
-  .recentPosts a.postTitle {
-    color: #313131;
-    font-weight: 400;
-    text-decoration: none;
-  }
-
-  .recentPosts a.postTitle:hover {
-    text-decoration: underline;
-  }
-
-  .recentPosts hr {
-    margin: 50px 0;
-  }
-
-  .recentPosts span {
-    color: #313131;
-    /* font-family: Courier, monospace; */
-    font-weight: 400;
-    font-size: 12px;
-  }
-
-  a, a:visited, a:hover, a:active {
-    color: #313131;
-  }
-
-  a:hover {
-    text-decoration: none;
-  }
-
-  hr {
-    background-color: #bfbfbf;
-    border: 0;
-    height: 1px;
-  }
-
-  .homepageOverview {
-    border-radius: 5px 5px 0 0; 
-    padding: 20px;
-  }
-
-  #navWrapper {
-    position: fixed;
-    top: 0;
-    height: 40px;
-    left: 0;
-    right: 0;
-    display: flex;
-    background-color: rgba(255,255,255,0.65);
-    -webkit-backdrop-filter: blur(7px);
-    z-index: 1;
-    justify-content: center;
-  }
-
-  sup[id^=fnref] {
-    padding-top: 40px;
-    margin-top: -40px;
-  }
-
-  img {
-    max-width: 100%;
-  }
-  </style>
-</head>
-<body>
-<div class="bg"></div>
-
-<div id="navWrapper">
-  <nav>
-    <a href="/" style="margin-right: 20px;">
-      <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
-    </a>
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine | Timm Preetz</title><style>
+      
+    body {
+        background-color: #ededed;
+      }
+      .contentWrapper {
+        padding: 0 20px;
+      }
+      nav {
+        /* 
+        background-color: #313131 !important;
+        position: fixed !important; */
+      }
     
-    <a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a>
-  </nav>
-</div>
-
-<div id="mainWrapper">
-  <div class="contentWrapper">
-
-    <h1>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine</h1>
+      
+    
+      body {
+        font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+        font-weight: 400; /* TODO: use 200 for Helvetica Neue */
+        font-size: 18px;
+        margin: 0;
+      }
+    
+  
+    
+      blockquote {
+        margin-left: 0.25em;
+        padding: 0px 1em 0px 1em;
+        border-left: 1px solid #c0c0c0;
+      }
+    
+      #mainWrapper {
+        max-width: 900px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+    
+        margin-top: 40px;
+        overflow-x: hidden;
+    
+        /*
+        position: fixed;
+        top: 40px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: scroll;
+        */
+      }
+    
+      @media only all and (min-width: 415px) {
+        #mainWrapper {
+          padding: 0 15px;
+        }
+      }
+    
+      nav {
+        padding: 0 20px;
+        height: 40px;
+        max-width: 900px;
+        display: flex;
+        flex-basis: 0;
+        flex-grow: 1;
+      }
+    
+      nav a {
+        color: #313131;
+        font-family: Futura;
+        text-decoration: none;
+        line-height: 40px;
+      }
+    
+      nav a:hover {
+        text-decoration: underline;
+      }
+    
+      div.sbs {
+        display: flex;
+      }
+    
+      div.sbs > div {
+        flex-grow: 1;  flex-basis: 0;
+      }
+    
+      @media (max-width: 640px) {
+        div.sbs {
+          flex-direction: column;
+        }
+      }
+    
+      .recentPosts h1 {
+        line-height: 1em;
+        padding: 0px;
+        margin: 0em 0;
+      }
+    
+      .recentPosts a.postTitle {
+        color: #313131;
+        font-weight: 400;
+        text-decoration: none;
+      }
+    
+      .recentPosts a.postTitle:hover {
+        text-decoration: underline;
+      }
+    
+      .recentPosts hr {
+        margin: 50px 0;
+      }
+    
+      .recentPosts span {
+        color: #313131;
+        /* font-family: Courier, monospace; */
+        font-weight: 400;
+        font-size: 12px;
+      }
+    
+      a, a:visited, a:hover, a:active {
+        color: #313131;
+      }
+    
+      a:hover {
+        text-decoration: none;
+      }
+    
+      hr {
+        background-color: #bfbfbf;
+        border: 0;
+        height: 1px;
+      }
+    
+      .homepageOverview {
+        border-radius: 5px 5px 0 0; 
+        padding: 20px;
+      }
+    
+      #navWrapper {
+        position: fixed;
+        top: 0;
+        height: 40px;
+        left: 0;
+        right: 0;
+        display: flex;
+        background-color: rgba(255,255,255,0.65);
+        -webkit-backdrop-filter: blur(7px);
+        z-index: 1;
+        justify-content: center;
+      }
+    
+      sup[id^=fnref] {
+        padding-top: 40px;
+        margin-top: -40px;
+      }
+    
+      img {
+        max-width: 100%;
+      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine</h1>
 <p>Since Google App Engine's <code>urlfetch</code> service <a href="https://cloud.google.com/appengine/docs/go/urlfetch/#Go_Quotas_and_limits">imposes a 32MB response size limit</a> on each request, one has to roll their own <a href="http://golang.org/pkg/net/http/#Client">http.Client</a> implementation using <code>appengine/socket</code> to make requests exceeding that limit.</p>
 <p>Sadly the <code>appengine/socket</code> implementation is <a href="https://code.google.com/p/googleappengine/issues/detail?id=11076">not working with HTTP calls inside the local development server</a>, such that one can not use the same solution and code in development and production.</p>
 <p>The two issues made me create the <a href="http://godoc.org/timm.io/fetchall"><code>fetchall</code> package</a>, a simple drop-in replacement for <code>urlfetch</code> that gives you a <code>http.Client</code> implementation that handles arbitrarily large HTTP requests (within the time limits of Google App Engine).</p>
 <p>When running in the development server, the implementation will simply use Go's <code>net</code> package instead of <code>appengine/socket</code> in order for request to work locally as well as in the cloud.</p>
 <p>To use this package simply replace <code>urlfetch.Client</code> with <code>fetchall.Client</code> in your Go code.</p>
-<p>GitHub: <a href="https://github.com/tp/fetchall">github.com/tp/fetchall</a><br />
+<p>GitHub: <a href="https://github.com/tp/fetchall">github.com/tp/fetchall</a><br>
 GoDoc: <a href="http://godoc.org/timm.io/fetchall">godoc.org/timm.io/fetchall</a></p>
-
-  <div>
-
-
-</div>
-</body>
-</html>
+</div></div></div></body></html>

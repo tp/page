@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Increased Podcast Playback Speeds | Timm Preetz</title><style>
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Custom Cursors: Creating CUR Files from Canvas | Timm Preetz</title><style>
       
     body {
         background-color: #ededed;
@@ -154,9 +154,18 @@
     
       img {
         max-width: 100%;
-      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Increased Podcast Playback Speeds</h1>
-<p>Just a quick thanks to Marco Arment for his Smart Speed feature in <a href="https://overcast.fm/">Overcast</a>.</p>
-<p>Smart Speed combined with regular playback speed-ups allows me to easily listen to interview podcasts at speeds greater than 1.5x.</p>
-<p>For example I was able to listen to <a href="http://fourhourworkweek.com/2014/10/15/money-master-the-game/">these two parts of the Tim Ferriss Show</a> (2h07m total) and <a href="http://www.jamesaltucher.com/2014/11/robbins/">this episode of the James Altucher Show</a> (1h04m) both interviewing <a href="http://www.tonyrobbins.com/">Tony Robbins</a> about <a href="http://www.amazon.de/gp/product/B00MZAIU4G/ref=as_li_tl?ie=UTF8&amp;camp=1638&amp;creative=19454&amp;creativeASIN=B00MZAIU4G&amp;linkCode=as2&amp;tag=gummibaerchen-21&amp;linkId=2NTA2WZFCGR66HJA">his new book</a> in the same amount of time than just listening to the former at 1x.</p>
-<p>For me personally I can confirm <a href="http://www.marco.org/2015/02/17/listen-to-podcasts-at-whatever-speed-you-want">Marco’s assumption</a>, that listening to podcasts faster just makes me listen to more podcasts.</p>
+      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Custom Cursors: Creating CUR Files from Canvas</h1>
+<p>A recent product design required switching various custom, dynamic cursors at runtime. These were prepared at runtime and drawn onto a <code>Canvas</code>:</p>
+<p><video src="./cursor-example.mov" autoplay="true" loop="true" muted="true" width="108"></video></p>
+<p>In Chrome and Firefox those canvases can be used as a cursor by setting the <code>cursor</code> property in CSS to <code>url(canvas.toDataURL())</code>. The data URL is guaranteed to contain a <code>base64</code> encoded <code>PNG</code> image of the canvas.</p>
+<p>Edge though currently only supports <a href="https://en.wikipedia.org/wiki/ICO_(file_format)"><code>CUR</code> files</a>. Those files wrap the cursor image, optionally at different sizes, with some metadata. Luckily for us, a newer version of the CUR file format allows embedding <code>PNG</code> file data directly.</p>
+<p>So I wrote a small library that reads a canvas into <code>PNG</code> blob and then inserts this data into a new <code>Blob</code> that builds up the <code>CUR</code> file. We can then create an <a href="https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL">&quot;<code>object URL</code>&quot;</a> of that <code>CUR</code> file which can be used in CSS similarly to the above method.</p>
+<p>Example:</p>
+<pre><code class="language-js">// call the `curObjectURLFromCanvas` function to retrieve an object URL pointing to a `CUR` file containing the canvas' image
+const cursorObjectURL = curObjectURLFromCanvas(canvas);
+
+// Use this URL in your inline style (or in a programatically created `StyleSheet`)
+body.style.cursor = `url(${cursorObjectURL}), pointer`;
+</code></pre>
+<p>The library is called <code>cursor-utilities</code> and is available on <a href="https://www.npmjs.com/package/cursor-utilities">npm</a>, and the source is on <a href="https://github.com/tp/cursor-utilities">GitHub</a>.</p>
 </div></div></div></body></html>
