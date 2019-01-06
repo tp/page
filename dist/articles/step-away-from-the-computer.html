@@ -1,202 +1,160 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-  <title>Timm Preetz | Timm Preetz</title>
-  <link href="https://timm.preetz.name/atom.xml" rel="alternate" title="Timm Preetz" type="application/atom+xml" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="me" type="text/html" href="http://profiles.google.com/timm.preetz?rel=me"/>
-
-  <link rel="stylesheet" type="text/css" href="/assets/syntax2.css"/>
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-33068051-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-  <style>
-
-  
-  body {
-    background-color: #ededed;
-  }
-  .contentWrapper {
-    padding: 0 20px;
-  }
-  nav {
-    /* 
-    background-color: #313131 !important;
-    position: fixed !important; */
-  }
-
-  
-
-  body {
-    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
-    font-weight: 400; /* TODO: use 200 for Helvetica Neue */
-    font-size: 18px;
-    margin: 0;
-  }
-
-  
-
-  blockquote {
-    margin-left: 0.25em;
-    padding: 0px 1em 0px 1em;
-    border-left: 1px solid #c0c0c0;
-  }
-
-  #mainWrapper {
-    max-width: 900px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-
-    margin-top: 40px;
-    overflow-x: hidden;
-
-    /*
-    position: fixed;
-    top: 40px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: scroll;
-    */
-  }
-
-  @media only all and (min-width: 415px) {
-    #mainWrapper {
-      padding: 0 15px;
-    }
-  }
-
-  nav {
-    padding: 0 20px;
-    height: 40px;
-    max-width: 900px;
-    display: flex;
-    flex-basis: 0;
-    flex-grow: 1;
-  }
-
-  nav a {
-    color: #313131;
-    font-family: Futura;
-    text-decoration: none;
-    line-height: 40px;
-  }
-
-  nav a:hover {
-    text-decoration: underline;
-  }
-
-  div.sbs {
-    display: flex;
-  }
-
-  div.sbs > div {
-    flex-grow: 1;  flex-basis: 0;
-  }
-
-  @media (max-width: 640px) {
-    div.sbs {
-      flex-direction: column;
-    }
-  }
-
-  .recentPosts h1 {
-    line-height: 1em;
-    padding: 0px;
-    margin: 0em 0;
-  }
-
-  .recentPosts a.postTitle {
-    color: #313131;
-    font-weight: 400;
-    text-decoration: none;
-  }
-
-  .recentPosts a.postTitle:hover {
-    text-decoration: underline;
-  }
-
-  .recentPosts hr {
-    margin: 50px 0;
-  }
-
-  .recentPosts span {
-    color: #313131;
-    /* font-family: Courier, monospace; */
-    font-weight: 400;
-    font-size: 12px;
-  }
-
-  a, a:visited, a:hover, a:active {
-    color: #313131;
-  }
-
-  a:hover {
-    text-decoration: none;
-  }
-
-  hr {
-    background-color: #bfbfbf;
-    border: 0;
-    height: 1px;
-  }
-
-  .homepageOverview {
-    border-radius: 5px 5px 0 0; 
-    padding: 20px;
-  }
-
-  #navWrapper {
-    position: fixed;
-    top: 0;
-    height: 40px;
-    left: 0;
-    right: 0;
-    display: flex;
-    background-color: rgba(255,255,255,0.65);
-    -webkit-backdrop-filter: blur(7px);
-    z-index: 1;
-    justify-content: center;
-  }
-
-  sup[id^=fnref] {
-    padding-top: 40px;
-    margin-top: -40px;
-  }
-
-  img {
-    max-width: 100%;
-  }
-  </style>
-</head>
-<body>
-<div class="bg"></div>
-<a href="https://github.com/tp"><img style="position: fixed; top: 0; right: 0; border: 0; width: 149px; height: 149px; z-index: 2;" src="/assets/right-graphite@2x.png" alt="Fork me on GitHub"></a>
-
-<div id="navWrapper">
-  <nav>
-    <a href="/" style="margin-right: 20px;">
-      <img src="/assets/ava.jpg" width="30" height="30" style="margin-top: 5px; float: left; border-radius: 2px;">
-    </a>
+<html><body><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Rich Hickey: Step Away from the Computer | Timm Preetz</title><style>
+      
+    body {
+        background-color: #ededed;
+      }
+      .contentWrapper {
+        padding: 0 20px;
+      }
+      nav {
+        /* 
+        background-color: #313131 !important;
+        position: fixed !important; */
+      }
     
-    <a href="/archive">Archive</a>      <a href="/about">About</a>
-  </nav>
-</div>
-
-<div id="mainWrapper">
-  <div class="contentWrapper">
-
-    <h1>Rich Hickey: Step Away from the Computer</h1>
+      
+    
+      body {
+        font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+        font-weight: 400; /* TODO: use 200 for Helvetica Neue */
+        font-size: 18px;
+        margin: 0;
+      }
+    
+  
+    
+      blockquote {
+        margin-left: 0.25em;
+        padding: 0px 1em 0px 1em;
+        border-left: 1px solid #c0c0c0;
+      }
+    
+      #mainWrapper {
+        max-width: 900px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+    
+        margin-top: 40px;
+        overflow-x: hidden;
+    
+        /*
+        position: fixed;
+        top: 40px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        overflow: scroll;
+        */
+      }
+    
+      @media only all and (min-width: 415px) {
+        #mainWrapper {
+          padding: 0 15px;
+        }
+      }
+    
+      nav {
+        padding: 0 20px;
+        height: 40px;
+        max-width: 900px;
+        display: flex;
+        flex-basis: 0;
+        flex-grow: 1;
+      }
+    
+      nav a {
+        color: #313131;
+        font-family: Futura;
+        text-decoration: none;
+        line-height: 40px;
+      }
+    
+      nav a:hover {
+        text-decoration: underline;
+      }
+    
+      div.sbs {
+        display: flex;
+      }
+    
+      div.sbs > div {
+        flex-grow: 1;  flex-basis: 0;
+      }
+    
+      @media (max-width: 640px) {
+        div.sbs {
+          flex-direction: column;
+        }
+      }
+    
+      .recentPosts h1 {
+        line-height: 1em;
+        padding: 0px;
+        margin: 0em 0;
+      }
+    
+      .recentPosts a.postTitle {
+        color: #313131;
+        font-weight: 400;
+        text-decoration: none;
+      }
+    
+      .recentPosts a.postTitle:hover {
+        text-decoration: underline;
+      }
+    
+      .recentPosts hr {
+        margin: 50px 0;
+      }
+    
+      .recentPosts span {
+        color: #313131;
+        /* font-family: Courier, monospace; */
+        font-weight: 400;
+        font-size: 12px;
+      }
+    
+      a, a:visited, a:hover, a:active {
+        color: #313131;
+      }
+    
+      a:hover {
+        text-decoration: none;
+      }
+    
+      hr {
+        background-color: #bfbfbf;
+        border: 0;
+        height: 1px;
+      }
+    
+      .homepageOverview {
+        border-radius: 5px 5px 0 0; 
+        padding: 20px;
+      }
+    
+      #navWrapper {
+        position: fixed;
+        top: 0;
+        height: 40px;
+        left: 0;
+        right: 0;
+        display: flex;
+        background-color: rgba(255,255,255,0.65);
+        -webkit-backdrop-filter: blur(7px);
+        z-index: 1;
+        justify-content: center;
+      }
+    
+      sup[id^=fnref] {
+        padding-top: 40px;
+        margin-top: -40px;
+      }
+    
+      img {
+        max-width: 100%;
+      }</style></head><div><h1>Rich Hickey: Step Away from the Computer</h1>
 <p><em>Also known as <a href="https://www.youtube.com/watch?v=f84n5oFoZBc">Hammock Driven Development</a></em></p>
 <p>Opening Question: When was the last time you thought hard about something for</p>
 <ul>
@@ -204,23 +162,17 @@
 <li>a day?</li>
 <li>over the course of a month?</li>
 </ul>
-<hr />
+<hr>
 <p>&quot;Key Note&quot; talk by Rich Hickey focussing on the problem solving aspect of programming, which in his experience is influenced and successful due to a lot of thinking without the computer at hand.</p>
-<p>He starts out with the well-established data point that bugs are most costly when they have to fixed in production and that it would be preferable to fix them during development.<br />
-Then he goes backwards one step further and suggest that bugs are least expensive to prevent in the <em>design</em> of the software.<br />
+<p>He starts out with the well-established data point that bugs are most costly when they have to fixed in production and that it would be preferable to fix them during development.<br>
+Then he goes backwards one step further and suggest that bugs are least expensive to prevent in the <em>design</em> of the software.<br>
 Relating to this, it is his understanding that &quot;the biggest problems in software are problems of misconceptions&quot;. When not the actual problems at hand are solved, but rather an attempt is made at solving perceived problems or problems arising solely from the suggested &quot;solution&quot;.</p>
 <p>Another interesting section was about tradeoffs, a word often used to justify a rushed or not fully tested implementation. According to Hickey a real tradeoff requires at least 2 possible solutions, which are then weighed and, finally, one is picked. Once you made a tradeoff, he suggests to record your reasoning and the decision in writing.</p>
 <p>The major problem this talk focuses on, going back to the opening question, is that not enough <em>thought</em> is put into the problem solving aspect of software development (which after all is the whole purpose of writing programs commercially).</p>
 <p>Speaking of the mind Hickey starts out describing it as two parts: the &quot;Waking Brain&quot; and the &quot;Background Brain&quot;. According to Hickey the first one is very tactical, while the second one is strategical, abstracts, has a great ability to synthesize. Unfortunately the &quot;Background Brain&quot; can't be used directly, but rather will work on what is most prominent in the &quot;Waking Brain&quot;. The way to get the &quot;Background Brain&quot; to work on what one desires, is to &quot;load it up&quot;.</p>
-<p>In order to do this, one foremost has to be aware that the &quot;Background Brain&quot; can only work on 7±2 problems. So how does one deal with designs that have more than 9 parts? According to Hickey a limited subset of problems should be picked and focused on those.<br />
+<p>In order to do this, one foremost has to be aware that the &quot;Background Brain&quot; can only work on 7±2 problems. So how does one deal with designs that have more than 9 parts? According to Hickey a limited subset of problems should be picked and focused on those.<br>
 Once the problems to be uploaded are picked, the currently proposed solution (from the &quot;Waking Brain&quot;) should be written down.</p>
 <p>Then one should go over the picked problems in varying orders.</p>
 <p>With all this preparation done, now the hammock comes into play. This &quot;mind's eye time&quot; — lying down with your eyes closed and thinking uninterruptedly — is an integral part of the process.</p>
 <p>Whenever you &quot;hear back&quot; from your &quot;Background Brain&quot;, depending on the situation you might want to act on it immediately, or just take note of the proposed solution. Preferably in writing.</p>
-
-  <div>
-
-
-</div>
-</body>
-</html>
+</div></body></html>

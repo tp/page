@@ -1,0 +1,26 @@
+{
+  "name": "page",
+  "version": "1.0.0",
+  "main": "compiled/index.js",
+  "repository": "git@github.com:tp/page.git",
+  "author": "Timm Preetz <timm@preetz.us>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@types/fs-extra": "^5.0.4",
+    "@types/react": "^16.7.18",
+    "@types/react-dom": "^16.0.11",
+    "fs-extra": "^7.0.1",
+    "markdown-it": "^8.4.2",
+    "markdown-it-footnote": "^3.0.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.2"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^0.0.7"
+  },
+  "scripts": {
+    "start": "ts-node src/index"
+  }
+}

@@ -1,4 +1,37 @@
-<html><body><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>An Asynchronous Web API in 1994 | Timm Preetz</title><style>
+import * as React from "react";
+
+export interface TemplateProps {
+  innerHTML: string;
+  title: string;
+}
+
+export function Template(props: TemplateProps): JSX.Element {
+  return (
+    <html>
+      <body>
+        <Head title={props.title} />
+        <div dangerouslySetInnerHTML={{ __html: props.innerHTML }} />
+      </body>
+    </html>
+  );
+}
+
+interface HeaderProps {
+  title: string;
+}
+
+function Head(props: HeaderProps) {
+  return (
+    <head>
+      <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+      <title>{props.title} | Timm Preetz</title>
+      <Style />
+    </head>
+  );
+}
+
+function Style() {
+  const css = `
       
     body {
         background-color: #ededed;
@@ -154,14 +187,7 @@
     
       img {
         max-width: 100%;
-      }</style></head><div><h1>An Asynchronous Web API in 1994</h1>
-<p>After going down a <a href="https://news.ycombinator.com/item?id=15898919">Hacker News</a> initiated rabbit hole, I crossed <a href="https://www.youtube.com/watch?v=BxQw4CdxLr8">Donald Knuth's 2017 Christmas Lecture</a> and from there ended up on the <a href="http://oeis.org/">Online Encyclopedia of Integer Sequences</a>.</p>
-<p>For every integer sequence you provide, it lists the known occurrences and, if available, formulae that can be used to generate them.</p>
-<p>One interesting detail is, that every page still had a &quot;generated in <em>N</em> seconds&quot; footer, where <em>N</em> often was &gt; 5s for my test queries. So it seems like searching 295.000 possible sequences still takes a little computing time, even on modern hardware.</p>
-<p>But while getting an answer on modern hardware in a few seconds is acceptable, let's image how much longer this might've taken a few year back.</p>
-<p>In order to offer advanced searches and explain sequences a new service was established in 1994: <a href="http://oeis.org/ol.html">&quot;Superseeker&quot;</a>. As this services does some &quot;serious computing&quot;, we can take a guess at how much longer it must've taken to complete a query.</p>
-<p>So in order to offer this at that time (where homes still had per-minute dial-up), the search API was implemented  on top of plain e-mail.</p>
-<p>That way the server could take as long as it needed to generate a response, and the sender would be notified as soon as possible once the calculation was done. What a beautifully simple approach.</p>
-<hr>
-<p>Software based on the original bunch of shell scripts from back then is still in use and it's source code is available <a href="http://oeis.org/ol_source.txt">here</a>.</p>
-</div></body></html>
+      }`;
+
+  return <style dangerouslySetInnerHTML={{ __html: css }} />;
+}
