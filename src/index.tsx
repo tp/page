@@ -186,18 +186,6 @@ async function main() {
   );
   await fs.writeFile("./dist/rss.xml", feed(articleInfos));
 
-  // const rendered = ReactDOMServer.renderToStaticMarkup(
-  //   <Template
-  //     innerHTML={ReactDOMServer.renderToStaticMarkup(<Homepage />)}
-  //     title="Home"
-  //   />
-  // )
-
-  // console.error(articleInfo);
-
-  //   md.parse()
-  //   console.error(sourceFiles());
-
   await fs.copy("./assets", "./dist/assets", { recursive: true });
 
   console.error(`ReactDOMServer.renderToStaticMarkup(element)`);
@@ -206,6 +194,11 @@ async function main() {
 main();
 
 function feed(articlesInfos: ArticleInfo[]) {
+  const latestArticles = articlesInfos
+    .slice()
+    .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+    .slice(0, 5);
+
   return `
   <?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -215,7 +208,7 @@ function feed(articlesInfos: ArticleInfo[]) {
  <link>https://timm.preetz.name/</link>
  <atom:link href="https://timm.preetz.name/rss.xml" rel="self" type="application/rss+xml" />
 
- ${articlesInfos.map(article => {
+ ${latestArticles.map(article => {
    return `
    <item>
     <title><![CDATA[${article.title}]]></title>

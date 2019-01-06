@@ -9,116 +9,18 @@
 
  
    <item>
-    <title><![CDATA[Simple App Engine Datastore Entity Versioning With Go]]></title>
+    <title><![CDATA[Page Generator TypeScript Rewrite]]></title>
     <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/Simple-App-Engine-Datastore-Entity-Versioning-With-Go</link>
-    <guid isPermaLink="false">articles/Simple-App-Engine-Datastore-Entity-Versioning-With-Go</guid>
-    <pubDate>2014-10-20T00:00:00.000Z</pubDate>
+    <link>https://timm.preetz.name/articles/page-generator-typescript-rewrite</link>
+    <guid isPermaLink="false">articles/page-generator-typescript-rewrite</guid>
+    <pubDate>2019-01-06T00:00:00.000Z</pubDate>
    </item>,
    <item>
-    <title><![CDATA[Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine]]></title>
+    <title><![CDATA[TypeScript: `ReturnType` for `async` `function`s]]></title>
     <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/Large-HTTP-requests-exceeding-the-urlfetch-limit</link>
-    <guid isPermaLink="false">articles/Large-HTTP-requests-exceeding-the-urlfetch-limit</guid>
-    <pubDate>2015-01-15T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Increased Podcast Playback Speeds]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/increased-podcast-playback-speeds</link>
-    <guid isPermaLink="false">articles/increased-podcast-playback-speeds</guid>
-    <pubDate>2015-02-22T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Image (File) Input Component for Ember.js]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/file-input-component-for-emberjs</link>
-    <guid isPermaLink="false">articles/file-input-component-for-emberjs</guid>
-    <pubDate>2015-02-23T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Alex Payne on Mindfulness as a Performance Enhancing Tool]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/alex-payne-mindfulness-performance-enhancing</link>
-    <guid isPermaLink="false">articles/alex-payne-mindfulness-performance-enhancing</guid>
-    <pubDate>2015-02-26T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Waterproof Running Shoes]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/2015-03-03 Waterproof Running Shoes</link>
-    <guid isPermaLink="false">articles/2015-03-03 Waterproof Running Shoes</guid>
-    <pubDate>2015-03-03T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Increase Video Playback Speed on Netflix]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/increase-netflix-video-playback-speed</link>
-    <guid isPermaLink="false">articles/increase-netflix-video-playback-speed</guid>
-    <pubDate>2015-03-04T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Using RubaXa Sortable with Ember.js]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/using-rubaxa-sortable-with-emberjs</link>
-    <guid isPermaLink="false">articles/using-rubaxa-sortable-with-emberjs</guid>
-    <pubDate>2015-04-16T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Fetching Potentially Compressed Webpages That Might Not be UTF-8 Encoded in Rust]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/Fetching-Compressed-Websites-in-Rust</link>
-    <guid isPermaLink="false">articles/Fetching-Compressed-Websites-in-Rust</guid>
-    <pubDate>2016-08-07T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Lawrence Block: Telling Lies for Fun & Profit]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/lies-for-profit</link>
-    <guid isPermaLink="false">articles/lies-for-profit</guid>
-    <pubDate>2017-08-24T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA["Kevin Maney: Trade-Off"]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/trade-off</link>
-    <guid isPermaLink="false">articles/trade-off</guid>
-    <pubDate>2017-08-25T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Rich Hickey: Step Away from the Computer]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/step-away-from-the-computer</link>
-    <guid isPermaLink="false">articles/step-away-from-the-computer</guid>
-    <pubDate>2017-08-26T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[Sam Harris: Lying]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/lying</link>
-    <guid isPermaLink="false">articles/lying</guid>
-    <pubDate>2017-08-27T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[An Asynchronous Web API in 1994]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/asynchronous-web-api-1994</link>
-    <guid isPermaLink="false">articles/asynchronous-web-api-1994</guid>
-    <pubDate>2017-12-12T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[7 Days Without Recreational Media]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/week-without-recreational-media</link>
-    <guid isPermaLink="false">articles/week-without-recreational-media</guid>
-    <pubDate>2018-02-23T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[WebGL: Smooth Edges on Transparent Canvases]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/webgl-smooth-edges-on-transparent-canvases</link>
-    <guid isPermaLink="false">articles/webgl-smooth-edges-on-transparent-canvases</guid>
-    <pubDate>2018-03-18T00:00:00.000Z</pubDate>
+    <link>https://timm.preetz.name/articles/typescript-async-function-return-value</link>
+    <guid isPermaLink="false">articles/typescript-async-function-return-value</guid>
+    <pubDate>2018-08-27T00:00:00.000Z</pubDate>
    </item>,
    <item>
     <title><![CDATA[Custom Cursors: Creating CUR Files from Canvas]]></title>
@@ -128,11 +30,18 @@
     <pubDate>2018-04-21T00:00:00.000Z</pubDate>
    </item>,
    <item>
-    <title><![CDATA[TypeScript: `ReturnType` for `async` `function`s]]></title>
+    <title><![CDATA[WebGL: Smooth Edges on Transparent Canvases]]></title>
     <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/typescript-async-function-return-value</link>
-    <guid isPermaLink="false">articles/typescript-async-function-return-value</guid>
-    <pubDate>2018-08-27T00:00:00.000Z</pubDate>
+    <link>https://timm.preetz.name/articles/webgl-smooth-edges-on-transparent-canvases</link>
+    <guid isPermaLink="false">articles/webgl-smooth-edges-on-transparent-canvases</guid>
+    <pubDate>2018-03-18T00:00:00.000Z</pubDate>
+   </item>,
+   <item>
+    <title><![CDATA[7 Days Without Recreational Media]]></title>
+    <description><![CDATA[]]></description>
+    <link>https://timm.preetz.name/articles/week-without-recreational-media</link>
+    <guid isPermaLink="false">articles/week-without-recreational-media</guid>
+    <pubDate>2018-02-23T00:00:00.000Z</pubDate>
    </item>
 
 </channel>

@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Home | Timm Preetz</title><style>
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Page Generator TypeScript Rewrite | Timm Preetz</title><style>
       
     body {
         background-color: #ededed;
@@ -154,4 +154,11 @@
     
       img {
         max-width: 100%;
-      }</style><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><div class="homepageOverview"><div class="recentPosts"><h3>Most Recent Posts:</h3><ul style="list-style:none"><li><span>2019-01-06</span><br/><a href="articles/page-generator-typescript-rewrite">Page Generator TypeScript Rewrite</a><br/><br/></li><li><span>2018-08-27</span><br/><a href="articles/typescript-async-function-return-value">TypeScript: `ReturnType` for `async` `function`s</a><br/><br/></li><li><span>2018-04-21</span><br/><a href="articles/creating-CUR-files-from-canvas">Custom Cursors: Creating CUR Files from Canvas</a><br/><br/></li><li><span>2018-03-18</span><br/><a href="articles/webgl-smooth-edges-on-transparent-canvases">WebGL: Smooth Edges on Transparent Canvases</a><br/><br/></li><li><span>2018-02-23</span><br/><a href="articles/week-without-recreational-media">7 Days Without Recreational Media</a><br/><br/></li></ul></div><a href="/rss.xml">RSS Feed</a> | <a href="/archive">Archive</a></div></div></div></div></body></html>
+      }</style><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Page Generator TypeScript Rewrite</h1>
+<p>After switching away from Jekyll (since I have not familiarity with Ruby and was running into limitations of how to structure this site), I wrote my custom static page generator in Swift. I choose Swift because I had been meaning to explore the language, but had no Apple-platform project on the horizon and thought it might be as good as any language to convert Markdown and write some static files.</p>
+<p>But after the initial creation I never touched it much. Development always felt a little heavy and slow and I wasn't content with the libraries.</p>
+<p>So this weekend I took the to rewriting the page generation to TypeScript. Since it's currently my main development environment, it was quick to get the basics up and running. For now it's just a static site generation, with not client side rendering.<br>
+Though I'd love to add that in the future to have a personal project with SSR + CSR to better explore different approaches here.</p>
+<p>I was delighted how for every problem I had (Markdown, code syntax highlighting, file access) there were already solid libraries to choose from. Some I'd liked different, but overall this toolset is extremely practical.</p>
+<p>In the end the whole code base is just 515 lines (in its first draft, without any code-level compression applied) and contains all the flexibility and customization I desire. And I can build and run the application to generate all pages in under a second ☺️.</p>
+</div></div></div></body></html>

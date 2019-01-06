@@ -132,5 +132,5 @@ pre {
 a {
   padding-top: 50px;
   margin-top: -50px;
-  display: inline-block; /* required for webkit browsers */
+  display: inline-block;
 }
