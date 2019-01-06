@@ -1,4 +1,4 @@
-<html><body><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Simple App Engine Datastore Entity Versioning With Go | Timm Preetz</title><style>
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Simple App Engine Datastore Entity Versioning With Go | Timm Preetz</title><style>
       
     body {
         background-color: #ededed;
@@ -154,7 +154,7 @@
     
       img {
         max-width: 100%;
-      }</style></head><div><h1>Simple App Engine Datastore Entity Versioning With Go</h1>
+      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Simple App Engine Datastore Entity Versioning With Go</h1>
 <p>In a recent project we needed the ability to save every version of a <code>User</code>'s profile (type <code>UserProfile</code>) in our database, so that we are able track changes over time and restore or review previous versions.</p>
 <p>Since there does not seem to be a standard way to do entity versioning with App Engine Datastore entities, I wrote up a quick sample below of how I solved this.</p>
 <p>I think there are two basically two way to achieve this whithout data normalization (i.e. storing the latest version in a special place):</p>
@@ -295,4 +295,4 @@ func TestVersionedStorageAfterAllPuts(t *testing.T) {
 }
 </code></pre>
 <p><a href="https://gist.github.com/tp/c1e25ae24d405a58f081">See Gist on GitHub</a></p>
-</div></body></html>
+</div></div></div></body></html>

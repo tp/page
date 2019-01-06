@@ -1,9 +1,4 @@
----
-title: Contact
-layout: default
----
-
-# {{ page.title }}
+# Contact
 
 ## Via Email
 

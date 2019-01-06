@@ -2,7 +2,7 @@
 
 A recent product design required switching various custom, dynamic cursors at runtime. These were prepared at runtime and drawn onto a `Canvas`:
 
-<video src="./cursor-example.mov" autoplay="true" loop="true" muted="true" width="108"></video>
+<video src="../cursor-example.mov" autoplay="true" loop="true" muted="true" width="108"></video>
 
 In Chrome and Firefox those canvases can be used as a cursor by setting the `cursor` property in CSS to `url(canvas.toDataURL())`. The data URL is guaranteed to contain a `base64` encoded `PNG` image of the canvas.
 

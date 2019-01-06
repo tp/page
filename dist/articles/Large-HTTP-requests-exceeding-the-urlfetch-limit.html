@@ -1,4 +1,4 @@
-<html><body><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine | Timm Preetz</title><style>
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine | Timm Preetz</title><style>
       
     body {
         background-color: #ededed;
@@ -154,7 +154,7 @@
     
       img {
         max-width: 100%;
-      }</style></head><div><h1>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine</h1>
+      }</style></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/></a><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></nav></div><div id="mainWrapper"><div class="contentWrapper"><div><h1>Making HTTP requests beyond the 32MB urlfetch limit on Google App Engine</h1>
 <p>Since Google App Engine's <code>urlfetch</code> service <a href="https://cloud.google.com/appengine/docs/go/urlfetch/#Go_Quotas_and_limits">imposes a 32MB response size limit</a> on each request, one has to roll their own <a href="http://golang.org/pkg/net/http/#Client">http.Client</a> implementation using <code>appengine/socket</code> to make requests exceeding that limit.</p>
 <p>Sadly the <code>appengine/socket</code> implementation is <a href="https://code.google.com/p/googleappengine/issues/detail?id=11076">not working with HTTP calls inside the local development server</a>, such that one can not use the same solution and code in development and production.</p>
 <p>The two issues made me create the <a href="http://godoc.org/timm.io/fetchall"><code>fetchall</code> package</a>, a simple drop-in replacement for <code>urlfetch</code> that gives you a <code>http.Client</code> implementation that handles arbitrarily large HTTP requests (within the time limits of Google App Engine).</p>
@@ -162,4 +162,4 @@
 <p>To use this package simply replace <code>urlfetch.Client</code> with <code>fetchall.Client</code> in your Go code.</p>
 <p>GitHub: <a href="https://github.com/tp/fetchall">github.com/tp/fetchall</a><br>
 GoDoc: <a href="http://godoc.org/timm.io/fetchall">godoc.org/timm.io/fetchall</a></p>
-</div></body></html>
+</div></div></div></body></html>
