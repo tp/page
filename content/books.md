@@ -1,6 +1,36 @@
 # Books
 
+## 2019
+
+- Something Incredibly Wonderful ️️Happens ⭐️
+- Man's Search for Meaning
+- The Upside of Stress
+- Alibaba
+- Drawing on the Right Side of the Brain
+- Dealers of Lightning
+
 ## 2018
+
+- Never Split the Difference
+- Measure What Matters
+- Understanding Media
+- The Secrets of Consulting
+- The Galapagos
+- The Wind-Up Bird Chronicle
+- Stubborn Attachments
+- The Dream Machine ⭐️
+- The Daily Stoic
+- Being Me, Loving You
+- Slack
+- Managin Oneself
+- What I Talk About When I Talk About Running
+- Draft No. 4
+- Food
+- Levels of the Game
+- Whiplash
+
+- Shoe Dog
+- It Doesn't Have to Be Crazy at Work
 
 ## 2017
 
