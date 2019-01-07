@@ -2,7 +2,7 @@
 
 ## 2019
 
-- Something Incredibly Wonderful ️️Happens ⭐️
+- Something Incredibly Wonderful Happens ⭐️
 - Man's Search for Meaning
 - The Upside of Stress
 - Alibaba
@@ -28,7 +28,6 @@
 - Food
 - Levels of the Game
 - Whiplash
-
 - Shoe Dog
 - It Doesn't Have to Be Crazy at Work
 
