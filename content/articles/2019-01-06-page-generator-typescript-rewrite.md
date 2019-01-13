@@ -9,4 +9,6 @@ Though I'd love to add that in the future to have a personal project with SSR + 
 
 I was delighted how for every problem I had (React instead of templating, Markdown, code syntax highlighting, file access) there were already solid libraries to choose from. Some I'd liked to be a little different, but overall this toolset is extremely practical.
 
-In the end the whole code base is just 515 lines (in its first draft, without any code-level compression applied) and contains all the flexibility and customization I desire. And I can build and run the application to generate all pages in under a second ☺️.
+In the end the whole code base is just 515 lines (in its first draft, without any code-level compression applied) and contains all the flexibility and customization I desire. And I can build and run the application to generate all pages in under a second 😀.
+
+<div class="note">All code is available in <a href="https://github.com/tp/page/tree/master/src">this GitHub repository.</a></div>

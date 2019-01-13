@@ -148,24 +148,11 @@ h1 {
   font-family: Futura;
 }
 
-p {
-  font-family: Georgia, "iA Writer Quattro", -apple-system, BlinkMacSystemFont,
-    Arial, sans-serif;
-  font-size: 18px;
-  line-height: 1.6em;
-  margin: 2.5em 0;
-}
-
 body {
   background-color: #ededed;
 }
 .contentWrapper {
   padding: 0 20px;
-}
-nav {
-  /* 
-  background-color: #313131 !important;
-  position: fixed !important; */
 }
 
 body {
@@ -310,4 +297,134 @@ sup[id^="fnref"] {
 
 img {
   max-width: 100%;
+}
+/**
+GRT
+**/
+.grt {
+  max-width: 650px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 19px;
+  line-height: 32px;
+  padding: 20px;
+}
+.grt h1 {
+  font-size: 39px;
+  line-height: 60px;
+  margin-bottom: 32px;
+}
+.grt .title {
+  font-size: 50px;
+  line-height: 76px;
+  margin-bottom: 32px;
+}
+.grt h2 {
+  font-size: 31px;
+  line-height: 49px;
+  margin-top: 52px;
+  margin-bottom: 20px;
+}
+.grt h3 {
+  font-size: 24px;
+  line-height: 39px;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+.grt h4 {
+  font-size: 19px;
+  line-height: 32px;
+  font-weight: bold;
+  margin-bottom: 7px;
+}
+.grt p,
+.grt ul,
+.grt ol,
+.grt blockquote,
+.grt pre,
+.grt .alert,
+.grt .note,
+.grt .box,
+.grt .footnotes {
+  margin-bottom: 32px;
+}
+.grt ul,
+.grt ol {
+  margin-left: 32px;
+}
+.grt li {
+  margin-bottom: 12px;
+}
+.grt blockquote {
+  padding-left: 20px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.15);
+  border-width: 0 0 0 7px;
+}
+.grt sub,
+.grt sup {
+  padding: 0 1px;
+}
+.grt code,
+.grt pre,
+.grt kbd {
+  font-size: 17px;
+}
+.grt code {
+  background-color: rgba(0, 0, 0, 0.08);
+  padding: 3px 4px;
+  border-radius: 7px;
+  margin: 0 1px;
+}
+.grt pre {
+  padding: 12px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.15);
+  border-width: 0 0 0 7px;
+}
+.grt kbd {
+  background-color: #fff;
+  padding: 3px 4px;
+  border-radius: 4px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.45);
+  margin: 0 1px;
+}
+.grt .alert,
+.grt .note,
+.grt .box {
+  padding: 20px;
+}
+.grt .footnotes {
+  font-size: 15px;
+  line-height: 26px;
+  padding-top: 20px;
+  border-top: 1px dotted rgba(0, 0, 0, 0.15);
+}
+.grt .footnotes p {
+  margin-bottom: 20px;
+}
+.grt ul ul,
+.grt ul ol,
+.grt ol ul,
+.grt ol ol,
+.grt blockquote.right p,
+.grt blockquote.left p,
+.grt .alert :last-child,
+.grt .note :last-child,
+.grt .box :last-child,
+.grt .footnotes :last-child {
+  margin-bottom: 0;
+}
+@media all and (min-width: 714px) {
+  .grt {
+    padding: 32px;
+  }
+}
+
+.grt .note {
+  background-color: #d1f4ee;
+  font: sans-serif;
+}
+
+.grt .alert {
+  background-color: #ffe97c;
 }

@@ -12,7 +12,7 @@ export function Template(props: TemplateProps): JSX.Element {
       <body>
         <Navigation />
 
-        <div id="mainWrapper">
+        <div id="mainWrapper" className="grt">
           <div className="contentWrapper">
             <div dangerouslySetInnerHTML={{ __html: props.innerHTML }} />
           </div>
