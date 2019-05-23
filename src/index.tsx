@@ -8,7 +8,7 @@ import { Template } from "./template";
 import { Homepage, ArticleInfo, Archive } from "./homepage";
 import * as Prism from "prismjs";
 var loadLanguages = require("prismjs/components/");
-loadLanguages(["typescript", "go", "swift", "rust"]);
+loadLanguages(["typescript", "go", "swift", "rust", "dart"]);
 
 // Returns a highlighted HTML string
 

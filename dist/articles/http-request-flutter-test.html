@@ -7,26 +7,26 @@
 <p>Tests get run once with recording enabled, which writes the requests and responses as JSON files to disk. On subsequent runs the recording can then be disabled and all requests will be served form those files.</p>
 <p>So that's why we needed to enable HTTP requests during tests in this specific case. How does one go about enabling them?</p>
 <p>Turns out there is a discussion about this exact behavior on <a href="https://github.com/flutter/flutter/issues/19588#issuecomment-406771070">Flutter's GitHub Issues</a> which I was lucky to find after some searching. The simplified version of that solution, shown here as part of a test, is this:</p>
-<pre><code class="language-dart">import 'dart:io';
-import 'package:http/http.dart' as http;
-// [...] other testing imports
+<pre><code class="language-dart"><span class="token keyword">import</span> <span class="token string">'dart:io'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token string">'package:http/http.dart'</span> <span class="token operator">as</span> http<span class="token punctuation">;</span>
+<span class="token comment">// [...] other testing imports</span>
 
-Future&lt;void&gt; main() async {
-  HttpOverrides.global = _MyHttpOverrides(); // Setting a customer override that'll use an unmocked HTTP client
+Future<span class="token operator">&lt;</span><span class="token keyword">void</span><span class="token operator">></span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+  HttpOverrides<span class="token punctuation">.</span>global <span class="token operator">=</span> <span class="token function">_MyHttpOverrides</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Setting a customer override that'll use an unmocked HTTP client</span>
 
-  testWidgets(
-    'Test with HTTP enabled',
-    (tester) async {
-      await tester.runAsync(() async { // Use `runAsync` to make real asynchronous calls
-        expect(
-          (await http.Client().get('https://www.google.com/')).statusCode,
-          200,
-        );
-      });
-    },
-  );
-}
+  <span class="token function">testWidgets</span><span class="token punctuation">(</span>
+    <span class="token string">'Test with HTTP enabled'</span><span class="token punctuation">,</span>
+    <span class="token punctuation">(</span>tester<span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span>
+      <span class="token keyword">await</span> tester<span class="token punctuation">.</span><span class="token function">runAsync</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">async</span> <span class="token punctuation">{</span> <span class="token comment">// Use `runAsync` to make real asynchronous calls</span>
+        <span class="token function">expect</span><span class="token punctuation">(</span>
+          <span class="token punctuation">(</span><span class="token keyword">await</span> http<span class="token punctuation">.</span><span class="token function">Client</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'https://www.google.com/'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>statusCode<span class="token punctuation">,</span>
+          <span class="token number">200</span><span class="token punctuation">,</span>
+        <span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
 
-class _MyHttpOverrides extends HttpOverrides {}
+<span class="token keyword">class</span> <span class="token class-name">_MyHttpOverrides</span> <span class="token keyword">extends</span> <span class="token class-name">HttpOverrides</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
 </code></pre>
 </div></div></div></body></html>
