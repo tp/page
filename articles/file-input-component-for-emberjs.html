@@ -1,13 +1,13 @@
 <html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Image (File) Input Component for Ember.js | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/><style></style><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px;display:flex"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>Image (File) Input Component for Ember.js</h1>
-<p>In order to enable a great user experience I wanted to show the user's newly selected profile picture in one of our clients web apps right after she choose the desired file in her browser's file picker dialog.</p>
+<p>In order to enable a great user experience I wanted to show the user’s newly selected profile picture in one of our clients web apps right after she choose the desired file in her browser’s file picker dialog.</p>
 <p>Unfortunately this is not yet as easy as a simple {% raw %}<code>&lt;input type=&quot;file&quot; file={{file}}&gt;</code>{% endraw %}.</p>
 <p>Having found <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/">this pure JavaScript implementation</a> of similar behaviour on HTML5 Rocks, I set out to port it to Ember.</p>
 <p>Since I was not able to find any recent Ember-compatible code solving this problem, I created my own version using the latest Ember conventions: a <a href="http://emberjs.com/api/classes/Ember.Component.html">component</a>.</p>
 <p>app/components/file-input.js:
 {% highlight javascript linenos %}
-import Ember from 'ember';</p>
+import Ember from ‘ember’;</p>
 <p>export default Ember.TextField.extend({
-type: 'file',
+type: ‘file’,
 change: function(e) {
 let self = this;</p>
 <pre><code>var inputFiles = e.target.files;
@@ -42,12 +42,12 @@ fileReader.readAsDataURL(firstFile);
 {% endhighlight %}</p>
 <p>app/components/image-input.js:
 {% highlight js linenos %}
-import Ember from 'ember';</p>
+import Ember from ‘ember’;</p>
 <p>export default Ember.Component.extend({
 file: null,
 actions: {
 fileSelectionChanged: function(file) {
-this.set('file', file)
+this.set(‘file’, file)
 },
 },
 });
@@ -66,7 +66,7 @@ this.set('file', file)
 </ul>
 {{/if}}
 <br>
-<p>{{ file-input fileChanged=&quot;fileSelectionChanged&quot;}}
+<p>{{ file-input fileChanged=“fileSelectionChanged”}}
 {% endraw %}
 {% endhighlight %}</p>
 <p>Now usage is as easy as {% raw %}<code>{{image-input}}</code>{% endraw %}!</p>
