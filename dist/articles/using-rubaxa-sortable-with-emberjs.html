@@ -1,7 +1,7 @@
 <html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Using RubaXa Sortable with Ember.js | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/><style></style><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/" style="margin-right:20px;display:flex"><img src="/assets/ava.jpg" width="30" height="30" style="margin-top:5px;float:left;border-radius:2px"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a>      <a href="/archive">Archive</a>      <a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>Using RubaXa Sortable with Ember.js</h1>
 <img src="/assets/posts/Sortable.gif" width="314">
 <p><a href="http://rubaxa.github.io/Sortable/">Sortable by RubaXA</a> is a great library for visually sorting elements in HTML apps.
-Sadly it has <a href="https://github.com/RubaXa/Sortable/issues/175">no built-in support for Ember.js</a>, so I thought I would elaborate here how I added it to a client's <a href="http://emberjs.com/">Ember.js</a> app.</p>
+Sadly it has <a href="https://github.com/RubaXa/Sortable/issues/175">no built-in support for Ember.js</a>, so I thought I would elaborate here how I added it to a client’s <a href="http://emberjs.com/">Ember.js</a> app.</p>
 <h2>Creating a SortableList component</h2>
 <p>app/components/sortable-list.js:</p>
 <pre><code class="language-js"><span class="token keyword">import</span> Ember <span class="token keyword">from</span> <span class="token string">'ember'</span><span class="token punctuation">;</span>
@@ -69,8 +69,8 @@ Sadly it has <a href="https://github.com/RubaXa/Sortable/issues/175">no built-in
 {{sortable-list viewModels=viewModels itemMoved='moveItem' removeItem='removeItem'}}
 {% endraw %}
 </code></pre>
-<p>It get's a little more complicated, when you want to reflect the actions that took place in the DOM in your internal data model.</p>
-<p>For this the work the enclosing component has to implement <code>moveItem</code> and <code>removeItem</code> actions where it recreates the changes in it's internal store.</p>
+<p>It get’s a little more complicated, when you want to reflect the actions that took place in the DOM in your internal data model.</p>
+<p>For this the work the enclosing component has to implement <code>moveItem</code> and <code>removeItem</code> actions where it recreates the changes in it’s internal store.</p>
 <p>This is the relevant part from one of my enclosing components:</p>
 <pre><code class="language-js">actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
   <span class="token function-variable function">moveItem</span><span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">oldIndex<span class="token punctuation">,</span> newIndex</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>

@@ -3,10 +3,10 @@
 <p>Generally that seems like a good default behavior to avoid external dependencies and hence reduce flakyness in tests. But what if you really want to make HTTP requests in your tests?</p>
 <div class="note">HTTP requests are disabled for a good reason. Before enabling them, think abhout whether you have an even better reason to do so.</div>
 <p>Since making outgoing requests in tests is discouraged, the usual advice is to use a mock client (for example <a href="https://pub.dartlang.org/documentation/http/latest/testing/MockClient-class.html"><code>MockClient</code></a> from the <code>http</code> package).</p>
-<p>But how does one then efficiently and correctly create mock responses and assertions for incoming requests? For that we've written a request/response recording HTTP client.</p>
+<p>But how does one then efficiently and correctly create mock responses and assertions for incoming requests? For that we’ve written a request/response recording HTTP client.</p>
 <p>Tests get run once with recording enabled, which writes the requests and responses as JSON files to disk. On subsequent runs the recording can then be disabled and all requests will be served form those files.</p>
-<p>So that's why we needed to enable HTTP requests during tests in this specific case. How does one go about enabling them?</p>
-<p>Turns out there is a discussion about this exact behavior on <a href="https://github.com/flutter/flutter/issues/19588#issuecomment-406771070">Flutter's GitHub Issues</a> which I was lucky to find after some searching. The simplified version of that solution, shown here as part of a test, is this:</p>
+<p>So that’s why we needed to enable HTTP requests during tests in this specific case. How does one go about enabling them?</p>
+<p>Turns out there is a discussion about this exact behavior on <a href="https://github.com/flutter/flutter/issues/19588#issuecomment-406771070">Flutter’s GitHub Issues</a> which I was lucky to find after some searching. The simplified version of that solution, shown here as part of a test, is this:</p>
 <pre><code class="language-dart"><span class="token keyword">import</span> <span class="token string">'dart:io'</span><span class="token punctuation">;</span>
 <span class="token keyword">import</span> <span class="token string">'package:http/http.dart'</span> <span class="token operator">as</span> http<span class="token punctuation">;</span>
 <span class="token comment">// [...] other testing imports</span>

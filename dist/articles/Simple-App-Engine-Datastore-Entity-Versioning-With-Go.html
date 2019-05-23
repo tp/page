@@ -6,8 +6,8 @@
 <li>Store an ever increasing version number with the entities. Pick the one with the highest version number when querying. Optionally this can be used to only allow successive saves (from version 3 to 4 to 5 etc.).</li>
 <li>Store the creation/save date with each entity. Pick the entity with the most recent creation date when querying.</li>
 </ul>
-<p>(I won't delve into <a href="http://en.wikipedia.org/wiki/Delta_encoding">delta compression</a> here, which may be worth considering if your entities are sufficiently large or change a lot.)</p>
-<p>I opted for a solution based on the entity creation time instead of a entity versioning solution that requires successive entities versions since those can be created without reading the previous entities' version number from the <code>datastore</code>.</p>
+<p>(I won’t delve into <a href="http://en.wikipedia.org/wiki/Delta_encoding">delta compression</a> here, which may be worth considering if your entities are sufficiently large or change a lot.)</p>
+<p>I opted for a solution based on the entity creation time instead of a entity versioning solution that requires successive entities versions since those can be created without reading the previous entities’ version number from the <code>datastore</code>.</p>
 <p>This also has the benefit that we’re able to restore the state of the whole database for any point in time since all changing entities are tagged with their creation date.</p>
 <p>And because writes to a single entity group (in our case the <code>User</code>) are strongly consistend and <a href="https://cloud.google.com/appengine/docs/go/datastore/#Go_Datastore_writes_and_data_visibility">guaranteed to be executed before the next read</a> of entities in that group, we are always seeing the most recently created <code>UserProfile</code> in our queries.</p>
 <h2>Implemenation &amp; Tests</h2>

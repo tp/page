@@ -15,7 +15,7 @@ Many sites send compressed or non-UTF-8 encoded data, and while the former could
 <li><a href="https://github.com/lifthrasiir/rust-encoding">encoding</a>: character set conversion from various encodings to Rust strings</li>
 </ul>
 <h2>Implementation</h2>
-<p>First let's look at how easily the current implementation make it to fetch a pages body as <code>String</code>:</p>
+<p>First let’s look at how easily the current implementation make it to fetch a pages body as <code>String</code>:</p>
 <pre><code class="language-rust"><span class="token keyword">let</span> body <span class="token operator">=</span> fetch<span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token function">fetch_page</span><span class="token punctuation">(</span><span class="token string">"https://www.rust-lang.org/en-US/"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 </code></pre>
 <blockquote>
@@ -52,7 +52,7 @@ d<span class="token punctuation">.</span><span class="token function">read_to_en
 <h2>Retrospection</h2>
 <p>Though this project is small and in a functional state right now, there are already a number of points that I need to dig into deeper before writing more complex programs in Rust:</p>
 <p><strong>Error handling</strong>: In order to return errors from <code>fetch</code> using the <a href="https://doc.rust-lang.org/std/result/enum.Result.html">Result</a> type which requires a common interface for all possible errors I am currently transforming all errors and replace them with a string containing a short description of where the error occurred. Sadly this looses the original error, which the call side might want to evaluate to help with debugging etc.</p>
-<p><strong><a href="https://doc.rust-lang.org/book/references-and-borrowing.html#borrowing">Borrowing</a> and Ownership</strong>: When reading into the buffer a second time I would get <a href="https://doc.rust-lang.org/error-index.html#E0506">error E0506</a> reported by the compiler. While I don't yet fully understand the reason for this, the suggested solution of just scoping offending code in its on <code>{ }</code> block works.</p>
+<p><strong><a href="https://doc.rust-lang.org/book/references-and-borrowing.html#borrowing">Borrowing</a> and Ownership</strong>: When reading into the buffer a second time I would get <a href="https://doc.rust-lang.org/error-index.html#E0506">error E0506</a> reported by the compiler. While I don’t yet fully understand the reason for this, the suggested solution of just scoping offending code in its on <code>{ }</code> block works.</p>
 <p>A lack of understanding <a href="https://doc.rust-lang.org/book/lifetimes.html">lifetimes</a> has also so far prevented me from breaking the code up into smaller functions, which would require some special annotations (I assume).</p>
 <p>All in all I was highly rewarded for this experiment by being exposed to new concepts and different approaches to API design and programming altogether. Furthermore I was positively surprised how quick I could pursue and find my way around the crates given the lack of full code completion. Thanks to great documentation being available for all crates used, this was not as big of a slowdown as I would have expected initially.</p>
 <p>Now I am looking forward to writing more code in Rust and get a better understanding of and write future-proof solutions for the issues mentioned above.</p>

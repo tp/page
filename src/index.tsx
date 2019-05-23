@@ -30,7 +30,7 @@ async function main() {
   const md = new MarkdownIt({
     html: true,
     linkify: false,
-    typographer: false,
+    typographer: true,
     highlight: function(str, lang) {
       if (lang) {
         try {
