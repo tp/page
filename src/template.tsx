@@ -26,19 +26,24 @@ function Navigation() {
   return (
     <div id="navWrapper">
       <nav>
-        <a href="/" style={{ marginRight: 20 }}>
+        <a href="/" style={{ marginRight: 20, display: "flex" }}>
           <img
             src="/assets/ava.jpg"
             width="30"
             height="30"
             style={{ marginTop: 5, float: "left", borderRadius: 2 }}
           />
+
+          <div className="name">Timm Preetz</div>
         </a>
-        <a href="/projects">Projects</a>
-        {"      "}
-        <a href="/archive">Archive</a>
-        {"      "}
-        <a href="/about">About</a>
+
+        <div>
+          <a href="/projects">Projects</a>
+          {"      "}
+          <a href="/archive">Archive</a>
+          {"      "}
+          <a href="/about">About</a>
+        </div>
       </nav>
     </div>
   );

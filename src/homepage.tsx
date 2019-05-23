@@ -18,15 +18,17 @@ export function Homepage(props: HomepageProps) {
 
   return (
     <div className="homepageOverview">
-      <div className="recentPosts">
-        <h3>Most Recent Posts:</h3>
-        <ul style={{ listStyle: "none" }}>
+      <div className="recentPosts" style={{ fontFamily: "Courier" }}>
+        <h3>Recent Posts:</h3>
+        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
           {mostRecentArticles.map((article, i) => {
             return (
               <li key={i}>
                 <span>{article.date.toISOString().substring(0, 10)}</span>
                 <br />
-                <a href={article.link}>{article.title}</a>
+                <a href={article.link} className="postTitle">
+                  {article.title}
+                </a>
                 <br />
                 <br />
               </li>
