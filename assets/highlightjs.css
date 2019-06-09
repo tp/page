@@ -195,6 +195,13 @@ a:hover {
   display: flex;
 }
 
+.postDate {
+  display: block;
+  font-size: 0.7em;
+  color: #33333394;
+  font-style: italic;
+}
+
 /* mobile */
 @media only all and (max-width: 768px) {
   #navWrapper {
@@ -230,6 +237,10 @@ a:hover {
   .note {
     background-color: #d1f4ee;
     padding: 20px;
+  }
+
+  .recentPosts li {
+    min-height: 65px;
   }
 }
 
@@ -333,7 +344,7 @@ a:hover {
     margin: 0em 0;
   }
 
-  .recentPosts a.postTitle {
+  /* .recentPosts a.postTitle {
     color: #313131;
     font-weight: 400;
     text-decoration: none;
@@ -342,17 +353,10 @@ a:hover {
 
   .recentPosts a.postTitle:hover {
     text-decoration: underline;
-  }
+  } */
 
   .recentPosts hr {
     margin: 50px 0;
-  }
-
-  .recentPosts span {
-    color: #313131;
-    /* font-family: Courier, monospace; */
-    font-weight: 400;
-    font-size: 12px;
   }
 
   a,

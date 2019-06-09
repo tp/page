@@ -24,13 +24,14 @@ export function Homepage(props: HomepageProps) {
           {mostRecentArticles.map((article, i) => {
             return (
               <li key={i}>
-                <span>{article.date.toISOString().substring(0, 10)}</span>
-                <br />
-                <a href={article.link} className="postTitle">
-                  {article.title}
+                <a href={article.link}>
+                  <span className="postTitle">
+                    {article.title.replace(/\`/g, "")}
+                  </span>
                 </a>
-                <br />
-                <br />
+                <span className="postDate">
+                  published on {article.date.toISOString().substring(0, 10)}
+                </span>
               </li>
             );
           })}
