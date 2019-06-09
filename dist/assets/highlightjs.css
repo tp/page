@@ -155,12 +155,20 @@ a:hover {
 #navWrapper {
   background-color: rgba(255, 255, 255, 0.65);
   -webkit-backdrop-filter: blur(7px);
+  /* border-top: 3px solid #e55d9c; */
+  /* border-top: 3px solid #e88605; */
+  /* border-top: 3px solid #2a7ae2; */
+  border-top: 3px solid #237bf6;
 }
 
 #mainWrapper a {
+  /* color: #2a7ae2;
+  color: #ff9913; */
+  all: initial;
+  /* color: #e55d9c; */
+  /* color: #e88605; */
   /* color: #2a7ae2; */
-  /* color: #ff9913; */
-  color: #e88605;
+  color: #237bf6;
 }
 
 #mainWrapper a:hover {
@@ -202,6 +210,11 @@ a:hover {
   font-style: italic;
 }
 
+#mainWrapper .footerLinks > a {
+  color: #33333394;
+  margin-right: 10px;
+}
+
 /* mobile */
 @media only all and (max-width: 768px) {
   #navWrapper {
@@ -240,7 +253,7 @@ a:hover {
   }
 
   .recentPosts li {
-    min-height: 65px;
+    margin-bottom: 35px;
   }
 }
 
@@ -296,7 +309,7 @@ a:hover {
 
   nav {
     padding: 0 20px;
-    height: 60px;
+    height: 40px;
     max-width: 900px;
     display: flex;
     flex-basis: 0;
@@ -386,12 +399,13 @@ a:hover {
     position: fixed;
     background-color: rgba(255, 255, 255, 0.95);
     top: 0;
-    height: 40px;
+    height: 60px;
     left: 0;
     right: 0;
     display: flex;
     z-index: 1;
     justify-content: center;
+    align-items: center;
   }
 
   sup[id^="fnref"] {

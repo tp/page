@@ -37,7 +37,10 @@ export function Homepage(props: HomepageProps) {
           })}
         </ul>
       </div>
-      <a href="/rss.xml">RSS Feed</a> | <a href="/archive">Archive</a>
+      <div className="footerLinks">
+        <a href="/rss.xml">RSS Feed</a>
+        <a href="/archive">Archive</a>
+      </div>
     </div>
   );
 }
