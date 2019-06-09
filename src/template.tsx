@@ -26,12 +26,12 @@ function Navigation() {
   return (
     <div id="navWrapper">
       <nav>
-        <a href="/" style={{ marginRight: 20, display: "flex" }}>
+        <a href="/">
           <img
             src="/assets/ava.jpg"
             width="30"
             height="30"
-            style={{ marginTop: 5, float: "left", borderRadius: 2 }}
+            className="headerImage"
           />
 
           <div className="name">Timm Preetz</div>
@@ -39,9 +39,7 @@ function Navigation() {
 
         <div>
           <a href="/projects">Projects</a>
-          {"      "}
           <a href="/archive">Archive</a>
-          {"      "}
           <a href="/about">About</a>
         </div>
       </nav>
@@ -62,14 +60,7 @@ function Head(props: HeaderProps) {
         name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no"
       />
-      <Style />
       <link rel="stylesheet" href="/assets/highlightjs.css" />
     </head>
   );
-}
-
-function Style() {
-  const css = ``;
-
-  return <style dangerouslySetInnerHTML={{ __html: css }} />;
 }

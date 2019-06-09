@@ -18,9 +18,9 @@ export function Homepage(props: HomepageProps) {
 
   return (
     <div className="homepageOverview">
-      <div className="recentPosts" style={{ fontFamily: "Courier" }}>
+      <div className="recentPosts">
         <h3>Recent Posts:</h3>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <ul>
           {mostRecentArticles.map((article, i) => {
             return (
               <li key={i}>
@@ -49,25 +49,15 @@ export function Archive(props: HomepageProps) {
   return (
     <>
       <h2>Archive</h2>
-      <ul style={{ listStyleType: "none", paddingLeft: 0, marginLeft: 0 }}>
+      <ul className="archiveList">
         {mostRecentArticles.map((article, i) => {
           return (
-            <li
-              key={i}
-              style={{
-                whiteSpace: "nowrap",
-                textOverflow: "ellipsis",
-                overflow: "hidden"
-              }}
-            >
-              <a
-                style={{ textDecoration: "none", fontFamily: "Futura" }}
-                href={"/" + article.link}
-              >
-                <span style={{ fontFamily: "monospace" }}>
-                  {article.date.toISOString().substring(0, 10)}{" "}
+            <li key={i}>
+              <a href={"/" + article.link}>
+                <span className="date">
+                  {article.date.toISOString().substring(0, 10)}
                 </span>
-                {article.title}
+                <span className="title">{article.title}</span>
               </a>
             </li>
           );
