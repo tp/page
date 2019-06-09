@@ -144,7 +144,8 @@ h1 {
 }
 
 a {
-  all: unset;
+  text-decoration: none;
+  color: black;
 }
 
 a:hover {
@@ -164,7 +165,7 @@ a:hover {
 #mainWrapper a {
   /* color: #2a7ae2;
   color: #ff9913; */
-  all: initial;
+  /* all: initial; */
   /* color: #e55d9c; */
   /* color: #e88605; */
   /* color: #2a7ae2; */
