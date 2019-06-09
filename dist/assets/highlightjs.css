@@ -160,6 +160,8 @@ a:hover {
   /* border-top: 3px solid #e88605; */
   /* border-top: 3px solid #2a7ae2; */
   border-top: 3px solid #237bf6;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 #mainWrapper a {

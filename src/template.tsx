@@ -58,8 +58,9 @@ function Head(props: HeaderProps) {
       <title>{props.title} | Timm Preetz</title>
       <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"
       />
+
       <link rel="stylesheet" href="/assets/highlightjs.css" />
     </head>
   );
