@@ -49,12 +49,26 @@ export function Archive(props: HomepageProps) {
   return (
     <>
       <h2>Archive</h2>
-      <ul style={{ listStyleType: "none" }}>
+      <ul style={{ listStyleType: "none", paddingLeft: 0, marginLeft: 0 }}>
         {mostRecentArticles.map((article, i) => {
           return (
-            <li key={i}>
-              {article.date.toISOString().substring(0, 10)}{" "}
-              <a href={"/" + article.link}>{article.title}</a>
+            <li
+              key={i}
+              style={{
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                overflow: "hidden"
+              }}
+            >
+              <a
+                style={{ textDecoration: "none", fontFamily: "Futura" }}
+                href={"/" + article.link}
+              >
+                <span style={{ fontFamily: "monospace" }}>
+                  {article.date.toISOString().substring(0, 10)}{" "}
+                </span>
+                {article.title}
+              </a>
             </li>
           );
         })}
