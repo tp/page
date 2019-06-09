@@ -296,12 +296,13 @@ a:hover {
 
   nav {
     padding: 0 20px;
-    height: 40px;
+    height: 60px;
     max-width: 900px;
     display: flex;
     flex-basis: 0;
     flex-grow: 1;
     justify-content: space-between;
+    align-items: center;
   }
 
   nav a,
