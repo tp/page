@@ -133,7 +133,7 @@ pre {
   padding: 10px 5px;
 }
 
-a {
+a[href^="#fn"] {
   padding-top: 50px;
   margin-top: -50px;
   display: inline-block;
