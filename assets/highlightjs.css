@@ -199,7 +199,7 @@ a:hover {
   flex-shrink: 0;
 }
 
-.archiveList a {
+#mainWrapper .archiveList a {
   display: flex;
 }
 
@@ -234,7 +234,7 @@ a:hover {
 
   #navWrapper > nav > div > a {
     line-height: 44px;
-    padding-right: 30px;
+    margin-right: 30px;
   }
 
   #navWrapper .name {
