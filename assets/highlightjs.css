@@ -127,6 +127,44 @@ pre[class*="language-"] {
  page styles
  **/
 
+:root {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #000 !important;
+    color: rgb(215, 215, 216) !important;
+  }
+
+  nav a,
+  nav .name {
+    color: rgb(215, 215, 216) !important;
+    font-weight: 600 !important;
+  }
+
+  #navWrapper {
+    border-top: 3px solid rgb(102, 187, 255) !important;
+  }
+
+  a {
+    color: rgb(102, 187, 255) !important;
+  }
+
+  #navWrapper {
+    background-color: rgba(29, 8, 8, 0.65) !important;
+  }
+
+  .archiveList .date,
+  .postDate {
+    color: rgb(215, 215, 216) !important;
+  }
+
+  .note {
+    color: #000 !important;
+  }
+}
+
 pre {
   background-color: #272822;
   overflow-y: scroll;
@@ -135,7 +173,7 @@ pre {
 
 body {
   font-family: "Avenir Next", "Helvetica Neue", "Helvetica", sans-serif;
-  background-color: #ededed;
+  background-color: #fafafa;
   margin: 0;
 }
 
