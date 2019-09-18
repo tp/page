@@ -31,11 +31,11 @@ async function main() {
     html: true,
     linkify: false,
     typographer: true,
-    highlight: function(str, lang) {
+    highlight: function (str, lang) {
       if (lang) {
         try {
           return Prism.highlight(str, Prism.languages[lang]);
-        } catch (__) {}
+        } catch (__) { }
       }
 
       return ""; // use external default escaping
@@ -199,8 +199,7 @@ function feed(articlesInfos: ArticleInfo[]) {
     .sort((a, b) => b.date.valueOf() - a.date.valueOf())
     .slice(0, 5);
 
-  return `
-  <?xml version="1.0" encoding="UTF-8" ?>
+  return `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
  <title>{{ site.title }}</title>
@@ -209,15 +208,15 @@ function feed(articlesInfos: ArticleInfo[]) {
  <atom:link href="https://timm.preetz.name/rss.xml" rel="self" type="application/rss+xml" />
 
  ${latestArticles.map(article => {
-   return `
+    return `
    <item>
     <title><![CDATA[${article.title}]]></title>
     <description><![CDATA[${""}]]></description>
     <link>https://timm.preetz.name/${article.link}</link>
     <guid isPermaLink="false">${article.link}</guid>
-    <pubDate>${article.date.toISOString()}</pubDate>
+    <pubDate>${article.date.toUTCString()}</pubDate>
    </item>`;
- })}
+  }).join('\n')}
 
 </channel>
 </rss>`;

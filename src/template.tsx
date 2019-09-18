@@ -62,6 +62,7 @@ function Head(props: HeaderProps) {
       />
 
       <link rel="stylesheet" href="/assets/highlightjs.css" />
+      <link rel="alternate" type="application/rss+xml" title="Timm Preetz's blog" href="/rss.xml" />
     </head>
   );
 }
