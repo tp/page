@@ -1,0 +1,88 @@
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Nested `ListView`s in Flutter | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/><link rel="stylesheet" href="/assets/highlightjs.css"/></head><body><div id="navWrapper"><nav><a href="/"><img src="/assets/ava.jpg" width="30" height="30" class="headerImage"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a><a href="/archive">Archive</a><a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>Nested <code>ListView</code>s in Flutter</h1>
+<p>If you’ve ever tried rendering a simple <code>ListView</code> inside the <code>itemBuilder</code> method of another <code>ListView</code> you’ll most certainly have encountered the <em>Vertical viewport was given unbounded height.</em> exception.</p>
+<p>The simple fix (which ranks up top on Google) is to add the <code>shrinkWrap: true</code> property to the inner <code>ListView</code>s. Once that is changed the initial screen renders fine, until you try to scroll the overall list, which is not possible because any drag actions on top of the inner <code>ListView</code>s just scrolls them (even though they might be “fully” rendered). The fix for that issue is then to add <code>physics: ClampingScrollPhysics()</code> to the innner <code>ListView</code>s.</p>
+<p>With those 2 lines added to the inner <code>ListView</code> the initial issue is solved and one might consider it done. I would like to disagree and suggest some alternatives. In this I’ll article explain why there is no need to nest <code>ListView</code>s in the first place, how nesting them can be misleading about their performance characteristics (which are bad in practice), and how <code>SliverList</code> is a better approach should you ever have the need to render multiple list below one another.</p>
+<div class="note">The demo app and code for each approach is available on <a href="https://github.com/tp/nested_listviews">GitHub at tp/nested_listviews</a>.</div>
+<h2>Performance characteristics of nested <code>ListView</code>s</h2>
+<p>All of the nested <code>ListView</code> code I have seen in the wild recently used the seemingly performant <a href="https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html"><code>ListView.builder</code> constructor</a> for the outer and inner <code>ListView</code>s. So it seems like developers are aware that it exists and should be used, and the documentation clearly states the advantages of it:</p>
+<blockquote>
+<p>This constructor is appropriate for list views with a large (or infinite) number of children because the builder is called only for those children that are actually visible.</p>
+</blockquote>
+<p>Unfortunately though, that is not true anymore for the inner <code>ListView</code>s. Because the outer view needs to know how tall the inner <code>ListView</code>s are, the inner ones will get rendered in full until the height is filled. But at the very least the first list view will get rendered in full, which is already bad should that contain many items. This behavior can easily be verified by putting a <code>print</code> in the <code>itemBuilder</code> of the inner <code>ListView</code>:</p>
+<p><img src="./flutter_listviews_inner_fully_rendered.png" alt=""></p>
+<p>As you can see in the example above, the 1000 items for the first inner <code>ListView</code> were build, even though only 50 are visible on the screen.</p>
+<p>Whether or not this is an issue in your application depends on the maximum amount of items in the inner <code>ListView</code>s. Just from reading the code one might think though that it behaves efficiently – meaning it really only renders visible items – which it does not. Hence I would find it more <em>honest</em> to use a <code>Column</code> and plainly map the items to widgets. Also in the general case that reads nicer than retrieving the item by index from the underlying storage as has to be done with the <code>itemBuilder</code>:</p>
+<pre><code class="language-dart"><span class="token comment">// [... wrapping ListView.builder omitted]</span>
+<span class="token keyword">return</span> <span class="token function">Column</span><span class="token punctuation">(</span>
+  children<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">></span><span class="token punctuation">[</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>List<span class="token punctuation">.</span><span class="token function">generate</span><span class="token punctuation">(</span>
+      <span class="token number">1000</span><span class="token punctuation">,</span>
+      <span class="token punctuation">(</span>innerIndex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">Text</span><span class="token punctuation">(</span><span class="token string">'Outer = $outerIndex, Inner = $innerIndex'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2>The flattened list approach</h2>
+<p>So far we’ve only seen how a nested <code>ListView</code> is as much work to render as a <code>Column</code> or a similar widget. One approach I would like to suggest, for most cases, is to <em>unnest</em> the rendering and make do with a single list view. This can be achieved in a variety of ways, but the simple approach of flattening the data structure into a single array should work up to a huge number of items. Just make sure not to compute that flattened array in the <code>builder</code> method, but rather once initially and on updates and keep it stored in some state.</p>
+<p>Suppose we’d wanted to build a todo app. Let’s assume our API returns us a list of sorted groups (for example by day) in some kind of <code>Section</code> type:</p>
+<pre><code class="language-dart"><span class="token metadata symbol">@immutable</span>
+<span class="token keyword">class</span> <span class="token class-name">Section</span> <span class="token punctuation">{</span>
+    <span class="token function">Section</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>title<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>items<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">final</span> String title<span class="token punctuation">;</span>
+
+    <span class="token keyword">final</span> List<span class="token operator">&lt;</span>String<span class="token operator">></span> items<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now instead of rendering the outer <code>ListView</code> with the <code>Section</code>s as items and then an inner <code>ListView</code> for each section, we can flatten the <code>Section</code>s into a list of <code>Row</code>s (a new type we define for this case).</p>
+<pre><code class="language-dart"><span class="token metadata symbol">@immutable</span>
+<span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">Row</span> <span class="token punctuation">{</span><span class="token punctuation">}</span> <span class="token comment">// approximation of a union type in Dart</span>
+
+<span class="token keyword">class</span> <span class="token class-name">HeaderRow</span> <span class="token keyword">implements</span> <span class="token class-name">Row</span> <span class="token punctuation">{</span>
+  <span class="token function">HeaderRow</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">final</span> String title<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ItemRow</span> <span class="token keyword">implements</span> <span class="token class-name">Row</span> <span class="token punctuation">{</span>
+  <span class="token function">ItemRow</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">final</span> String description<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+
+<span class="token comment">// tasksByDay is a List&lt;Section></span>
+<span class="token keyword">final</span> items <span class="token operator">=</span> tasksByDay<span class="token punctuation">.</span>expand<span class="token operator">&lt;</span>Row<span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">(</span>section<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">[</span>
+    <span class="token function">HeaderRow</span><span class="token punctuation">(</span>section<span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>section<span class="token punctuation">.</span>items<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">></span> <span class="token function">ItemRow</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>And then that <code>items</code> list can be rendered with a single <code>ListView</code> which renders a specific widget dependening on each item’s type:</p>
+<pre><code class="language-dart">ListView<span class="token punctuation">.</span><span class="token function">builder</span><span class="token punctuation">(</span>
+  itemBuilder<span class="token punctuation">:</span> <span class="token punctuation">(</span>context<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">final</span> item <span class="token operator">=</span> items<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">is</span> HeaderRow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">Text</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>title<span class="token punctuation">,</span>
+          style<span class="token punctuation">:</span> <span class="token function">TextStyle</span><span class="token punctuation">(</span>fontWeight<span class="token punctuation">:</span> FontWeight<span class="token punctuation">.</span>bold<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>item <span class="token operator">is</span> ItemRow<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token function">Text</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>description<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  itemCount<span class="token punctuation">:</span> items<span class="token punctuation">.</span>length<span class="token punctuation">,</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>With this approach a little upfront work is required, but then only the rows visbile on screen (+ some small amount of extra rows rendered by the framework) are built:</p>
+<p><img src="./flattened_list.png" alt="The flattened list builds only the minimum amount of items"></p>
+<h2><code>SliverList</code>s inside a <code>CustomScrollView</code></h2>
+<p>The above approach of flattening the list is in my opinion a good approach to render such a grouped list view, but it’s only suitable for lists that have few row types. Should you ever have the need to render lists from different domains in a single list, then a <code>CustomScrollView</code> with <code>SliverList</code>s for each specific type of list seem like a better approach in my opinion. I’ll write up an explanation and code example on those in a follow up post.</p>
+<h2>Recap</h2>
+<p>I hope I was able to show how nesting <code>ListView</code>s inside one another might not be a good idea for the problem at hand, and what other implementations are available. You can either use a <code>Column</code> or any other “simple” widget for the inner lists, or flatten the whole list for rendering and by through that achieve the <code>ListView.builder</code>'s promise of only rendering items which are visible on screen.</p>
+<div class="alert">👩‍💻 If you love working with Flutter and enjoy sweating the details, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfectd job for you</a>.</div>
+</div></div></div></body></html>
