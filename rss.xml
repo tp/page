@@ -1,5 +1,4 @@
-
-  <?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
  <title>{{ site.title }}</title>
@@ -13,35 +12,39 @@
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/nested-listviews-in-flutter</link>
     <guid isPermaLink="false">articles/nested-listviews-in-flutter</guid>
-    <pubDate>2019-09-18T00:00:00.000Z</pubDate>
-   </item>,
+    <pubDate>Wed, 18 Sep 2019 00:00:00 GMT</pubDate>
+   </item>
+
    <item>
     <title><![CDATA[Making HTTP Requests in Flutter Tests]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/http-request-flutter-test</link>
     <guid isPermaLink="false">articles/http-request-flutter-test</guid>
-    <pubDate>2019-05-03T00:00:00.000Z</pubDate>
-   </item>,
+    <pubDate>Fri, 03 May 2019 00:00:00 GMT</pubDate>
+   </item>
+
    <item>
     <title><![CDATA[Page Generator TypeScript Rewrite]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/page-generator-typescript-rewrite</link>
     <guid isPermaLink="false">articles/page-generator-typescript-rewrite</guid>
-    <pubDate>2019-01-06T00:00:00.000Z</pubDate>
-   </item>,
+    <pubDate>Sun, 06 Jan 2019 00:00:00 GMT</pubDate>
+   </item>
+
    <item>
     <title><![CDATA[TypeScript: `ReturnType` for `async` `function`s]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/typescript-async-function-return-value</link>
     <guid isPermaLink="false">articles/typescript-async-function-return-value</guid>
-    <pubDate>2018-08-27T00:00:00.000Z</pubDate>
-   </item>,
+    <pubDate>Mon, 27 Aug 2018 00:00:00 GMT</pubDate>
+   </item>
+
    <item>
     <title><![CDATA[Custom Cursors: Creating CUR Files from Canvas]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/creating-CUR-files-from-canvas</link>
     <guid isPermaLink="false">articles/creating-CUR-files-from-canvas</guid>
-    <pubDate>2018-04-21T00:00:00.000Z</pubDate>
+    <pubDate>Sat, 21 Apr 2018 00:00:00 GMT</pubDate>
    </item>
 
 </channel>
