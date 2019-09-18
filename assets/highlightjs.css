@@ -131,6 +131,10 @@ pre[class*="language-"] {
   color-scheme: light dark;
 }
 
+h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
+  font-size: 1em !important;
+}
+
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #000 !important;
@@ -160,7 +164,7 @@ pre[class*="language-"] {
     color: rgb(215, 215, 216) !important;
   }
 
-  .note {
+  .note, .alert{
     color: #000 !important;
   }
 }
@@ -327,6 +331,7 @@ a:hover {
   }
 
   blockquote {
+    font-style: italic;
     margin-left: 0.25em;
     padding: 0px 1em 0px 1em;
     border-left: 1px solid #c0c0c0;

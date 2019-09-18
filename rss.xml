@@ -9,6 +9,13 @@
 
  
    <item>
+    <title><![CDATA[Nested `ListView`s in Flutter]]></title>
+    <description><![CDATA[]]></description>
+    <link>https://timm.preetz.name/articles/nested-listviews-in-flutter</link>
+    <guid isPermaLink="false">articles/nested-listviews-in-flutter</guid>
+    <pubDate>2019-09-18T00:00:00.000Z</pubDate>
+   </item>,
+   <item>
     <title><![CDATA[Making HTTP Requests in Flutter Tests]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/http-request-flutter-test</link>
@@ -35,13 +42,6 @@
     <link>https://timm.preetz.name/articles/creating-CUR-files-from-canvas</link>
     <guid isPermaLink="false">articles/creating-CUR-files-from-canvas</guid>
     <pubDate>2018-04-21T00:00:00.000Z</pubDate>
-   </item>,
-   <item>
-    <title><![CDATA[WebGL: Smooth Edges on Transparent Canvases]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/webgl-smooth-edges-on-transparent-canvases</link>
-    <guid isPermaLink="false">articles/webgl-smooth-edges-on-transparent-canvases</guid>
-    <pubDate>2018-03-18T00:00:00.000Z</pubDate>
    </item>
 
 </channel>
