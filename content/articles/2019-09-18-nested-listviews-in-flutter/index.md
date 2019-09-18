@@ -115,4 +115,4 @@ The above approach of flattening the list is in my opinion a good approach to re
 
 I hope I was able to show how nesting `ListView`s inside one another might not be a good idea for the problem at hand, and what other implementations are available. You can either use a `Column` or any other "simple" widget for the inner lists, or flatten the whole list for rendering and by through that achieve the `ListView.builder`'s promise of only rendering items which are visible on screen.
 
-<div class="alert">👩‍💻 If you love working with Flutter and enjoy sweating the details, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfectd job for you</a>.</div>
+<div class="alert">👩‍💻 If you love working with Flutter and enjoy sweating the details, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfect job for you</a>.</div>
