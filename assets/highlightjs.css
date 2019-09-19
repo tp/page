@@ -167,6 +167,11 @@ h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
   .note, .alert{
     color: #000 !important;
   }
+  
+  .alert {
+    background-color: #ffe97c;
+    padding: 20px;
+  }
 }
 
 pre {
@@ -258,6 +263,10 @@ a:hover {
 #mainWrapper .footerLinks > a {
   color: #33333394;
   margin-right: 10px;
+}
+
+.contentWrapper img {
+  max-width: 100%;
 }
 
 /* mobile */
