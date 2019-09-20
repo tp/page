@@ -1,0 +1,39 @@
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Rendering a combined list view from multiple list using Flutter&#x27;s `SliverList`s | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/><link rel="stylesheet" href="/assets/highlightjs.css"/><link rel="alternate" type="application/rss+xml" title="Timm Preetz&#x27;s blog" href="/rss.xml"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png"/><link rel="manifest" href="/assets/favicon/site.webmanifest"/></head><body><div id="navWrapper"><nav><a href="/"><img src="/assets/ava.jpg" width="30" height="30" class="headerImage"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a><a href="/archive">Archive</a><a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>Rendering a combined list view from multiple list using Flutter’s <code>SliverList</code>s</h1>
+<p>The <a href="https://timm.preetz.name/articles/nested-listviews-in-flutter">previous post</a> showed how to flatten grouped data with a header above the items so it can be rendered in a single <a href="https://api.flutter.dev/flutter/widgets/ListView-class.html"><code>ListView</code></a> widget. Now I want to look at a diffent use-case: Rendering lists from distinct data sources after each other. This implementation will use a <a href="https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html"><code>CustomScrollView</code></a> and <a href="https://api.flutter.dev/flutter/widgets/SliverList-class.html"><code>SliverList</code>s</a>. If you’re unfamiliar with slivers, I would recommend reading <a href="https://medium.com/flutter/slivers-demystified-6ff68ab0296f">Slivers, Demystified</a> first, as the below example will just focus on this one narrow use-case, while the overall setup supports much more.</p>
+<h2>The Example</h2>
+<p>For this demo I want to render a single list showing the user’s favorite items, then some static content, and below that recommendations of similiar things. Since this simple example only has 3 row types, we could implement it using the <code>ListView</code> approach shown before. But as the row types are never mixed together and since in this example there are only 3 sections (favorites list, static content, recommendations list) I think it’s a good case to create a widget for each section of the scroll view and then combine those into one scrollable list using <code>CustomScrollView</code>.</p>
+<p><img src="./sliverlists.gif" alt="Example scroll view showing a list made up from 3 different sources"></p>
+<div class="note">The demo app and code for is available on <a href="https://github.com/tp/nested_listviews">GitHub at tp/nested_listviews</a>.</div>
+<p>On the top-level, the widget that sets up the list as a <code>CustomScrollView</code> is nicely readable and gives a nice overview of what will be shown in it:</p>
+<pre><code class="language-dart">Widget <span class="token function">build</span><span class="token punctuation">(</span>BuildContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">CustomScrollView</span><span class="token punctuation">(</span>
+    slivers<span class="token punctuation">:</span> <span class="token operator">&lt;</span>Widget<span class="token operator">></span><span class="token punctuation">[</span>
+      <span class="token function">Favorites</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token function">Static</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+      <span class="token function">Recommendations</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Now onto each sliver itself:</p>
+<ul>
+<li><code>Favorites</code> renders a <code>SliverList</code> with a <code>SliverChildBuilderDelegate</code>; so it could handle a large amount of items</li>
+<li><code>Static</code> uses a <code>SliverChildListDelegate</code> in its <code>SliverList</code> as it renders just one very simple widget</li>
+<li><code>Recommendations</code> uses the same approach a <code>Favorites</code>, just with a different widget for its rows</li>
+</ul>
+<p>So the <code>Favorites</code> and <code>Recommendation</code> builder methods look both roughly like this:</p>
+<pre><code class="language-dart">Widget <span class="token function">build</span><span class="token punctuation">(</span>BuildContext context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token function">SliverList</span><span class="token punctuation">(</span>
+    delegate<span class="token punctuation">:</span> <span class="token function">SliverChildBuilderDelegate</span><span class="token punctuation">(</span>
+      <span class="token punctuation">(</span>context<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">XyzRow</span><span class="token punctuation">(</span>data<span class="token punctuation">:</span> index<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// might be `data[index]` in practice</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      childCount<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span> <span class="token comment">// might be `data.length` in practice</span>
+    <span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Overall <a href="https://github.com/tp/nested_listviews/blob/8220c3d768a094a85ed5cef7834137a010b02114/lib/slivers/list_from_slivers.dart">the whole source code for this example</a> looks to me a lot simpler than what we had in the previous case even though it seems like a more niche use case than rendering a grouped list. I think that stems from the fact that this “lists below each other” is nicely supported by the framework, while the grouped display was not.</p>
+<p>In a real app one might need to combine the 2 approaches: Render a grouped list view from a flattened list with a <code>SliverChildBuilderDelegate</code> inside a <code>CustomScrollView</code> which also contains other lists. That is left as an exercise to the interested reader though 😉</p>
+<div class="alert">👨🏾‍💻 If you love working with Flutter and like to dig deep to find the best approach to each problem, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfect job for you</a>.</div>
+</div></div></div></body></html>

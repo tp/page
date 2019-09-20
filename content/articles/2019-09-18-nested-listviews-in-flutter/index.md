@@ -109,7 +109,7 @@ With this approach a little upfront work is required, but then only the rows vis
 
 ## `SliverList`s inside a `CustomScrollView`
 
-The above approach of flattening the list is in my opinion a good approach to render such a grouped list view, but it's only suitable for lists that have few row types. Should you ever have the need to render lists from different domains in a single list, then a `CustomScrollView` with `SliverList`s for each specific type of list seem like a better approach in my opinion. I'll write up an explanation and code example on those in a follow up post.
+The above approach of flattening the list is in my opinion a good approach to render such a grouped list view, but it's only suitable for lists that have few row types. Should you ever have the need to render lists from different domains in a single list after another, then a `CustomScrollView` with `SliverList`s for each specific type of list seem like a better approach in my opinion. I'll write up an explanation and code example on those in a follow up post.
 
 ## Recap
 
