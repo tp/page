@@ -155,6 +155,14 @@ h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
     color: rgb(102, 187, 255) !important;
   }
 
+  /* 
+  Just underline links?
+  .contentWrapper p > a {
+    color:  #d7d7d8 !important;
+    text-decoration: underline !important;
+    text-decoration-color: rgb(102, 187, 255) !important;
+  } */
+
   #navWrapper {
     background-color: rgba(29, 8, 8, 0.65) !important;
   }

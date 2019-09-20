@@ -8,6 +8,14 @@
 
  
    <item>
+    <title><![CDATA[Rendering a combined list view from multiple list using Flutter's `SliverList`s]]></title>
+    <description><![CDATA[]]></description>
+    <link>https://timm.preetz.name/articles/flutter-sliver-list-view</link>
+    <guid isPermaLink="false">articles/flutter-sliver-list-view</guid>
+    <pubDate>Fri, 20 Sep 2019 00:00:00 GMT</pubDate>
+   </item>
+
+   <item>
     <title><![CDATA[Nested `ListView`s in Flutter]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/nested-listviews-in-flutter</link>
@@ -37,14 +45,6 @@
     <link>https://timm.preetz.name/articles/typescript-async-function-return-value</link>
     <guid isPermaLink="false">articles/typescript-async-function-return-value</guid>
     <pubDate>Mon, 27 Aug 2018 00:00:00 GMT</pubDate>
-   </item>
-
-   <item>
-    <title><![CDATA[Custom Cursors: Creating CUR Files from Canvas]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/creating-CUR-files-from-canvas</link>
-    <guid isPermaLink="false">articles/creating-CUR-files-from-canvas</guid>
-    <pubDate>Sat, 21 Apr 2018 00:00:00 GMT</pubDate>
    </item>
 
 </channel>

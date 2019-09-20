@@ -1,118 +1,53 @@
-# Nested `ListView`s in Flutter
+# Rendering a combined list view from multiple list using Flutter's `SliverList`s
 
-If you've ever tried rendering a simple `ListView` inside the `itemBuilder` method of another `ListView` you'll most certainly have encountered the _Vertical viewport was given unbounded height._ exception.
+The [previous post](https://timm.preetz.name/articles/nested-listviews-in-flutter) showed how to flatten grouped data with a header above the items so it can be rendered in a single [`ListView`](https://api.flutter.dev/flutter/widgets/ListView-class.html) widget. Now I want to look at a diffent use-case: Rendering lists from distinct data sources after each other. This implementation will use a [`CustomScrollView`](https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html) and [`SliverList`s](https://api.flutter.dev/flutter/widgets/SliverList-class.html). If you're unfamiliar with slivers, I would recommend reading [Slivers, Demystified](https://medium.com/flutter/slivers-demystified-6ff68ab0296f) first, as the below example will just focus on this one narrow use-case, while the overall setup supports much more.
 
-The simple fix (which ranks up top on Google) is to add the `shrinkWrap: true` property to the inner `ListView`s. Once that is changed the initial screen renders fine, until you try to scroll the overall list, which is not possible because any drag actions on top of the inner `ListView`s just scrolls them (even though they might be "fully" rendered). The fix for that issue is then to add `physics: ClampingScrollPhysics()` to the innner `ListView`s.
+## The Example
 
-With those 2 lines added to the inner `ListView` the initial issue is solved and one might consider it done. I would like to disagree and suggest some alternatives. In this I'll article explain why there is no need to nest `ListView`s in the first place, how nesting them can be misleading about their performance characteristics (which are bad in practice), and how `SliverList` is a better approach should you ever have the need to render multiple list below one another.
+For this demo I want to render a single list showing the user's favorite items, then some static content, and below that recommendations of similiar things. Since this simple example only has 3 row types, we could implement it using the `ListView` approach shown before. But as the row types are never mixed together and since in this example there are only 3 sections (favorites list, static content, recommendations list) I think it's a good case to create a widget for each section of the scroll view and then combine those into one scrollable list using `CustomScrollView`.
 
-<div class="note">The demo app and code for each approach is available on <a href="https://github.com/tp/nested_listviews">GitHub at tp/nested_listviews</a>.</div>
+![Example scroll view showing a list made up from 3 different sources](./sliverlists.gif)
 
 
-## Performance characteristics of nested `ListView`s
+<div class="note">The demo app and code for is available on <a href="https://github.com/tp/nested_listviews">GitHub at tp/nested_listviews</a>.</div>
 
-All of the nested `ListView` code I have seen in the wild recently used the seemingly performant [`ListView.builder` constructor](https://api.flutter.dev/flutter/widgets/ListView/ListView.builder.html) for the outer and inner `ListView`s. So it seems like developers are aware that it exists and should be used, and the documentation clearly states the advantages of it:
-
-> This constructor is appropriate for list views with a large (or infinite) number of children because the builder is called only for those children that are actually visible.
-
-Unfortunately though, that is not true anymore for the inner `ListView`s. Because the outer view needs to know how tall the inner `ListView`s are, the inner ones will get rendered in full until the height is filled. But at the very least the first list view will get rendered in full, which is already bad should that contain many items. This behavior can easily be verified by putting a `print` in the `itemBuilder` of the inner `ListView`:
-
-![](./flutter_listviews_inner_fully_rendered.png)
-
-As you can see in the example above, the 1000 items for the first inner `ListView` were build, even though only 50 are visible on the screen.
-
-Whether or not this is an issue in your application depends on the maximum amount of items in the inner `ListView`s. Just from reading the code one might think though that it behaves efficiently – meaning it really only renders visible items – which it does not. Hence I would find it more _honest_ to use a `Column` and plainly map the items to widgets. Also in the general case that reads nicer than retrieving the item by index from the underlying storage as has to be done with the `itemBuilder`:
-
+On the top-level, the widget that sets up the list as a `CustomScrollView` is nicely readable and gives a nice overview of what will be shown in it:
 
 ```dart
-// [... wrapping ListView.builder omitted]
-return Column(
-  children: <Widget>[
-    ...List.generate(
-      1000,
-      (innerIndex) {
-        return Text('Outer = $outerIndex, Inner = $innerIndex');
+Widget build(BuildContext context) {
+  return CustomScrollView(
+    slivers: <Widget>[
+      Favorites(),
+      Static(),
+      Recommendations(),
+    ],
+  );
+}
+```
+
+Now onto each sliver itself:
+
+* `Favorites` renders a `SliverList` with a `SliverChildBuilderDelegate`; so it could handle a large amount of items
+* `Static` uses a `SliverChildListDelegate` in its `SliverList` as it renders just one very simple widget
+* `Recommendations` uses the same approach a `Favorites`, just with a different widget for its rows
+
+So the `Favorites` and `Recommendation` builder methods look both roughly like this:
+
+```dart
+Widget build(BuildContext context) {
+  return SliverList(
+    delegate: SliverChildBuilderDelegate(
+      (context, index) {
+        return XyzRow(data: index); // might be `data[index]` in practice
       },
+      childCount: 100, // might be `data.length` in practice
     ),
-  ],
-);
-```
-
-## The flattened list approach
-
-So far we've only seen how a nested `ListView` is as much work to render as a `Column` or a similar widget. One approach I would like to suggest, for most cases, is to _unnest_ the rendering and make do with a single list view. This can be achieved in a variety of ways, but the simple approach of flattening the data structure into a single array should work up to a huge number of items. Just make sure not to compute that flattened array in the `builder` method, but rather once initially and on updates and keep it stored in some state.
-
-Suppose we'd wanted to build a todo app. Let's assume our API returns us a list of sorted groups (for example by day) in some kind of `Section` type:
-
-```dart
-@immutable
-class Section {
-    Section(this.title, this.items);
-
-    final String title;
-
-    final List<String> items;
+  );
 }
 ```
 
-Now instead of rendering the outer `ListView` with the `Section`s as items and then an inner `ListView` for each section, we can flatten the `Section`s into a list of `Row`s (a new type we define for this case).
+Overall [the whole source code for this example](https://github.com/tp/nested_listviews/blob/8220c3d768a094a85ed5cef7834137a010b02114/lib/slivers/list_from_slivers.dart) looks to me a lot simpler than what we had in the previous case even though it seems like a more niche use case than rendering a grouped list. I think that stems from the fact that this "lists below each other" is nicely supported by the framework, while the grouped display was not.
 
-```dart
-@immutable
-abstract class Row {} // approximation of a union type in Dart
+In a real app one might need to combine the 2 approaches: Render a grouped list view from a flattened list with a `SliverChildBuilderDelegate` inside a `CustomScrollView` which also contains other lists. That is left as an exercise to the interested reader though 😉
 
-class HeaderRow implements Row {
-  HeaderRow(this.title);
-
-  final String title;
-}
-
-class ItemRow implements Row {
-  ItemRow(this.description);
-
-  final String description;
-}
-
-
-// tasksByDay is a List<Section>
-final items = tasksByDay.expand<Row>((section) {
-  return [
-    HeaderRow(section.title),
-    ...section.items.map((item) => ItemRow(item)),
-  ];
-}).toList();
-```
-
-And then that `items` list can be rendered with a single `ListView` which renders a specific widget dependening on each item's type:
-
-```dart
-ListView.builder(
-  itemBuilder: (context, index) {
-    final item = items[index];
-
-    if (item is HeaderRow) {
-      return Text(item.title,
-          style: TextStyle(fontWeight: FontWeight.bold));
-    }
-
-    if (item is ItemRow) {
-      return Text(item.description);
-    }
-  },
-  itemCount: items.length,
-);
-```
-
-With this approach a little upfront work is required, but then only the rows visbile on screen (+ some small amount of extra rows rendered by the framework) are built:
-
-![The flattened list builds only the minimum amount of items](./flattened_list.png)
-
-## `SliverList`s inside a `CustomScrollView`
-
-The above approach of flattening the list is in my opinion a good approach to render such a grouped list view, but it's only suitable for lists that have few row types. Should you ever have the need to render lists from different domains in a single list, then a `CustomScrollView` with `SliverList`s for each specific type of list seem like a better approach in my opinion. I'll write up an explanation and code example on those in a follow up post.
-
-## Recap
-
-I hope I was able to show how nesting `ListView`s inside one another might not be a good idea for the problem at hand, and what other implementations are available. You can either use a `Column` or any other "simple" widget for the inner lists, or flatten the whole list for rendering and by through that achieve the `ListView.builder`'s promise of only rendering items which are visible on screen.
-
-<div class="alert">👩‍💻 If you love working with Flutter and enjoy sweating the details, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfect job for you</a>.</div>
+<div class="alert">👨🏾‍💻 If you love working with Flutter and like to dig deep to find the best approach to each problem, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfect job for you</a>.</div>
