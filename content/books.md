@@ -2,7 +2,20 @@
 
 ## 2019
 
+- Talking to Strangers 🎧
+- Maverick!
+- The Corporation
+- A Man in Full
+- The Inmates Are Running the Asylum
+- The New New Thing 📖
+- An Elegant Puzzle
+- Conscious
+- A Visit From the Good Squad
+- Trillion Dollar Coach
 - Something Incredibly Wonderful Happens ⭐️
+- The Sense of Style
+- A Mind for Numbers
+- Tap Dancing To Work
 - Man's Search for Meaning
 - The Upside of Stress
 - Alibaba
