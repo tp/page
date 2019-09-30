@@ -8,6 +8,14 @@
 
  
    <item>
+    <title><![CDATA[`usePromise`: A React hook for async data loading with server-side rendering (SSR) support]]></title>
+    <description><![CDATA[]]></description>
+    <link>https://timm.preetz.name/articles/usePromise-react-hook-for-async-operations</link>
+    <guid isPermaLink="false">articles/usePromise-react-hook-for-async-operations</guid>
+    <pubDate>Sun, 29 Sep 2019 00:00:00 GMT</pubDate>
+   </item>
+
+   <item>
     <title><![CDATA[Rendering a combined list view from multiple list using Flutter's `SliverList`s]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/flutter-sliver-list-view</link>
@@ -37,14 +45,6 @@
     <link>https://timm.preetz.name/articles/page-generator-typescript-rewrite</link>
     <guid isPermaLink="false">articles/page-generator-typescript-rewrite</guid>
     <pubDate>Sun, 06 Jan 2019 00:00:00 GMT</pubDate>
-   </item>
-
-   <item>
-    <title><![CDATA[TypeScript: `ReturnType` for `async` `function`s]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/typescript-async-function-return-value</link>
-    <guid isPermaLink="false">articles/typescript-async-function-return-value</guid>
-    <pubDate>Mon, 27 Aug 2018 00:00:00 GMT</pubDate>
    </item>
 
 </channel>
