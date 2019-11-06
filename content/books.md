@@ -2,6 +2,11 @@
 
 ## 2019
 
+- The End of Error: Unum Computing
+- How to Raise Successful People
+- A Guide to the Good Life: The Ancient Art of Stoic Joy 🎧 ⭐️
+- If You Lived Here You’d Be Home By Now
+- New Work needs Inner Work
 - Talking to Strangers 🎧
 - Maverick!
 - The Corporation
