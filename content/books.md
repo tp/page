@@ -2,8 +2,9 @@
 
 ## 2019
 
-- The Goal
 - The End of Error: Unum Computing
+- A New Earth
+- The Goal 🎧
 - How to Raise Successful People
 - A Guide to the Good Life: The Ancient Art of Stoic Joy 🎧 ⭐️
 - If You Lived Here You’d Be Home By Now

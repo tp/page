@@ -28,5 +28,8 @@ jobs:
         cp -r dist/* .gh-pages
         cd .gh-pages
         ls -lah
+        git diff
+        git add -A .
+        git commit -q -m "Updating build pages"
         git push
      
