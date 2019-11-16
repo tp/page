@@ -2,6 +2,7 @@
 
 ## 2019
 
+- The Goal
 - The End of Error: Unum Computing
 - How to Raise Successful People
 - A Guide to the Good Life: The Ancient Art of Stoic Joy 🎧 ⭐️
