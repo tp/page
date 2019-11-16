@@ -21,5 +21,8 @@ jobs:
       run: |
         yarn install
         yarn start
+    - name: Publish 2
+      run: git subtree push --prefix dist "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" gh-pages
+     
     - name: Publish
       run: git subtree push --prefix dist "https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${REPOSITORY}.git" gh-pages
