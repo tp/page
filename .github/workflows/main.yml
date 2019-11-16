@@ -9,11 +9,17 @@ on:
 jobs:
   build:
 
-    runs-on: 12.13.0-buster
+    runs-on: "ubuntu-18.04"
 
     steps:
     - uses: actions/checkout@v1
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '12.13.x'
     - name: Build
       run: |
         yarn install
         yarn start
+    - name: Publish
+      run: ./publish.sh
