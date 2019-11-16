@@ -24,12 +24,12 @@ jobs:
     - name: Publish
       run: |
         git clone --quiet --branch="gh-pages" --depth=1 "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" .gh-pages
-        ls -lah .gh-pages
         cp -r dist/* .gh-pages
         cd .gh-pages
-        ls -lah
         git diff
         git add -A .
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git commit -q -m "Updating build pages"
         git push
      
