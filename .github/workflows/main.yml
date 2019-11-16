@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: 
+      - master
+
+
+jobs:
+  build:
+
+    runs-on: 12.13.0-buster
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build
+      run: |
+        yarn install
+        yarn start
