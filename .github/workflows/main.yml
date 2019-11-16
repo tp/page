@@ -4,7 +4,7 @@ on:
   push:
     branches: 
       - master
-
+      - actions-dev
 
 jobs:
   build:
@@ -22,4 +22,4 @@ jobs:
         yarn install
         yarn start
     - name: Publish
-      run: ./publish.sh
+      run: git subtree push --prefix dist "https://${GITHUB_ACTOR}:${INPUT_GITHUB_TOKEN}@github.com/${REPOSITORY}.git" gh-pages
