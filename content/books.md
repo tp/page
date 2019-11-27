@@ -2,13 +2,17 @@
 
 ## 2019
 
+- Peopleware (3rd Edition)
+- iWoz 👍
 - The End of Error: Unum Computing
 - A New Earth
 - The Goal 🎧
 - How to Raise Successful People
+- Blitzscaling
 - A Guide to the Good Life: The Ancient Art of Stoic Joy 🎧 ⭐️
 - If You Lived Here You’d Be Home By Now
 - New Work needs Inner Work
+- The Getting Things Done Workbook ([related podcast](https://tim.blog/2019/09/03/david-allen-getting-things-done/))
 - Talking to Strangers 🎧
 - Maverick!
 - The Corporation
