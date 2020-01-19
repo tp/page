@@ -1,7 +1,18 @@
 # Books
 
+## 2020
+
+- The Language Instinct
+- Range
+- Small Fry
+- Leben, schreiben, atmen ✍️
+
 ## 2019
 
+- Awareness
+- Bad Blood
+- High Output Management
+- Indistractable
 - Peopleware (3rd Edition)
 - iWoz 👍
 - The End of Error: Unum Computing
