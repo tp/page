@@ -2,6 +2,8 @@
 
 ## 2020
 
+- Siddhartha
+- App Store Confidential
 - The Lady and the Monk
 - Lifelong Kindergarten
 - The Language Instinct
