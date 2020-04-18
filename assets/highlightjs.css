@@ -131,8 +131,26 @@ pre[class*="language-"] {
   color-scheme: light dark;
 }
 
-h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
+h1 > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
+h6 > code {
   font-size: 1em !important;
+}
+
+.technology {
+  display: inline-block;
+  overflow: hidden;
+  color: white;
+  background-color: #696b6d;
+  padding: 1px 11px;
+  height: 15px;
+  line-height: 15px;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: normal;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -155,6 +173,10 @@ h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
     color: rgb(102, 187, 255) !important;
   }
 
+  .technology {
+    background-color: #4e4e4e;
+  }
+
   /* 
   Just underline links?
   .contentWrapper p > a {
@@ -172,10 +194,11 @@ h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code {
     color: rgb(215, 215, 216) !important;
   }
 
-  .note, .alert{
+  .note,
+  .alert {
     color: #000 !important;
   }
-  
+
   .alert {
     background-color: #ffe97c;
     padding: 20px;
