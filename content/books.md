@@ -2,6 +2,8 @@
 
 ## 2020
 
+- Designing Media
+- What You Do is Who You are
 - The Art of Innovation
 - Stiller
 - Siddhartha
