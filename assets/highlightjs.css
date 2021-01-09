@@ -296,7 +296,7 @@ a:hover {
   margin-right: 10px;
 }
 
-.contentWrapper img {
+.contentWrapper img, .contentWrapper video {
   max-width: 100%;
 }
 
