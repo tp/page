@@ -636,3 +636,10 @@ a:hover {
     background-color: #ffe97c;
   }
 }
+
+figcaption {
+  font-size: 0.8em;
+  padding: 0 30px;
+  font-style: italic;
+  line-height: 1.1em;
+}
