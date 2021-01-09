@@ -1,53 +1,53 @@
-# Rendering a combined list view from multiple list using Flutter's `SliverList`s
+# Receiving File Drops on macOS (and iOS) with SwiftUI
 
-The [previous post](https://timm.preetz.name/articles/nested-listviews-in-flutter) showed how to flatten grouped data with a header above the items so it can be rendered in a single [`ListView`](https://api.flutter.dev/flutter/widgets/ListView-class.html) widget. Now I want to look at a diffent use-case: Rendering lists from distinct data sources after each other. This implementation will use a [`CustomScrollView`](https://api.flutter.dev/flutter/widgets/CustomScrollView-class.html) and [`SliverList`s](https://api.flutter.dev/flutter/widgets/SliverList-class.html). If you're unfamiliar with slivers, I would recommend reading [Slivers, Demystified](https://medium.com/flutter/slivers-demystified-6ff68ab0296f) first, as the below example will just focus on this one narrow use-case, while the overall setup supports much more.
+<div class="note">A complete example of the code to be used on iOS and macOS is available <a href="https://github.com/tp/demo-FileDropTests">on GitHub here</a>.</div>
 
-## The Example
+## Starting Point
 
-For this demo I want to render a single list showing the user's favorite items, then some static content, and below that recommendations of similiar things. Since this simple example only has 3 row types, we could implement it using the `ListView` approach shown before. But as the row types are never mixed together and since in this example there are only 3 sections (favorites list, static content, recommendations list) I think it's a good case to create a widget for each section of the scroll view and then combine those into one scrollable list using `CustomScrollView`.
+<figure>
+    <img src="./ios_after_drop.png">
+    <figcaption>Example of the drop behaviour on iOS/iPadOS</figcaption>
+</figure>
 
-![Example scroll view showing a list made up from 3 different sources](./sliverlists.gif)
+While porting a pure `SwiftUI` app, I noticed that the `onDrop` file import handler used for the iOS app does not work as expected on macOS:
 
+<figure>
+    <img src="./mac_using_ios_implementation_file_url.png">
+    <figcaption>macOS app receiving a URL with a different path & content than the dragged file</figcaption>
+</figure>
 
-<div class="note">The demo app and code for is available on <a href="https://github.com/tp/nested_listviews">GitHub at tp/nested_listviews</a>.</div>
-
-On the top-level, the widget that sets up the list as a `CustomScrollView` is nicely readable and gives a nice overview of what will be shown in it:
-
-```dart
-Widget build(BuildContext context) {
-  return CustomScrollView(
-    slivers: <Widget>[
-      Favorites(),
-      Static(),
-      Recommendations(),
-    ],
-  );
+```swift
+providers.first!.loadFileRepresentation(forTypeIdentifier: UTType.item.identifier) {
+  url, _ in
+    message = describeDroppedURL(url!)
 }
 ```
 
-Now onto each sliver itself:
+At first I thought it was just an issue with file names being erased / hidden, e.g. `.com.apple.Foundation.NSItemProvider.MpBDqm.tmp` instead of `notes.txt`, but upon closer inspection the file contents were also different. Instead of the expected data, the file read from the initial URL contained another URL in the form of `file:///.file/id=6571367.2773272/`.
 
-* `Favorites` renders a `SliverList` with a `SliverChildBuilderDelegate`; so it could handle a large amount of items
-* `Static` uses a `SliverChildListDelegate` in its `SliverList` as it renders just one very simple widget
-* `Recommendations` uses the same approach a `Favorites`, just with a different widget for its rows
+## Adaptation for macOS
 
-So the `Favorites` and `Recommendation` builder methods look both roughly like this:
+Eventually I came to find out that these are known as [`File reference URL`s](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/AccessingFilesandDirectories/AccessingFilesandDirectories.html#//apple_ref/doc/uid/TP40010672-CH3-SW6), and [this post](https://christiantietze.de/posts/2018/09/nsurl-filereferenceurl-swift/) offered a good reference on how they had to be handled historically (with `NSURL`), and that they should work out of the box with Swift's `URL`.
 
-```dart
-Widget build(BuildContext context) {
-  return SliverList(
-    delegate: SliverChildBuilderDelegate(
-      (context, index) {
-        return XyzRow(data: index); // might be `data[index]` in practice
-      },
-      childCount: 100, // might be `data.length` in practice
-    ),
-  );
+In order to avoid having the system to create temporary files which then need to be read & referenced to get to the final file, I switched the macOS implementation to read the dropped file URL from the `NSPasteboard` item itself:
+
+```swift
+providers.first!.loadObject(ofClass: NSPasteboard.PasteboardType.self) {
+  pasteboardItem, _ in
+    message = describeDroppedURL(URL(string: pasteboardItem!.rawValue)!)
 }
 ```
 
-Overall [the whole source code for this example](https://github.com/tp/nested_listviews/blob/8220c3d768a094a85ed5cef7834137a010b02114/lib/slivers/list_from_slivers.dart) looks to me a lot simpler than what we had in the previous case even though it seems like a more niche use case than rendering a grouped list. I think that stems from the fact that this "lists below each other" is nicely supported by the framework, while the grouped display was not.
+<figure>
+    <img src="./mac_with_nspasteboard.png">
+    <figcaption>macOS app after the updated: Being able to read the correct file name and contents</figcaption>
+</figure>
 
-In a real app one might need to combine the 2 approaches: Render a grouped list view from a flattened list with a `SliverChildBuilderDelegate` inside a `CustomScrollView` which also contains other lists. That is left as an exercise to the interested reader though 😉
+## Bonus
 
-<div class="alert">👨🏾‍💻 If you love working with Flutter and like to dig deep to find the best approach to each problem, <a href="https://corporate.aboutyou.de/de/jobs/dart-developer-shop-applications">we might just have the perfect job for you</a>.</div>
+One last finding I made during testing was that the dropped data was different from whether the item was dragged from within the Finder's tree view compared to when it was dragged from the title bar 🤔
+
+<video src="./finder_drop_test.mov" autoplay="false">
+ 
+Luckily the final implementation works just fine with either of these 🤗
+

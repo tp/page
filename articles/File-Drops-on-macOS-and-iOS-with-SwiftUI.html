@@ -1,0 +1,35 @@
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Receiving File Drops on macOS (and iOS) with SwiftUI | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/><link rel="stylesheet" href="/assets/highlightjs.css"/><link rel="alternate" type="application/rss+xml" title="Timm Preetz&#x27;s blog" href="/rss.xml"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png"/><link rel="manifest" href="/assets/favicon/site.webmanifest"/></head><body><div id="navWrapper"><nav><a href="/"><img src="/assets/ava.jpg" width="30" height="30" class="headerImage"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a><a href="/archive">Archive</a><a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>Receiving File Drops on macOS (and iOS) with SwiftUI</h1>
+<div class="note">A complete example of the code to be used on iOS and macOS is available <a href="https://github.com/tp/demo-FileDropTests">on GitHub here</a>.</div>
+<h2>Starting Point</h2>
+<figure>
+    <img src="./ios_after_drop.png">
+    <figcaption>Example of the drop behaviour on iOS/iPadOS</figcaption>
+</figure>
+<p>While porting a pure <code>SwiftUI</code> app, I noticed that the <code>onDrop</code> file import handler used for the iOS app does not work as expected on macOS:</p>
+<figure>
+    <img src="./mac_using_ios_implementation_file_url.png">
+    <figcaption>macOS app receiving a URL with a different path & content than the dragged file</figcaption>
+</figure>
+<pre><code class="language-swift">providers<span class="token punctuation">.</span><span class="token builtin">first</span><span class="token operator">!</span><span class="token punctuation">.</span><span class="token function">loadFileRepresentation</span><span class="token punctuation">(</span>forTypeIdentifier<span class="token punctuation">:</span> <span class="token builtin">UTType</span><span class="token punctuation">.</span>item<span class="token punctuation">.</span>identifier<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  url<span class="token punctuation">,</span> <span class="token number">_</span> <span class="token keyword">in</span>
+    message <span class="token operator">=</span> <span class="token function">describeDroppedURL</span><span class="token punctuation">(</span>url<span class="token operator">!</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>At first I thought it was just an issue with file names being erased / hidden, e.g. <code>.com.apple.Foundation.NSItemProvider.MpBDqm.tmp</code> instead of <code>notes.txt</code>, but upon closer inspection the file contents were also different. Instead of the expected data, the file read from the initial URL contained another URL in the form of <code>file:///.file/id=6571367.2773272/</code>.</p>
+<h2>Adaptation for macOS</h2>
+<p>Eventually I came to find out that these are known as <a href="https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/AccessingFilesandDirectories/AccessingFilesandDirectories.html#//apple_ref/doc/uid/TP40010672-CH3-SW6"><code>File reference URL</code>s</a>, and <a href="https://christiantietze.de/posts/2018/09/nsurl-filereferenceurl-swift/">this post</a> offered a good reference on how they had to be handled historically (with <code>NSURL</code>), and that they should work out of the box with Swift’s <code>URL</code>.</p>
+<p>In order to avoid having the system to create temporary files which then need to be read &amp; referenced to get to the final file, I switched the macOS implementation to read the dropped file URL from the <code>NSPasteboard</code> item itself:</p>
+<pre><code class="language-swift">providers<span class="token punctuation">.</span><span class="token builtin">first</span><span class="token operator">!</span><span class="token punctuation">.</span><span class="token function">loadObject</span><span class="token punctuation">(</span>ofClass<span class="token punctuation">:</span> <span class="token builtin">NSPasteboard</span><span class="token punctuation">.</span><span class="token builtin">PasteboardType</span><span class="token punctuation">.</span><span class="token keyword">self</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  pasteboardItem<span class="token punctuation">,</span> <span class="token number">_</span> <span class="token keyword">in</span>
+    message <span class="token operator">=</span> <span class="token function">describeDroppedURL</span><span class="token punctuation">(</span><span class="token function">URL</span><span class="token punctuation">(</span>string<span class="token punctuation">:</span> pasteboardItem<span class="token operator">!</span><span class="token punctuation">.</span>rawValue<span class="token punctuation">)</span><span class="token operator">!</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<figure>
+    <img src="./mac_with_nspasteboard.png">
+    <figcaption>macOS app after the updated: Being able to read the correct file name and contents</figcaption>
+</figure>
+<h2>Bonus</h2>
+<p>One last finding I made during testing was that the dropped data was different from whether the item was dragged from within the Finder’s tree view compared to when it was dragged from the title bar 🤔</p>
+<video src="./finder_drop_test.mov" autoplay="false">
+<p>Luckily the final implementation works just fine with either of these 🤗</p>
+</div></div></div></body></html>
