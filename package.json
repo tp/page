@@ -9,7 +9,7 @@
     "fs-extra": "^7.0.1",
     "markdown-it": "^8.4.2",
     "markdown-it-footnote": "^3.0.1",
-    "prismjs": "^1.15.0",
+    "prismjs": "^1.24.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "ts-node": "^7.0.1",
