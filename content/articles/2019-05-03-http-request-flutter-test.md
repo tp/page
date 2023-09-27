@@ -4,7 +4,7 @@ By default all HTTP request made in a test invoked with `flutter test` [result i
 
 Generally that seems like a good default behavior to avoid external dependencies and hence reduce flakyness in tests. But what if you really want to make HTTP requests in your tests?
 
-<div class="note">HTTP requests are disabled for a good reason. Before enabling them, think abhout whether you have an even better reason to do so.</div>
+<div class="note">HTTP requests are disabled for a good reason. Before enabling them, think about whether you have an even better reason to revert that behavior.</div>
 
 Since making outgoing requests in tests is discouraged, the usual advice is to use a mock client (for example [`MockClient`](https://pub.dartlang.org/documentation/http/latest/testing/MockClient-class.html) from the `http` package).
 
