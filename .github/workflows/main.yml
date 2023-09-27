@@ -2,34 +2,35 @@ name: Build & Publish
 
 on:
   push:
-    branches: 
+    branches:
       - master
       - actions-dev
 
 jobs:
   build:
-
-    runs-on: "ubuntu-18.04"
+    runs-on: "ubuntu-22.04"
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Setup node
-      uses: actions/setup-node@v1
-      with:
-        node-version: '12.13.x'
-    - name: Build
-      run: |
-        yarn install
-        yarn start
-    - name: Publish
-      run: |
-        git clone --quiet --branch="gh-pages" --depth=1 "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" .gh-pages
-        cp -r dist/* .gh-pages
-        cd .gh-pages
-        git diff
-        git add -A .
-        git config user.name "${GITHUB_ACTOR}"
-        git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-        git commit -q -m "Updating build pages"
-        git push
-     
+      - uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Build
+        run: |
+          yarn install
+          yarn start
+
+      - name: Publish
+        run: |
+          git clone --quiet --branch="gh-pages" --depth=1 "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" .gh-pages
+          cp -r dist/* .gh-pages
+          cd .gh-pages
+          git diff
+          git add -A .
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git commit -q -m "Updating build pages"
+          git push
