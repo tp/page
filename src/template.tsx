@@ -28,7 +28,7 @@ function Navigation() {
       <nav>
         <a href="/">
           <img
-            src="/assets/ava.jpg"
+            src="/assets/timm_head_ava.jpg"
             width="30"
             height="30"
             className="headerImage"
