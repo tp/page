@@ -1,5 +1,11 @@
 # Projects
 
+## [indexed_entity_store](https://pub.dev/packages/indexed_entity_store)
+
+A <i>synchronous</i> in-app database layer for [Flutter](https://flutter.dev/).
+
+<span class="technology">Flutter</span> <span class="technology">Dart</span> <span class="technology">SQLite</span>
+
 ## [sign_in_with_apple](https://pub.dev/packages/sign_in_with_apple)
 
 [Flutter](https://flutter.dev/) bridge to [Sign in with Apple](https://developer.apple.com/sign-in-with-apple/) on iOS, Android, and macOS.
