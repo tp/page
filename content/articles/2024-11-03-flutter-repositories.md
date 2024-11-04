@@ -12,39 +12,39 @@ Consider a simple todo list app, where all the data is available all the time. I
 
 ```dart
 class TodoRepository {
-    TodoApi remoteApi;
+  TodoApi remoteApi;
 
-    IndexedEntityStore<Todo, int> store;
+  IndexedEntityStore<Todo, int> store;
 
-    // Depending on the application's needs, this would either run initially before the user can interact with the app, or in the background
-    Future<void> fetchAll() async {
-        // This could be extended to only get new todos on subsequent calls, and then insert those locally
-        final todos = await remoteApi.getTodos();
+  // Depending on the application's needs, this would either run initially before the user can interact with the app, or in the background
+  Future<void> fetchAll() async {
+    // This could be extended to only get new todos on subsequent calls, and then insert those locally
+    final todos = await remoteApi.getTodos();
 
-        store.insertMany(todos);
-    }
+    store.insertMany(todos);
+  }
 
-    /// Return a live-updating query to the list of open todo items
-    QueryResult<List<Todo>> getOpenTodos() {
-        /// while the column access uses `String`s, it's still checked at runtime to refer to an indexed column
-        return store.query((cols) => cols['done'].equals(false));
-    }
+  /// Return a live-updating query to the list of open todo items
+  QueryResult<List<Todo>> getOpenTodos() {
+    /// while the column access uses `String`s, it's still checked at runtime to refer to an indexed column
+    return store.query((cols) => cols['done'].equals(false));
+  }
 
-    // Returns a "view" onto a stored todo item
-    // The caller will automatically receive updates through the `ValueListenable` interface whenever the stored todo was changed in the database
-    // The returned todo item is optional (nullable), as we assume that it might not have been synced to the local database when the request is made (e.g. because a todo detail page was opened via a deep link).
-    // If the user could only navigate to existing/known items in the app, we could make it non-optional, which would simplify the usage site a bit.
-    QueryResult<Todo?> getTodo(int id) {
-        return store.get(id);
-    }
+  // Returns a "view" onto a stored todo item
+  // The caller will automatically receive updates through the `ValueListenable` interface whenever the stored todo was changed in the database
+  // The returned todo item is optional (nullable), as we assume that it might not have been synced to the local database when the request is made (e.g. because a todo detail page was opened via a deep link).
+  // If the user could only navigate to existing/known items in the app, we could make it non-optional, which would simplify the usage site a bit.
+  QueryResult<Todo?> getTodo(int id) {
+    return store.get(id);
+  }
 
-    Future<void> updateTodo(Todo todo) {
-        store.insert(todo);
+  Future<void> updateTodo(Todo todo) {
+    store.insert(todo);
 
-        // Failure handling for this is left as an exercise to the reader. Depending on whether the app is offline-first or requires connectivity and instant updates on the server,
-        // we could either store the todo with some "sync pending" flag locally and try again later, or roll back the local update in case the server call failed.
-        await remoteApi.updateTodo(todo);
-    }
+    // Failure handling for this is left as an exercise to the reader. Depending on whether the app is offline-first or requires connectivity and instant updates on the server,
+    // we could either store the todo with some "sync pending" flag locally and try again later, or roll back the local update in case the server call failed.
+    await remoteApi.updateTodo(todo);
+  }
 }
 ```
 
@@ -57,18 +57,18 @@ class _TodoListState extends State<TodoList> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-        valueListenable: openTodos,
-        builder: (context, openTodos, _) {
-            return Column( // or ListView.builder etc.
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                for (final openTodo in openTodos)
-                    CupertinoListTile(
-                        title: Text(openTodo.text),
-                    ),
-                ],
-            );
-        },
+      valueListenable: openTodos,
+      builder: (context, openTodos, _) {
+        return Column( // or ListView.builder etc.
+          mainAxisSize: MainAxisSize.min,
+          children: [
+          for (final openTodo in openTodos)
+            CupertinoListTile(
+              title: Text(openTodo.text),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -89,27 +89,27 @@ Next let's image a use-case where the data is not (or can not) all be known befo
 
 ```dart
 class EventRepository {
-    EventApi remoteApi;
+  EventApi remoteApi;
 
-    IndexedEntityStore<Event, int> store;
+  IndexedEntityStore<Event, int> store;
 
-    // The list of events in a category is handled ephemerally in this case and not persisted in the database
-    // For simplicity's sake we're using a `Future` here (and thus likely a `FutureBuilder` in the `Widget`)
-    Future<List<EventsSummary>> getEventsInCategory(int categoryId) {
-        return remoteApi.getEvents(categoryId);
+  // The list of events in a category is handled ephemerally in this case and not persisted in the database
+  // For simplicity's sake we're using a `Future` here (and thus likely a `FutureBuilder` in the `Widget`)
+  Future<List<EventsSummary>> getEventsInCategory(int categoryId) {
+    return remoteApi.getEvents(categoryId);
+  }
+
+  // Returns a "view" onto an event detail (containing more information than just the summaries above)
+  QueryResult<EventDetail?> getEventDetails(int id) {
+    final event = store.get(id);
+
+    if (event.value == null) {
+      // event is not yet loaded into the store, so we need to fetch it
+      remoteApi.getEvent(id).then((event) => store.insert(event));
     }
 
-    // Returns a "view" onto an event detail (containing more information than just the summaries above)
-    QueryResult<EventDetail?> getEventDetails(int id) {
-        final event = store.get(id);
-
-        if (event.value == null) {
-            // event is not yet loaded into the store, so we need to fetch it
-            remoteApi.getEvent(id).then((event) => store.insert(event));
-        }
-
-        return event;
-    }
+    return event;
+  }
 }
 ```
 
@@ -127,26 +127,26 @@ This could be implemented like this:
 import 'package:value_listenable_extensions/value_listenable_extensions.dart';
 
 class EventRepository {
-    …
+  …
 
-    Future<DisposableValueListenable<EventDetail>> getEventDetails(int id) async {
-        final event = store.get(id);
+  Future<DisposableValueListenable<EventDetail>> getEventDetails(int id) async {
+    final event = store.get(id);
 
-        if (event.value == null) {
-            try {
-                final remoteEvent = await remoteApi.getEvent(id);
+    if (event.value == null) {
+      try {
+        final remoteEvent = await remoteApi.getEvent(id);
 
-                store.insert(remoteEvent);
-            } catch (e) {
-                event.dispose(); // failed to load the data, close view to database
+        store.insert(remoteEvent);
+      } catch (e) {
+        event.dispose(); // failed to load the data, close view to database
 
-                rethrow;
-            }
-        }
-
-        // If we reached this, we now know that we have a value in the local database, and we don't expect it to ever be deleted in this case, and thus can "force unwrap" it.
-        return event.transform((e) => e!);
+        rethrow;
+      }
     }
+
+    // If we reached this, we now know that we have a value in the local database, and we don't expect it to ever be deleted in this case, and thus can "force unwrap" it.
+    return event.transform((e) => e!);
+  }
 }
 ```
 
@@ -158,20 +158,20 @@ class _EventDetailState extends State<EventDetail> {
 
   @override
   Widget build(BuildContext context) {
-     return FutureBuilder(
-        future: event,
-        builder: (context, data) {
-            if (!data.hasData) {
-                return const CupertinoActivityIndicator();
-            }
+   return FutureBuilder(
+      future: event,
+      builder: (context, data) {
+        if (!data.hasData) {
+          return const CupertinoActivityIndicator();
+        }
 
-            return ValueListenableBuilder(
-                valueListenable: event.requireData,
-                builder: (context, event, _) {
-                return EventTitle(event: event);
-                },
-            );
-        },
+        return ValueListenableBuilder(
+          valueListenable: event.requireData,
+          builder: (context, event, _) {
+          return EventTitle(event: event);
+          },
+        );
+      },
     );
   }
 
