@@ -257,7 +257,7 @@ a:hover {
 }
 
 .headerImage {
-  border-radius: 2px;
+  border-radius: 15px;
 }
 
 .recentPosts ul,
@@ -378,7 +378,7 @@ a:hover {
   }
 
   #mainWrapper {
-    max-width: 650px;
+    max-width: 750px;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -506,7 +506,7 @@ a:hover {
    GRT
    **/
   .grt {
-    max-width: 650px;
+    max-width: 750px;
     /* font-family: Georgia, "Times New Roman", Times, serif; */
     font-size: 19px;
     line-height: 32px;
