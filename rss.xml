@@ -8,6 +8,14 @@
 
  
    <item>
+    <title><![CDATA[Storing binary data in Flutter]]></title>
+    <description><![CDATA[]]></description>
+    <link>https://timm.preetz.name/articles/binary-data-sqlite-flutter</link>
+    <guid isPermaLink="false">articles/binary-data-sqlite-flutter</guid>
+    <pubDate>Sun, 10 Nov 2024 00:00:00 GMT</pubDate>
+   </item>
+
+   <item>
     <title><![CDATA[Designing repositories for Flutter apps on top of `IndexedEntityStore`]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/flutter-repositories</link>
@@ -37,14 +45,6 @@
     <link>https://timm.preetz.name/articles/flutter-sliver-list-view</link>
     <guid isPermaLink="false">articles/flutter-sliver-list-view</guid>
     <pubDate>Fri, 20 Sep 2019 00:00:00 GMT</pubDate>
-   </item>
-
-   <item>
-    <title><![CDATA[Nested `ListView`s in Flutter]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/nested-listviews-in-flutter</link>
-    <guid isPermaLink="false">articles/nested-listviews-in-flutter</guid>
-    <pubDate>Wed, 18 Sep 2019 00:00:00 GMT</pubDate>
    </item>
 
 </channel>
