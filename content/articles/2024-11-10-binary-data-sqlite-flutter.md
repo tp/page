@@ -38,13 +38,13 @@ In a purpose-built SQLite-based storage for this use-case, one could of course h
 Another approach would be to store the file alongside the entity in whatever object storage the app uses. This introduces some obvious limitations, like the maximum file size (which is probably fine for a profile picture, not so much for a home video), and the amount of files any entity could refer to (is it 1 or 2, or `n`?).
 
 It would probably not be advisable to put the profile image directly on the `User` object using any approach (like `typedef User = ({int userId, String name, Uint8List? profileImage })`), as that would leave no way to pass around the `User` without the image data.
-Also when serializing this, one would have to handle the primitive data and the user image separately, as the usual `toJSON` would not be satifactory by default.
+Also when serializing this, one would have to handle the primitive data and the user image separately, as the usual `toJSON` would not be satisfactory by default.
 
 ## Storing files with metadata
 
 So, if one still wants to store the files in the database, but not directly with the containing entity (such that also one-to-many relationship would also be possible without building bigger and bigger BLOBs), one might choose to save the file plus some metadata as its own entity.
 
-The constraint of our choosen storage solution is though, that we only get one database field to write everything into. Thus we have to implement a storage format that can handle both the metadata and the binary data. In this case we'll assume that the metadata is much smaller than the actual data, and will prepend the metadata (as JSON in this case) in front of the `Uint8List` binary data.
+The constraint of our chosen storage solution is though, that we only get one database field to write everything into. Thus we have to implement a storage format that can handle both the metadata and the binary data. In this case we'll assume that the metadata is much smaller than the actual data, and will prepend the metadata (as JSON in this case) in front of the `Uint8List` binary data.
 
 The storage inside the database would look like this:
 
