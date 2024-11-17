@@ -1,0 +1,52 @@
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>File storage in Flutter apps (Part 2) | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/><link rel="stylesheet" href="/assets/highlightjs.css"/><link rel="alternate" type="application/rss+xml" title="Timm Preetz&#x27;s blog" href="/rss.xml"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png"/><link rel="manifest" href="/assets/favicon/site.webmanifest"/></head><body><div id="navWrapper"><nav><a href="/"><img src="/assets/timm_head_ava.jpg" width="30" height="30" class="headerImage"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a><a href="/archive">Archive</a><a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>File storage in Flutter apps (Part 2)</h1>
+<p><a href="articles/binary-data-sqlite-flutter">Last week’s article</a> looked at various implementations of how to store files with metadata in SQLite using the package <a href="https://pub.dev/packages/indexed_entity_store">indexed_entity_store</a>. This time, let’s look at cases where you want to have the actual files on disk, with only its metadata stored in a database. Reasons for this might be that the files are very large, accessed often (e.g. for sharing, uploading), or need to be edited in place.</p>
+<p>To get consistency across the files and their metadata, let’s implement a store that exposes a subset of the usual operations, but which takes care of the file management in addition to the metadata storage.</p>
+<p>The final interface should look something like this:</p>
+<pre><code class="language-dart"><span class="token keyword">class</span> <span class="token class-name">FileStore</span><span class="token operator">&lt;</span>T<span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token comment">// The directory this store is managing, and where it places its copy of the files</span>
+  <span class="token keyword">final</span> Directory baseDirectory<span class="token punctuation">;</span>
+
+  <span class="token comment">// Creates or updates an entry for T, backing it with the contents of `file`</span>
+  <span class="token comment">// If `file` is not "owned" by this store (e.g. not in its managed directory),</span>
+  <span class="token comment">// it will copy the file to take ownership of a copy of it.</span>
+  <span class="token keyword">void</span> <span class="token function">write</span><span class="token punctuation">(</span>T metadata<span class="token punctuation">,</span> File file<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Returns a list of metadata + files matching the given query</span>
+  <span class="token comment">// The caller gets access to the files as they are managed by this store (e.g. residing in `baseDirectory`)</span>
+  <span class="token comment">// The caller may modify the files in place, but must not delete them on disk directly. For that they must use `delete` on this store in order to clean up the metadata as well.</span>
+  List<span class="token operator">&lt;</span><span class="token punctuation">(</span>T<span class="token punctuation">,</span> File<span class="token punctuation">)</span><span class="token operator">></span> <span class="token function">query</span><span class="token punctuation">(</span>…<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// Deletes the entry `metadata` refers to, as well as the backing file </span>
+  <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span>T metadata<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>This implementation already incorporates some design choices, which could be adapted for different use-cases. Here the store will make sure that it always “owns” the underlying file. Thus when a file is added which does not reside in the directory managed by this store, it will copy it there and store a reference to that new location. On the flip-side (the reading) part, it will hand out <code>File</code>s referencing its internal storage paths, such that the caller might modify the file in place. This introduces a trade-off though, such that the store itself does not get notified of in-place file modifications (which may or may not be relevant to know about). This could be alleviated by e.g. always copying the files to a temporary location for reading, and expecting the outside to call <code>write</code> again after each change (at which point a copy would be written to the store’s internal directory)<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>.</p>
+<p>An approach like the one outlined above is implemented <a href="https://github.com/LunaONE/indexed_entity_store/tree/945725eb02deccd792a34c995f165e25340faf91/example/lib/src/examples/disk_file_store">as an example here</a>.</p>
+<p>For brevity only the <code>delete</code> method is shown below, but <code>write</code> is similarly the reverse as described above (copying the file into the store’s realm if needed), and <code>get</code> and <code>query</code> are just straightforwards read from the store to get the metadata and file path.</p>
+<pre><code class="language-dart"><span class="token keyword">class</span> <span class="token class-name">DiskFileStore</span><span class="token operator">&lt;</span>Metadata<span class="token punctuation">,</span> Key<span class="token operator">></span> <span class="token punctuation">{</span>
+  <span class="token keyword">final</span> IndexedEntityStore<span class="token operator">&lt;</span>FileWithMetadata<span class="token operator">&lt;</span>T<span class="token operator">></span><span class="token punctuation">,</span> K<span class="token operator">></span> _store<span class="token punctuation">;</span>
+
+  <span class="token comment">/// Remove the entry identified by [key] from the store, and deletes the backing file</span>
+  <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    required K key<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">final</span> existingEntry <span class="token operator">=</span> _store<span class="token punctuation">.</span><span class="token function">readOnce</span><span class="token punctuation">(</span>key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>existingEntry <span class="token operator">!=</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token function">File</span><span class="token punctuation">(</span>existingEntry<span class="token punctuation">.</span>filepath<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">deleteSync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+      _store<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>key<span class="token punctuation">:</span> key<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>That’s it. By combining the metadata writes with the files, we can now ensure that the pair of them is always up to date, and we have a single, simple interface to manage them together.</p>
+<p>The <a href="https://pub.dev/packages/indexed_entity_store/versions/2.0.0-dev3">upcoming 2.0.0 version</a> of the package will furthermore introduce some additional enhancement for this use-case: As a file usually belongs to some other entity and doesn’t exist by itself, it will allow you to reference that “parent entity” from the file’s metadata via an index, for example a mail attachment might reference the parent like this: <a href="https://github.com/LunaONE/indexed_entity_store/blob/main/test/foreign_key_test.dart#L175-L177"><code>index((e) =&gt; e.metadata.mailId, as: 'mailId', referencing: 'mails');</code></a>. This ensures that all file entries point to a valid parent. And if the parent gets deleted, its files must be cleaned up beforehand.</p>
+<p>The above excerpt and the example in general make a lot of assumptions and design choices which might not be ideal for every use-case. But since the full “file store” is only 100 lines of code, I think it’s clear that it can be easily adapted to suite one’s needs (e.g. handing out temporary files, or using <code>async</code> file operations, ensuring notifications for file changes, etc.).</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>On modern copy-on-write filesystems, though would not even need to incur performance penalty for the cases where the file is not modified after all. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</div></div></div></body></html>

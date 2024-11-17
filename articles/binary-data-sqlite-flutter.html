@@ -24,10 +24,10 @@ This minor limitations could of course alleviated in the store’s API (though i
 <h2>Storing the file with the entities</h2>
 <p>Another approach would be to store the file alongside the entity in whatever object storage the app uses. This introduces some obvious limitations, like the maximum file size (which is probably fine for a profile picture, not so much for a home video), and the amount of files any entity could refer to (is it 1 or 2, or <code>n</code>?).</p>
 <p>It would probably not be advisable to put the profile image directly on the <code>User</code> object using any approach (like <code>typedef User = ({int userId, String name, Uint8List? profileImage })</code>), as that would leave no way to pass around the <code>User</code> without the image data.
-Also when serializing this, one would have to handle the primitive data and the user image separately, as the usual <code>toJSON</code> would not be satifactory by default.</p>
+Also when serializing this, one would have to handle the primitive data and the user image separately, as the usual <code>toJSON</code> would not be satisfactory by default.</p>
 <h2>Storing files with metadata</h2>
 <p>So, if one still wants to store the files in the database, but not directly with the containing entity (such that also one-to-many relationship would also be possible without building bigger and bigger BLOBs), one might choose to save the file plus some metadata as its own entity.</p>
-<p>The constraint of our choosen storage solution is though, that we only get one database field to write everything into. Thus we have to implement a storage format that can handle both the metadata and the binary data. In this case we’ll assume that the metadata is much smaller than the actual data, and will prepend the metadata (as JSON in this case) in front of the <code>Uint8List</code> binary data.</p>
+<p>The constraint of our chosen storage solution is though, that we only get one database field to write everything into. Thus we have to implement a storage format that can handle both the metadata and the binary data. In this case we’ll assume that the metadata is much smaller than the actual data, and will prepend the metadata (as JSON in this case) in front of the <code>Uint8List</code> binary data.</p>
 <p>The storage inside the database would look like this:</p>
 <pre><code>-------------------------------------------------------------
 | Metadata length | Metadata JSON |       Binary data       |
