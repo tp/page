@@ -8,6 +8,14 @@
 
  
    <item>
+    <title><![CDATA[Speeding up batch inserts in SQLite using dynamic statements]]></title>
+    <description><![CDATA[]]></description>
+    <link>https://timm.preetz.name/articles/sqlite-batch-inserts-single-statement</link>
+    <guid isPermaLink="false">articles/sqlite-batch-inserts-single-statement</guid>
+    <pubDate>Sun, 24 Nov 2024 00:00:00 GMT</pubDate>
+   </item>
+
+   <item>
     <title><![CDATA[File storage in Flutter apps (Part 2)]]></title>
     <description><![CDATA[]]></description>
     <link>https://timm.preetz.name/articles/file-storage-flutter</link>
@@ -37,14 +45,6 @@
     <link>https://timm.preetz.name/articles/File-Drops-on-macOS-and-iOS-with-SwiftUI</link>
     <guid isPermaLink="false">articles/File-Drops-on-macOS-and-iOS-with-SwiftUI</guid>
     <pubDate>Sat, 09 Jan 2021 00:00:00 GMT</pubDate>
-   </item>
-
-   <item>
-    <title><![CDATA[`usePromise`: A React hook for async data loading with server-side rendering (SSR) support]]></title>
-    <description><![CDATA[]]></description>
-    <link>https://timm.preetz.name/articles/usePromise-react-hook-for-async-operations</link>
-    <guid isPermaLink="false">articles/usePromise-react-hook-for-async-operations</guid>
-    <pubDate>Sun, 29 Sep 2019 00:00:00 GMT</pubDate>
    </item>
 
 </channel>

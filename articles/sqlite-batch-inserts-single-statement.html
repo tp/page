@@ -1,0 +1,95 @@
+<html><head><meta http-equiv="content-type" content="text/html;charset=utf-8"/><title>Speeding up batch inserts in SQLite using dynamic statements | Timm Preetz</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/><link rel="stylesheet" href="/assets/highlightjs.css"/><link rel="alternate" type="application/rss+xml" title="Timm Preetz&#x27;s blog" href="/rss.xml"/><link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png"/><link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png"/><link rel="manifest" href="/assets/favicon/site.webmanifest"/></head><body><div id="navWrapper"><nav><a href="/"><img src="/assets/timm_head_ava.jpg" width="30" height="30" class="headerImage"/><div class="name">Timm Preetz</div></a><div><a href="/projects">Projects</a><a href="/archive">Archive</a><a href="/about">About</a></div></nav></div><div id="mainWrapper" class="grt"><div class="contentWrapper"><div><h1>Speeding up batch inserts in SQLite using dynamic statements</h1>
+<p><a href="https://pub.dev/packages/indexed_entity_store"><code>indexed_entity_store</code></a>'s <code>writeMany</code> used to insert a batch of items in a single transaction, but using <em>n</em> individual <code>REPLACE INTO</code> statements (and then the corresponding index updates). In my testing I saw it take ~10ms for 1000 items with a small JSON payload (which serialization time is included in the total).
+This <a href="https://github.com/simolus3/sqlite3.dart/issues/260#issuecomment-2447854905">is considered best practice</a> and does seem okay for most practical one-time batch imports of data (such that one did not have to resort to an <code>async</code> initial setup to avoid multi-frame drops).</p>
+<p>Initially I wondered why, even inside the transaction, we had to loop over the individual inserts and could not execute a single statement which would write all data at once (up to a point I suppose, as there is surely a practical limit on how large a query can get, though than a similar constraint might apply to the in-progress transaction side.)</p>
+<p>As it turns out we can insert multiple row just fine in a single statement, it’s just a little bit unusual to write as SQLite does not allow binding to lists of values.<br>
+So from our single insert compiled statement (<code>REPLACE INTO entity (type, key, value) VALUES (?, ?, ?)</code>) we have to switch to a dynamically generated on that accounts for the number of inserts we want to do: <code>REPLACE INTO entity (type, key, value) VALUES (?1, ?, ?), (?1, ?, ?), … (?1, ?, ?)</code>. That way we can call execute this statement with a concatenated parameter list of all the entities we want to write.<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup></p>
+<p>This pattern has been implemented in <a href="https://github.com/LunaONE/indexed_entity_store/pull/26">this PR</a>, and indeed shows some nice improvements for my tests of batch sizes 1,000 and 10,000:</p>
+<table>
+<thead>
+<tr>
+<th>Batch size</th>
+<th>Transaction (old)</th>
+<th>Single statement (new)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,000</td>
+<td><code>writeMany</code> took 7.41ms<br><code>writeMany</code> again took 17.59ms</td>
+<td><code>writeMany</code> took 2.47ms<br><code>writeMany</code> again took 5.38ms</td>
+</tr>
+<tr>
+<td>10,000</td>
+<td><code>writeMany</code> took 69.68ms<br><code>writeMany</code> again took 134.04ms</td>
+<td><code>writeMany</code> took 21.74ms<br><code>writeMany</code> again took 43.21ms</td>
+</tr>
+</tbody>
+</table>
+<p>Overall this resulted in a nice 3x speed-up. That is a fine start, but does not really change the ballpark speed of the operation in the general case.</p>
+<p>Further I wondered whether the small payload sizes used in the example would benefit either one of the approach. So I ran another test where each entity had a ~10kB payload JSON.</p>
+<table>
+<thead>
+<tr>
+<th>Batch size</th>
+<th>Transaction (old)</th>
+<th>Single statement (new)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,000</td>
+<td><code>writeMany</code> took 261.57ms<br><code>writeMany</code> again took 474.71ms</td>
+<td><code>writeMany</code> took 133.56ms<br><code>writeMany</code> again took 193.89ms</td>
+</tr>
+<tr>
+<td>10,000</td>
+<td><code>writeMany</code> took 2334.00ms<br><code>writeMany</code> again took 5128.63ms</td>
+<td><code>writeMany</code> took 1159.16ms<br><code>writeMany</code> again took 1849.37ms</td>
+</tr>
+</tbody>
+</table>
+<p>In this case the new approach still resulted in a 2x speed-up and did not run into any size limits. I did not measure the peak memory usage, but very likely this would have been higher in the new case, were all serialized entities are passed to the SQLite library in 1 call vs. the loop-approach, where Dart’s GC has a chance to clean up each individual entity after passing it off.</p>
+<p>Lastly I wondered how much of a penalty in these real-life tests was the overall JSON serialization (which one can exchange for a smaller and/or more efficient storage format). So in the last comparison I just saved the primary payload string straight to the database, without any JSON serialization:</p>
+<table>
+<thead>
+<tr>
+<th>Batch size</th>
+<th>Transaction (old)</th>
+<th>Single statement (new)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,000 (small)</td>
+<td><code>writeMany</code> took 6.27ms<br><code>writeMany</code> again took 12.00ms</td>
+<td><code>writeMany</code> took 1.87ms<br><code>writeMany</code> again took 3.29ms</td>
+</tr>
+<tr>
+<td>1,000 (large)</td>
+<td><code>writeMany</code> took 248.43ms<br><code>writeMany</code> again took 451.07ms</td>
+<td><code>writeMany</code> took 86.97ms<br><code>writeMany</code> again took 138.00ms</td>
+</tr>
+<tr>
+<td>10,000 (small)</td>
+<td><code>writeMany</code> took 59.21ms<br><code>writeMany</code> again took 121.93ms</td>
+<td><code>writeMany</code> took 12.74ms<br><code>writeMany</code> again took 32.15ms</td>
+</tr>
+<tr>
+<td>10,000 (large)</td>
+<td><code>writeMany</code> took 1925.63ms<br><code>writeMany</code> again took 4741.23ms</td>
+<td><code>writeMany</code> took 743.32ms<br><code>writeMany</code> again took 1432.79ms</td>
+</tr>
+</tbody>
+</table>
+<p>Interestingly this did not result in a big speed-up compared to building the JSON values in the previous test run. But somehow the new approach benefited much more from this than the old one, making it even faster especially for larger payloads.</p>
+<p>Overall I would have expected to be able to gain more by doing less transitions from Dart to the SQLite C-library, but this confirms just how fast the in-process <code>ffi</code> approach is and bigger gains would have to come from elsewhere.<br>
+The biggest difference in the approach seems to driven by the library’s use of indices (to efficiently find entities later). When I disable them for testing, both approaches come very close to each other, but do not get significantly faster than the “single insert with search indices” approach. That suggests that there is a rather penalty being paid for updating the index table individually for each row entry (inside the transaction).</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>The <code>?1</code> in all these cases is the <code>entity</code> type, which is the same across all rows, and thus we provide it only once to keep the parameter list length a bit down. <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+</div></div></div></body></html>
